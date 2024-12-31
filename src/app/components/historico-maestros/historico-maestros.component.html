@@ -1,0 +1,28 @@
+<app-navbar></app-navbar>
+<div class="historico-maestros-container">
+  <h2>Histórico de Maestros</h2>
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Apellido</th>
+        <th>Correo</th>
+        <th>Cédula</th>
+        <th>Firma</th>
+        <th>Descripción</th>
+        <th>Estado</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let maestro of maestros" [ngClass]="{'activo': maestro.estado === 'activo', 'inactivo': maestro.estado === 'INACTIVO'}">
+        <td>{{ maestro.nombre }}</td>
+        <td>{{ maestro.apellido }}</td>
+        <td>{{ maestro.correo }}</td>
+        <td>{{ maestro.cedula }}</td>
+        <td><img [src]="maestro.firma" alt="Firma" width="100"></td>
+        <td>{{ maestro.descripcion }}</td>
+        <td>{{ maestro.estado }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Registro</title>
+    <link rel="stylesheet" href="register.component.css" />
+    <!-- Enlace al archivo CSS -->
+  </head>
+
+  <body>
+    <div class="logo-container">
+      <img src="/LogoAP.png" alt="Logo de Andrés Publicidad" />
+    </div>
+    <div class="register-container">
+      <h2>Crear una Cuenta</h2>
+      <form action="" method="">
+        <div class="row g-3">
+          <div class="col">
+            <label for="nombre"> </label>
+            <input
+              type="text"
+              id="nombre"
+              name="nombre"
+              placeholder="Ingresa tu nombre"
+              [(ngModel)]="nombre"
+              required
+            />
+          </div>
+          <div class="col">
+            <label for="apellido"></label>
+            <input
+              type="text"
+              id="apellido"
+              name="apellido"
+              placeholder="Ingresa tu apellido"
+              [(ngModel)]="apellido"
+              required
+            />
+          </div>
+        </div>
+       
+        
+        <div class="form-group">
+          <label for="correo">Correo:</label>
+          <input
+            type="correo"
+            id="correo"
+            name="correo"
+            class="form-control"
+            placeholder="Ingresa tu correo"
+            [(ngModel)]="correo"
+            required
+          />
+        </div>
+        
+
+        <div class="row g-3">
+          <div class="col md-">
+            <label for="contrasena"></label>
+            <input
+              type="password"
+              id="contrasena" 
+              name="contrasena"
+              placeholder="Crea una contraseña"
+              [(ngModel)]="contrasena"
+              required
+            />
+          </div>
+          <div class="col">
+            <label for="confirm-password"></label>
+            <input
+              type="password"
+              id="repetirContrasena"
+              name="repetirContrasena"
+              placeholder="Confirma tu contraseña"
+              [(ngModel)]="repetirContrasena"
+              required
+            />
+          </div>
+        </div>
+        <input type="submit" (click)="agregarUsuario()" value="Registrarse" />
+      </form>
+      <div class="link">
+        <p>¿Ya tienes una cuenta? <a href="/logIn">Inicia sesión</a></p>
+      </div>
+    </div>
+    <app-spinner *ngIf="loading"></app-spinner>
+  </body>
+</html>

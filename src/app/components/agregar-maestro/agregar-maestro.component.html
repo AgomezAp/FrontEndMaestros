@@ -1,0 +1,110 @@
+<app-navbar></app-navbar>
+<div class="agregar-maestro-container">
+  <form (ngSubmit)="onSubmit()">
+    <div class="form-grid">
+      <div class="form-group">
+        <label for="nombre">Nombre</label>
+        <input
+          type="text"
+          id="nombre"
+          [(ngModel)]="maestro.nombre"
+          name="nombre"
+          required
+        />
+      </div>
+      <div class="form-group">
+        <label for="apellido">Apellido</label>
+        <input
+          type="text"
+          id="apellido"
+          [(ngModel)]="maestro.apellido"
+          name="apellido"
+          required
+        />
+      </div>
+      <div class="form-group">
+        <label for="correo">Correo</label>
+        <input
+          type="email"
+          id="correo"
+          [(ngModel)]="maestro.correo"
+          name="correo"
+          required
+        />
+      </div>
+      <div class="form-group">
+        <label for="cedula">Cédula</label>
+        <input
+          type="text"
+          id="cedula"
+          [(ngModel)]="maestro.cedula"
+          name="cedula"
+          required
+        />
+      </div>
+      <div class="form-group">
+        <label for="region">Región</label>
+        <input
+          type="text"
+          id="region"
+          [(ngModel)]="maestro.region"
+          name="region"
+          required
+        />
+      </div>
+      <div class="form-group">
+        <label for="marca">Marca</label>
+        <input
+          type="text"
+          id="marca"
+          [(ngModel)]="maestro.marca"
+          name="marca"
+        />
+      </div>
+      <div class="form-group  full-width">
+        <label for="modelo">Modelo</label>
+        <input
+          type="text"
+          id="modelo"
+          [(ngModel)]="maestro.modelo"
+          name="modelo"
+        />
+      </div>
+      <div class="form-group full-width">
+        <label for="descripcion">Descripción</label>
+        <textarea
+          id="descripcion"
+          [(ngModel)]="maestro.descripcion"
+          name="descripcion"
+          required
+        ></textarea>
+      </div>
+      <div class="form-group full-width">
+        <label for="firma">Firma</label>
+        <signature-pad
+          #signature
+          [options]="signaturePadOptions"
+          (drawStart)="drawStart($event)"
+          (drawEnd)="drawComplete($event)"
+          class="signature-pad"
+        >
+        </signature-pad>
+      </div>
+    </div>
+    <div class="btn-container">
+      <button type="button" class="btn-limpiar" (click)="undo()">
+        Limpiar Firma
+      </button>
+      <button type="submit" class="btn-agregar">Agregar Maestro</button>
+    </div>
+  </form>
+  <div *ngIf="errorMessage" class="error-message">
+    {{ errorMessage }}
+  </div>
+  <div *ngIf="successMessage" class="success-message">
+    {{ successMessage }}
+  </div>
+  <button type="button" class="btn-cancelar" (click)="navigateToDashboard()">
+    Cancelar
+  </button>
+</div>

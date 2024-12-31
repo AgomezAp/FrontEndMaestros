@@ -1,0 +1,32 @@
+<app-navbar></app-navbar>
+<div class="ver-maestros-activos-container">
+  <h2>Maestros Activos</h2>
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Apellido</th>
+        <th>Correo</th>
+        <th>Cédula</th>
+        <th>Firma</th>
+        <th>Descripción</th>
+        <th>Estado</th>
+        <th>Región</th>
+        <th>Usuario</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let maestro of maestrosActivos">
+        <td>{{ maestro.nombre }}</td>
+        <td>{{ maestro.apellido }}</td>
+        <td>{{ maestro.correo }}</td>
+        <td>{{ maestro.cedula }}</td>
+        <td><img [src]="maestro.firma" alt="Firma" width="100"></td>
+        <td>{{ maestro.descripcion }}</td>
+        <td>{{ maestro.estado }}</td>
+        <td>{{ maestro.region }}</td>
+        <td>{{ maestro.usuarios.nombre }} {{ maestro.usuarios.apellido }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

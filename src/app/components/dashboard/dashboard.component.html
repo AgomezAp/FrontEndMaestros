@@ -1,0 +1,43 @@
+<app-navbar></app-navbar>
+<div class="dashboard-container">
+  <h2>Lista de Maestros</h2>
+  <div *ngIf="loading">Cargando...</div>
+  <table *ngIf="!loading">
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Apellido</th>
+        <th>Cédula</th>
+        <th>Correo</th>
+        <th>Firma</th>
+        <th>Descripción</th>
+        <th>Estado</th>
+        <th>Región</th>
+        <th>Marca Celular</th>
+        <th>Modelo</th>
+        <th scope="col">Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let maestro of maestros">
+        <td>{{ maestro.nombre }}</td>
+        <td>{{ maestro.apellido }}</td>
+        <td>{{ maestro.cedula }}</td>
+        <td>{{ maestro.correo }}</td>
+        <td><img [src]="maestro.firma" alt="Firma" width="100"></td>
+        <td>{{ maestro.descripcion }}</td>
+        <td>{{ maestro.estado }}</td>
+        <td>{{ maestro.region }}</td>
+        <td>{{ maestro.marca }}</td>
+        <td>{{ maestro.modelo }}</td>
+        <td>
+            <button class="btn btn-warning action-button" (click)="navigateToEditMaestro(maestro.Mid)">Modificar</button>
+            <button class="btn btn-danger action-button" (click)="deleteMaestro(maestro.Mid)">Eliminar</button>
+          </td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="button-container">
+    <button class="btn btn-success" (click)="navigateToAddMaestro()">Agregar Maestro</button>
+  </div>
+</div>

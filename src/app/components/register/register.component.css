@@ -1,0 +1,107 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f3f4f6;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; 
+    height: 100vh;
+}
+.role{
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #dddddd;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+.register-container {
+    background-color: #ffffff;
+    padding: 20px 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 500px;
+}
+.register-container h2 {
+    margin-bottom: 20px;
+    color: #333333;
+    text-align: center;
+}
+.register-container label {
+    display: block;
+    margin-bottom: 8px;
+    color: #555555;
+    font-weight: bold;
+}
+.register-container input[type="text"],
+.register-container input[type="email"],
+.register-container input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #dddddd;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+.register-container input[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+.register-container input[type="submit"]:hover {
+    background-color: #218838;
+}
+.register-container .link {
+    text-align: center;
+    margin-top: 10px;
+}
+.register-container .link a {
+    color: #007BFF;
+    text-decoration: none;
+}
+.register-container .link a:hover {
+    text-decoration: underline;
+}
+.logo-container {
+    text-align: center;
+    margin-bottom: 20px;
+}
+.logo-container img {
+    max-width: 150px; /* Ajusta el tamaño máximo de la imagen */
+    height: auto; /* Mantiene la proporción */
+}
+/* Estilo para el campo de rol */
+.register-container select.form-control {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #dddddd;
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-size: 16px; /* Ajusta el tamaño de la fuente para que coincida con los otros campos */
+}
+
+/* Estilo para el placeholder en el select */
+.register-container select option {
+    color: #999; /* Color del texto del placeholder */
+}
+.flex-container {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .flex-item {
+    flex: 1;
+  }
+  
+  .form-group {
+    margin-bottom: 0px;
+  }
