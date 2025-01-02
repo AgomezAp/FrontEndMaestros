@@ -30,6 +30,9 @@ export class HistoricoMaestrosComponent implements OnInit {
         console.log('Respuesta del servicio:', data);
         if (data && Array.isArray(data.maestros)) {
           this.maestros = data.maestros;
+          this.maestros.forEach(maestro => {
+            console.log('Maestro Estado:', maestro.estado);
+          });
         } else {
           console.error('La respuesta no contiene un array de maestros', data);
         }

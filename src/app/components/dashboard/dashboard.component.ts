@@ -11,14 +11,11 @@ import Swal from 'sweetalert2';
 
 import { MaestroService } from '../../services/maestro.service';
 import { UserService } from '../../services/user.service';
-import {
-  SpinnerComponent,
-} from '../../shared/spinner/spinner/spinner.component';
 import { NavbarComponent } from '../navbar/navbar.component';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [NavbarComponent,CommonModule,FormsModule,SpinnerComponent],
+  imports: [NavbarComponent,CommonModule,FormsModule],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })

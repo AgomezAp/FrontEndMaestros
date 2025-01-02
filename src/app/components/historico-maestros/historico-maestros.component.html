@@ -14,7 +14,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let maestro of maestros" [ngClass]="{'activo': maestro.estado === 'activo', 'inactivo': maestro.estado === 'INACTIVO'}">
+      <tr *ngFor="let maestro of maestros" [ngStyle]="{'background-color': maestro.estado === 'activo' ? 'rgba(40, 167, 69, 0.2)' : (maestro.estado === 'INACTIVO' ? 'rgba(220, 53, 69, 0.2)' : '')}">
         <td>{{ maestro.nombre }}</td>
         <td>{{ maestro.apellido }}</td>
         <td>{{ maestro.correo }}</td>
