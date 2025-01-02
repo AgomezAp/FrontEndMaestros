@@ -1,5 +1,5 @@
 <app-navbar></app-navbar>
-<div class="dashboard-container">
+<div class="dashboard-container  fade-enter-active" @fadeInOut>
   <h2>Lista de Maestros</h2>
   <div class="table-responsive">
     <table class="table table-bordered">
@@ -19,7 +19,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let maestro of maestros">
+        <tr *ngFor="let maestro of paginatedMaestros">
           <td>
             <span *ngIf="!maestro.editing">{{ maestro.nombre }}</span>
             <input *ngIf="maestro.editing" [(ngModel)]="maestro.nombre" class="form-control" />
@@ -42,7 +42,7 @@
             <input *ngIf="maestro.editing" [(ngModel)]="maestro.descripcion" class="form-control" />
           </td>
           <td>
-            <span *ngIf="!maestro.editing">{{ maestro.estado }}</span>
+            <span *ngIf="!maestro.editing" [ngClass]="{'estado-activo': maestro.estado === 'activo', 'estado-inactivo': maestro.estado === 'inactivo'}">{{ maestro.estado }}</span>
             <input *ngIf="maestro.editing" [(ngModel)]="maestro.estado" class="form-control" />
           </td>
           <td>
@@ -58,14 +58,25 @@
             <input *ngIf="maestro.editing" [(ngModel)]="maestro.modelo" class="form-control" />
           </td>
           <td>
-            <button class="btn btn-warning action-button" (click)="toggleEdit(maestro)">{{ maestro.editing ? 'Guardar' : 'Modificar' }}</button>
-            <button class="btn btn-danger action-button" (click)="deleteMaestro(maestro.Mid)">Eliminar</button>
+            <button class="btn btn-warning action-button btn-modificar" (click)="toggleEdit(maestro)">
+              <i class="fas fa-edit"></i> {{ maestro.editing ? 'Guardar' : 'Modificar' }}
+            </button>
+            <button class="btn btn-danger action-button btn-eliminar" (click)="deleteMaestro(maestro.Mid)">
+              <i class="fas fa-trash-alt"></i> Eliminar
+            </button>
           </td>
         </tr>
       </tbody>
     </table>
   </div>
+  <div class="pagination-container">
+    <button class="btn btn-pagination" (click)="previousPage()" [disabled]="currentPage === 1">&laquo;</button>
+    <span>Página {{ currentPage }}</span>
+    <button class="btn btn-pagination" (click)="nextPage()" [disabled]="currentPage * itemsPerPage >= maestros.length">&raquo;</button>
+  </div>
   <div class="button-container">
-    <button class="btn btn-success" (click)="navigateToAddMaestro()">Agregar Maestro</button>
+    <button class="btn btn-success btn-agregar" (click)="navigateToAddMaestro()">
+      <i class="fas fa-plus"></i> Agregar Maestro
+    </button>
   </div>
 </div>

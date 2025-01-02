@@ -1,68 +1,55 @@
 .navbar {
-    background-color: #6c757d; /* Gris claro personalizado */
-    color: white;
-    padding: 10px 20px;
-    width: 100%;
-  }
-  
-  .navbar .container-fluid {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-  .navbar-brand {
-    font-size: 24px;
-    color: white;
-    text-decoration: none;
-  }
-  
-  .navbar-nav {
-    list-style: none;
-    display: flex;
-    gap: 20px;
-  }
-  
-  .navbar-nav .nav-item {
-    display: inline;
-  }
-  
-  .navbar-nav .nav-link {
-    color: white;
-    text-decoration: none;
-    padding: 8px 16px;
-    border-radius: 4px;
-  }
-  
-  .navbar-nav .nav-link:hover {
-    background-color: #5a6268;
-  }
-  
-  .btn-outline-danger {
-    color: #dc3545;
-    border-color: #dc3545;
-  }
-  
-  .btn-outline-danger:hover {
-    background-color: #dc3545;
-    color: white;
-    border-color: #dc3545;
-  }
-  
-  /* Media query para dispositivos móviles */
-  @media (max-width: 768px) {
-    .navbar .container-fluid {
-      flex-direction: column;
-      align-items: flex-start;
-    }
-  
-    .navbar-nav {
-      flex-direction: column;
-      width: 100%;
-    }
-  
-    .navbar-nav .nav-link {
-      width: 100%;
-      text-align: left;
-    }
-  }
+  background-color: #1F2933; /* Color oscuro */
+  padding: 1rem 2rem; /* Más ancho */
+}
+
+.navbar-brand, .offcanvas-title {
+  color: #F8F9FA; /* Color claro para el texto */
+}
+
+.navbar-toggler {
+  border-color: #F8F9FA; /* Color claro para el borde del toggler */
+}
+
+.navbar-toggler-icon {
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='%23F8F9FA' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+}
+
+.offcanvas {
+  background-color: #1F2933; /* Color oscuro */
+}
+
+.custom-btn {
+  border-radius: 20px; /* Bordes redondeados */
+  transition: all 0.3s ease; /* Transición suave */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra */
+}
+
+.custom-btn:hover {
+  transform: translateY(-2px); /* Efecto de elevación al pasar el mouse */
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15); /* Sombra más intensa */
+}
+
+.btn-outline-light {
+  color: #F8F9FA; /* Color claro para el texto */
+  border-color: #F8F9FA; /* Color claro para el borde */
+}
+
+.btn-outline-light:hover {
+  background-color: #F8F9FA; /* Color claro para el fondo al pasar el mouse */
+  color: #1F2933; /* Color oscuro para el texto al pasar el mouse */
+}
+
+.btn-outline-danger {
+  color: #f44336; /* Color rojo suave para el texto */
+  border-color: #f44336; /* Color rojo suave para el borde */
+}
+
+.btn-outline-danger:hover {
+  background-color: #f44336; /* Color rojo suave para el fondo al pasar el mouse */
+  color: #F8F9FA; /* Color claro para el texto al pasar el mouse */
+}
+
+.btn-close {
+  color: #F8F9FA; /* Color claro para el botón de cerrar */
+}

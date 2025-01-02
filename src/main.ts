@@ -3,7 +3,10 @@ import {
   withInterceptors,
 } from '@angular/common/http';
 import { bootstrapApplication } from '@angular/platform-browser';
-import { provideAnimations } from '@angular/platform-browser/animations';
+import {
+  BrowserAnimationsModule,
+  provideAnimations,
+} from '@angular/platform-browser/animations';
 
 import {
   provideCharts,
@@ -20,6 +23,7 @@ bootstrapApplication(AppComponent, {
   providers: [
     ...appConfig.providers, 
     provideAnimations(), 
+    BrowserAnimationsModule,
     provideHttpClient(),  
     provideCharts(withDefaultRegisterables()),  // Agrega el proveedor de gráficos
     provideHttpClient(withInterceptors([tokenInterceptor])),   // Agrega el proveedor de animaciones

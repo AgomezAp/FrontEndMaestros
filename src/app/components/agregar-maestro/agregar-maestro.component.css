@@ -5,6 +5,7 @@
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   width: 100%;
   max-width: 600px;
+  font-family: 'Roboto', sans-serif;
   margin: 20px auto;
   margin-top: 100px; /* Agrega un margen superior para separar del navbar */
 }
@@ -51,11 +52,13 @@
   border-radius: 5px;
   font-size: 16px;
   cursor: pointer;
+  font-family: 'Roboto', sans-serif;
 }
 
 .agregar-maestro-container .btn-limpiar {
   background-color: #ffcc00; /* Color amarillo */
   color: #333333;
+  font-family: 'Roboto', sans-serif;
 }
 
 .agregar-maestro-container .btn-limpiar:hover {

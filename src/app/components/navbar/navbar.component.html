@@ -1,31 +1,31 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-    <div class="container-fluid">
-      <img src="/LogoBlanco.png" alt="Logo de Andrés Publicidad" width="75px">
-      <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
-        <div class="offcanvas-header">
-          <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Menú</h5>
-          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-        </div>
-        <div class="offcanvas-body">
-          <ul class="navbar-nav ms-auto justify-content-end flex-grow-1 pe-3">
-            <li class="nav-item">
-              <button class="btn btn-outline-light me-2" type="button" (click)="verMaestros()">Ver maestros a mi nombre</button>
-            </li>
-            <li class="nav-item">
-              <button class="btn btn-outline-light me-2" type="button" (click)="verMaestrosActivos()">Ver Maestros Activos</button>
-            </li>
-            <li class="nav-item">
-              <button class="btn btn-outline-light me-2" type="button" (click)="verHistoricoMaestros()">Ver Histórico de Maestros</button>
-            </li>
-          
-            <li class="nav-item">
-              <button class="btn btn-outline-danger" type="button" (click)="logOut()">Cerrar sesión</button>
-            </li>
-          </ul>
-        </div>
+  <div class="container-fluid">
+    <img src="/LogoBlanco.png" alt="Logo de Andrés Publicidad" width="75px">
+    <a class="navbar-brand" href="#">Plataforma Maestros</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Menú</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      </div>
+      <div class="offcanvas-body">
+        <ul class="navbar-nav ms-auto justify-content-end flex-grow-1 pe-3">
+          <li class="nav-item">
+            <button class="btn btn-outline-light me-2 custom-btn" type="button" (click)="verMaestros()">Ver maestros a mi nombre</button>
+          </li>
+          <li class="nav-item">
+            <button class="btn btn-outline-light me-2 custom-btn" type="button" (click)="verMaestrosActivos()">Ver Maestros Activos</button>
+          </li>
+          <li class="nav-item">
+            <button class="btn btn-outline-light me-2 custom-btn" type="button" (click)="verHistoricoMaestros()">Ver Histórico de Maestros</button>
+          </li>
+          <li class="nav-item">
+            <button class="btn btn-outline-danger custom-btn" type="button" (click)="logOut()">Cerrar sesión</button>
+          </li>
+        </ul>
       </div>
     </div>
-  </nav>
+  </div>
+</nav>

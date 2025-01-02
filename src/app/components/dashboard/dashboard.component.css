@@ -1,6 +1,10 @@
+body {
+  background-color: #e0f7fa; /* Fondo suave */
+}
+
 .dashboard-container {
   padding: 20px;
-  background-color: #f9f9f9;
+  background-color: rgba(255, 255, 255, 0.95); /* Fondo blanco semitransparente */
   border-radius: 10px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   max-width: 90%;
@@ -20,7 +24,7 @@
 
 .table {
   width: 100%;
-  border-collapse: collapse;
+  border-collapse: collapse; /* Sin espaciado entre filas */
   margin-bottom: 20px;
   background-color: #fff;
   border-radius: 10px;
@@ -33,19 +37,18 @@
   text-align: left;
   border: 1px solid #dddddd;
 }
-
 .table th {
-  background-color: #007BFF;
-  color: white;
+  background-color: #b1acacbe; /* Color de encabezado gris claro */
+  color: #333;
   font-weight: bold;
 }
 
-.table tbody tr:nth-child(even) {
-  background-color: #f2f2f2;
+.table tbody tr {
+  transition: background-color 0.3s ease;
 }
 
 .table tbody tr:hover {
-  background-color: #e9e9e9;
+  background-color: #b2ebf2; /* Color de fondo al pasar el mouse */
 }
 
 .table img {
@@ -69,4 +72,93 @@
 .button-container .btn {
   padding: 10px 20px;
   font-size: 16px;
+  border-radius: 20px; /* Bordes redondeados */
+}
+
+.pagination-container {
+  text-align: right;
+  margin-top: 20px;
+}
+
+.pagination-container .btn-pagination {
+  margin: 0 5px;
+  padding: 5px 10px;
+  font-size: 16px;
+  background-color: #007BFF; /* Color de fondo */
+  color: white;
+  border: none;
+  border-radius: 20px; /* Bordes redondeados */
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.pagination-container .btn-pagination:hover {
+  background-color: #0056b3; /* Color de fondo al pasar el mouse */
+  transform: scale(1.1);
+}
+
+.pagination-container .btn-pagination:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+.action-button {
+  margin-right: 10px; /* Ajusta el margen según sea necesario */
+  padding: 5px 10px;
+  font-size: 14px;
+  border-radius: 20px; /* Bordes redondeados */
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.btn-modificar {
+  background-color: #ff9800; /* Color de fondo */
+  color: white;
+  border: none;
+}
+
+.btn-modificar:hover {
+  background-color: #e65100; /* Color de fondo al pasar el mouse */
+  transform: scale(1.1);
+}
+
+.btn-eliminar {
+  background-color: #f44336; /* Color de fondo */
+  color: white;
+  border: none;
+}
+
+.btn-eliminar:hover {
+  background-color: #b71c1c; /* Color de fondo al pasar el mouse */
+  transform: scale(1.1);
+}
+
+.btn-agregar {
+  background-color: #4caf50; /* Color de fondo */
+  color: white;
+  border: none;
+}
+
+.btn-agregar:hover {
+  background-color: #2e7d32; /* Color de fondo al pasar el mouse */
+  transform: scale(1.1);
+}
+
+.estado-activo {
+  background-color: #4caf50; /* Verde para activo */
+  color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+
+.estado-inactivo {
+  background-color: #f44336; /* Rojo para inactivo */
+  color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 0.5s;
+}
+
+.fade-enter, .fade-leave-to /* .fade-leave-active in <2.1.8 */ {
+  opacity: 0;
 }

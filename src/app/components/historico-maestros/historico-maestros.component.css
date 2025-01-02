@@ -1,9 +1,13 @@
+body {
+  background-color: #e0f7fa; /* Fondo suave */
+}
+
 .historico-maestros-container {
   padding: 20px;
-  background-color: #f9f9f9;
+  background-color: rgba(255, 255, 255, 0.95); /* Fondo blanco semitransparente */
   border-radius: 10px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  max-width: 1200px;
+  max-width: 90%;
   margin: 20px auto;
   margin-top: 80px;
 }
@@ -14,9 +18,36 @@
   color: #333;
 }
 
+.historico-maestros-container p {
+  text-align: center;
+  color: #333;
+}
+
+.filters {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 20px;
+}
+
+.filters label {
+  margin-right: 10px;
+  color: #333;
+}
+
+.filters input, .filters select {
+  padding: 5px;
+  border: 1px solid #dddddd;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+.table-responsive {
+  overflow-x: auto;
+}
+
 .table {
   width: 100%;
-  border-collapse: collapse;
+  border-collapse: collapse; /* Sin espaciado entre filas */
   margin-bottom: 20px;
   background-color: #fff;
   border-radius: 10px;
@@ -31,71 +62,79 @@
 }
 
 .table th {
-  background-color: #007BFF;
-  color: white;
+  background-color: #b1acacbe; /* Color de encabezado gris claro */
+  color: #333;
   font-weight: bold;
 }
 
-.table tbody tr:nth-child(even) {
-  background-color: #f2f2f2;
+.table tbody tr {
+  transition: background-color 0.3s ease;
 }
 
 .table tbody tr:hover {
-  background-color: #e9e9e9;
+  background-color: #b2ebf2; /* Color de fondo al pasar el mouse */
 }
 
 .table img {
   border-radius: 5px;
 }
 
-.table tbody tr.activo {
-  background-color: rgba(40, 167, 69, 0.2); /* Verde claro para activo */
+.form-control {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #dddddd;
+  border-radius: 5px;
+  box-sizing: border-box;
+  font-size: 14px;
 }
 
-.table tbody tr.inactivo {
-  background-color: rgba(220, 53, 69, 0.2); /* Rojo claro para inactivo */
+.button-container {
+  text-align: center;
+  margin-top: 20px;
 }
 
-/* Estilos responsivos */
-@media (max-width: 768px) {
-  .table, .table thead, .table tbody, .table th, .table td, .table tr {
-    display: block;
-  }
+.button-container .btn {
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 20px; /* Bordes redondeados */
+}
 
-  .table thead tr {
-    position: absolute;
-    top: -9999px;
-    left: -9999px;
-  }
+.pagination-container {
+  text-align: center;
+  margin-top: 20px;
+}
 
-  .table tr {
-    margin: 0 0 1rem 0;
-  }
+.pagination-container .btn-pagination {
+  margin: 0 5px;
+  padding: 5px 10px;
+  font-size: 16px;
+  background-color: #007BFF; /* Color de fondo */
+  color: white;
+  border: none;
+  border-radius: 20px; /* Bordes redondeados */
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
 
-  .table td {
-    border: none;
-    border-bottom: 1px solid #dddddd;
-    position: relative;
-    padding-left: 50%;
-    text-align: left;
-  }
+.pagination-container .btn-pagination:hover {
+  background-color: #0056b3; /* Color de fondo al pasar el mouse */
+  transform: scale(1.1);
+}
 
-  .table td:before {
-    position: absolute;
-    top: 50%;
-    left: 10px;
-    width: 45%;
-    padding-right: 10px;
-    white-space: nowrap;
-    transform: translateY(-50%);
-    font-weight: bold;
-  }
+.pagination-container .btn-pagination:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
 
-  .table td:nth-of-type(1):before { content: "Nombre"; }
-  .table td:nth-of-type(2):before { content: "Apellido"; }
-  .table td:nth-of-type(3):before { content: "Correo"; }
-  .table td:nth-of-type(4):before { content: "Cédula"; }
-  .table td:nth-of-type(5):before { content: "Firma"; }
-  .table td:nth-of-type(6):before { content: "Descripción"; }
-  .table td:nth-of-type(7):before { content: "Estado"; }
+.estado-activo {
+  background-color: #4caf50; /* Verde para activo */
+  color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+
+.estado-inactivo {
+  background-color: #f44336; /* Rojo para inactivo */
+  color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
 }

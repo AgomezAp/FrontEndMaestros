@@ -1,3 +1,9 @@
+import {
+  animate,
+  style,
+  transition,
+  trigger,
+} from '@angular/animations';
 import { CommonModule } from '@angular/common';
 import {
   Component,
@@ -17,6 +23,17 @@ import { NavbarComponent } from '../navbar/navbar.component';
 @Component({
   selector: 'app-dashboard',
   imports: [NavbarComponent,CommonModule,FormsModule],
+  animations: [
+    trigger('fadeInOut', [
+      transition(':enter', [
+        style({ opacity: 0 }),
+        animate('500ms', style({ opacity: 1 }))
+      ]),
+      transition(':leave', [
+        animate('500ms', style({ opacity: 0 }))
+      ])
+    ])
+  ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
@@ -24,7 +41,9 @@ export class DashboardComponent implements OnInit {
   maestros: any[] = [];
   userId: string = localStorage.getItem('userId') || '0';
   loading: boolean = true;
-
+  currentPage: number = 1;
+  itemsPerPage: number = 5;
+  
   constructor(private userService: UserService,private router: Router,private toastr: ToastrService,private maestroService: MaestroService) {}
 
   ngOnInit(): void {
@@ -47,6 +66,23 @@ export class DashboardComponent implements OnInit {
         this.loading = false;
       }
     );
+  }
+  
+  get paginatedMaestros(): any[] {
+    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+    const endIndex = startIndex + this.itemsPerPage;
+    return this.maestros.slice(startIndex, endIndex);
+  }
+  nextPage(): void {
+    if (this.currentPage * this.itemsPerPage < this.maestros.length) {
+      this.currentPage++;
+    }
+  }
+
+  previousPage(): void {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+    }
   }
   navigateToAddMaestro(): void {
     this.router.navigate(['/agregarMaestro']);

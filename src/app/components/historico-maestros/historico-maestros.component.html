@@ -1,30 +1,54 @@
 <app-navbar></app-navbar>
-<div class="historico-maestros-container">
+<div class="historico-maestros-container" @fadeInOut>
   <h2>Histórico de Maestros</h2>
-  <table class="table table-bordered">
-    <thead>
-      <tr>
-        <th>Nombre</th>
-        <th>Apellido</th>
-        <th>Correo</th>
-        <th>Cédula</th>
-        <th>Firma</th>
-        <th>Descripción</th>
-        <th>Estado</th>
-        <th>Persona a cargo</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let maestro of maestros" [ngClass]="{'activo': maestro.estado === 'activo', 'inactivo': maestro.estado === 'INACTIVO'}">
-        <td>{{ maestro.nombre }}</td>
-        <td>{{ maestro.apellido }}</td>
-        <td>{{ maestro.correo }}</td>
-        <td>{{ maestro.cedula }}</td>
-        <td><img [src]="maestro.firma" alt="Firma" width="100"></td>
-        <td>{{ maestro.descripcion }}</td>
-        <td>{{ maestro.estado }}</td>
-        <td>{{ maestro.usuarios.nombre }} {{ maestro.usuarios.apellido }}</td>
-      </tr>
-    </tbody>
-  </table>
+  <p>Total de maestros: {{ totalMaestrosFiltrados }}</p>
+  <div class="filters">
+    <label for="estado">Estado:</label>
+    <select id="estado" [(ngModel)]="filtroEstado" (ngModelChange)="actualizarTotalMaestrosFiltrados()">
+      <option value="">Todos</option>
+      <option value="activo">Activo</option>
+      <option value="INACTIVO">Inactivo</option>
+    </select>
+
+    <label for="persona">Persona a cargo:</label>
+    <input id="persona" type="text" [(ngModel)]="filtroPersona" placeholder="Nombre de la persona a cargo" (input)="actualizarTotalMaestrosFiltrados()">
+
+    <label for="region">Región:</label>
+    <input id="region" type="text" [(ngModel)]="filtroRegion" placeholder="Región del maestro" (input)="actualizarTotalMaestrosFiltrados()">
+  </div>
+  <div class="table-responsive">
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Apellido</th>
+          <th>Correo</th>
+          <th>Cédula</th>
+          <th>Firma</th>
+          <th>Descripción</th>
+          <th>Estado</th>
+          <th>Región</th>
+          <th>Persona a cargo</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let maestro of paginatedMaestros">
+          <td>{{ maestro.nombre }}</td>
+          <td>{{ maestro.apellido }}</td>
+          <td>{{ maestro.correo }}</td>
+          <td>{{ maestro.cedula }}</td>
+          <td><img [src]="maestro.firma" alt="Firma" width="100"></td>
+          <td>{{ maestro.descripcion }}</td>
+          <td><span [ngClass]="{'estado-activo': maestro.estado === 'activo', 'estado-inactivo': maestro.estado === 'INACTIVO'}">{{ maestro.estado }}</span></td>
+          <td>{{ maestro.region }}</td>
+          <td>{{ maestro.usuarios.nombre }} {{ maestro.usuarios.apellido }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="pagination-container">
+    <button class="btn btn-pagination" (click)="previousPage()" [disabled]="currentPage === 1">&laquo;</button>
+    <span>Página {{ currentPage }}</span>
+    <button class="btn btn-pagination" (click)="nextPage()" [disabled]="currentPage * itemsPerPage >= totalMaestrosFiltrados">&raquo;</button>
+  </div>
 </div>
