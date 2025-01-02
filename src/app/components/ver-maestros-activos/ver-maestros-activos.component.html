@@ -1,32 +1,42 @@
 <app-navbar></app-navbar>
-<div class="ver-maestros-activos-container"@fadeInOut>
+<div class="ver-maestros-activos-container">
   <h2>Maestros Activos</h2>
-  <table class="table table-bordered">
-    <thead>
-      <tr>
-        <th>Nombre</th>
-        <th>Apellido</th>
-        <th>Correo</th>
-        <th>Cédula</th>
-        <th>Firma</th>
-        <th>Descripción</th>
-        <th>Estado</th>
-        <th>Región</th>
-        <th>Persona a cargo</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let maestro of maestrosActivos" [ngClass]="{'activo': maestro.estado === 'activo', 'inactivo': maestro.estado === 'INACTIVO'}">
-        <td>{{ maestro.nombre }}</td>
-        <td>{{ maestro.apellido }}</td>
-        <td>{{ maestro.correo }}</td>
-        <td>{{ maestro.cedula }}</td>
-        <td><img [src]="maestro.firma" alt="Firma" width="100"></td>
-        <td>{{ maestro.descripcion }}</td>
-        <td>{{ maestro.estado }}</td>
-        <td>{{ maestro.region }}</td>
-        <td>{{ maestro.usuarios.nombre }} {{ maestro.usuarios.apellido }}</td>
-      </tr>
-    </tbody>
-  </table>
+  <div *ngIf="loading" class="loading-indicator">
+    <p>Cargando datos...</p>
+  </div>
+  <div *ngIf="!loading" class="table-responsive">
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Apellido</th>
+          <th>Correo</th>
+          <th>Cédula</th>
+          <th>Firma</th>
+          <th>Descripción</th>
+          <th>Estado</th>
+          <th>Región</th>
+          <th>Persona a cargo</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let maestro of paginatedMaestros" [ngClass]="{'activo': maestro.estado === 'activo', 'inactivo': maestro.estado === 'INACTIVO'}">
+          <td data-label="Nombre">{{ maestro.nombre }}</td>
+          <td data-label="Apellido">{{ maestro.apellido }}</td>
+          <td data-label="Correo">{{ maestro.correo }}</td>
+          <td data-label="Cédula">{{ maestro.cedula }}</td>
+          <td data-label="Firma"><img [src]="maestro.firma" alt="Firma" width="100"></td>
+          <td data-label="Descripción">{{ maestro.descripcion }}</td>
+          <td data-label="Estado">{{ maestro.estado }}</td>
+          <td data-label="Región">{{ maestro.region }}</td>
+          <td data-label="Persona a cargo">{{ maestro.usuarios.nombre }} {{ maestro.usuarios.apellido }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div *ngIf="!loading" class="pagination-container">
+    <button class="btn btn-pagination" (click)="previousPage()" [disabled]="currentPage === 1">&laquo;</button>
+    <span>Página {{ currentPage }}</span>
+    <button class="btn btn-pagination" (click)="nextPage()" [disabled]="currentPage * itemsPerPage >= maestrosActivos.length">&raquo;</button>
+  </div>
 </div>

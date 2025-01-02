@@ -30,7 +30,8 @@ import { NavbarComponent } from '../navbar/navbar.component';
 export class VerMaestrosActivosComponent {
   maestrosActivos: any[] = [];
   currentPage: number = 1;
-  itemsPerPage: number = 7;
+  itemsPerPage: number = 6;
+  loading: boolean = true;
 
   constructor(private maestroService: MaestroService) {}
 
@@ -42,13 +43,14 @@ export class VerMaestrosActivosComponent {
     this.maestroService.ObtenerMaestrosActivos().subscribe(
       (data: any) => {
         this.maestrosActivos = data;
+        this.loading = false;
       },
       (error) => {
         console.error('Error al obtener los maestros activos', error);
       }
     );
   }
-  get paginatedMaestrosActivos(): any[] {
+  get paginatedMaestros(): any[] {
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
     const endIndex = startIndex + this.itemsPerPage;
     return this.maestrosActivos.slice(startIndex, endIndex);
