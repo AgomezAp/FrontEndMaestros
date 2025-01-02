@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import Swal from 'sweetalert2';
 
+import { MaestroEdicion } from '../../interfaces/maestro';
 import { MaestroService } from '../../services/maestro.service';
 import { UserService } from '../../services/user.service';
 import { NavbarComponent } from '../navbar/navbar.component';
@@ -50,11 +51,24 @@ export class DashboardComponent implements OnInit {
   navigateToAddMaestro(): void {
     this.router.navigate(['/agregarMaestro']);
   }
-
-  navigateToEditMaestro(Mid: number): void {
-    localStorage.setItem('maestroId', Mid.toString());
-    this.router.navigate(['/edit-maestro', Mid]);
+  toggleEdit(maestro: MaestroEdicion): void {
+    if (maestro.editing) {
+      // Guardar cambios
+      this.maestroService.actualizarMaestro(maestro.Mid, maestro).subscribe(
+        (response) => {
+          console.log('Maestro actualizado', response);
+          maestro.editing = false;
+        },
+        (error) => {
+          console.error('Error al actualizar el maestro', error);
+        }
+      );
+    } else {
+      // Habilitar edición
+      maestro.editing = true;
+    }
   }
+
 
   deleteMaestro(Mid: number): void {
     Swal.fire({

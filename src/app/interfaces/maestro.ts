@@ -1,3 +1,5 @@
+import { User } from './user';
+
 export interface Maestro {
   Mid: number;
   nombre: string;
@@ -11,8 +13,10 @@ export interface Maestro {
   region: string;
   marca: string;
   modelo: string;
+  usuarios: User;
+
 }
-export interface MaestroEstado {
+export interface MaestroEdicion {
   Mid: number;
   nombre: string;
   apellido: string;

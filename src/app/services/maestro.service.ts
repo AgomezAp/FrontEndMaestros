@@ -4,7 +4,10 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { environment } from '../../environments/environment.development';
-import { Maestro } from '../interfaces/maestro';
+import {
+  Maestro,
+  MaestroEdicion,
+} from '../interfaces/maestro';
 
 @Injectable({
   providedIn: 'root'
@@ -19,12 +22,12 @@ export class MaestroService {
   getProduct():Observable<Maestro[]>{
     return this.http.get<Maestro[]>(`${this.appUrl}${this.apiUrl}/obtener-maestros`)
   }
-  registrarMaestro(product:Maestro):Observable<Maestro>{
-    return this.http.post<Maestro>(`${this.appUrl}${this.apiUrl}/registrar-maestro`, product)
+  registrarMaestro(maestro:Maestro):Observable<Maestro>{
+    return this.http.post<Maestro>(`${this.appUrl}${this.apiUrl}/registrar-maestro`, maestro)
   }
 
-  actualizarMaestro( Mid:number, product: Maestro): Observable<Maestro> {
-    return this.http.patch<Maestro>(`${this.appUrl}${this.apiUrl}/actualizar/${Mid}`, product);
+  actualizarMaestro( Mid:number, maestro:MaestroEdicion): Observable<Maestro> {
+    return this.http.patch<Maestro>(`${this.appUrl}${this.apiUrl}/actualizar-maestro/${Mid}`, maestro);
   }
 
   BorrarMaestroId(Mid:number):Observable<Maestro>{

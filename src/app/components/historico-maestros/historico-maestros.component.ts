@@ -32,6 +32,8 @@ export class HistoricoMaestrosComponent implements OnInit {
           this.maestros = data.maestros;
           this.maestros.forEach(maestro => {
             console.log('Maestro Estado:', maestro.estado);
+            console.log('Maestro Region:', maestro.Uid);
+            console.log('Persona a cargo:', maestro.usuarios);
           });
         } else {
           console.error('La respuesta no contiene un array de maestros', data);

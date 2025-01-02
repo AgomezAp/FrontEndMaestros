@@ -16,7 +16,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let maestro of maestrosActivos">
+      <tr *ngFor="let maestro of maestrosActivos" [ngClass]="{'activo': maestro.estado === 'activo', 'inactivo': maestro.estado === 'INACTIVO'}">
         <td>{{ maestro.nombre }}</td>
         <td>{{ maestro.apellido }}</td>
         <td>{{ maestro.correo }}</td>

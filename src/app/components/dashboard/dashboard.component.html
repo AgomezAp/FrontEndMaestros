@@ -1,42 +1,70 @@
 <app-navbar></app-navbar>
 <div class="dashboard-container">
   <h2>Lista de Maestros</h2>
-  <div *ngIf="loading">Cargando...</div>
-  <table *ngIf="!loading">
-    <thead>
-      <tr>
-        <th>Nombre</th>
-        <th>Apellido</th>
-        <th>Cédula</th>
-        <th>Correo</th>
-        <th>Firma</th>
-        <th>Descripción</th>
-        <th>Estado</th>
-        <th>Región</th>
-        <th>Marca Celular</th>
-        <th>Modelo</th>
-        <th scope="col">Acciones</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let maestro of maestros">
-        <td>{{ maestro.nombre }}</td>
-        <td>{{ maestro.apellido }}</td>
-        <td>{{ maestro.cedula }}</td>
-        <td>{{ maestro.correo }}</td>
-        <td><img [src]="maestro.firma" alt="Firma" width="100"></td>
-        <td>{{ maestro.descripcion }}</td>
-        <td>{{ maestro.estado }}</td>
-        <td>{{ maestro.region }}</td>
-        <td>{{ maestro.marca }}</td>
-        <td>{{ maestro.modelo }}</td>
-        <td>
-            <button class="btn btn-warning action-button" (click)="navigateToEditMaestro(maestro.Mid)">Modificar</button>
+  <div class="table-responsive">
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Apellido</th>
+          <th>Cédula</th>
+          <th>Correo</th>
+          <th>Firma</th>
+          <th>Descripción</th>
+          <th>Estado</th>
+          <th>Región</th>
+          <th>Marca Celular</th>
+          <th>Modelo</th>
+          <th scope="col">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let maestro of maestros">
+          <td>
+            <span *ngIf="!maestro.editing">{{ maestro.nombre }}</span>
+            <input *ngIf="maestro.editing" [(ngModel)]="maestro.nombre" class="form-control" />
+          </td>
+          <td>
+            <span *ngIf="!maestro.editing">{{ maestro.apellido }}</span>
+            <input *ngIf="maestro.editing" [(ngModel)]="maestro.apellido" class="form-control" />
+          </td>
+          <td>
+            <span *ngIf="!maestro.editing">{{ maestro.cedula }}</span>
+            <input *ngIf="maestro.editing" [(ngModel)]="maestro.cedula" class="form-control" />
+          </td>
+          <td>
+            <span *ngIf="!maestro.editing">{{ maestro.correo }}</span>
+            <input *ngIf="maestro.editing" [(ngModel)]="maestro.correo" class="form-control" />
+          </td>
+          <td><img [src]="maestro.firma" alt="Firma" width="100"></td>
+          <td>
+            <span *ngIf="!maestro.editing">{{ maestro.descripcion }}</span>
+            <input *ngIf="maestro.editing" [(ngModel)]="maestro.descripcion" class="form-control" />
+          </td>
+          <td>
+            <span *ngIf="!maestro.editing">{{ maestro.estado }}</span>
+            <input *ngIf="maestro.editing" [(ngModel)]="maestro.estado" class="form-control" />
+          </td>
+          <td>
+            <span *ngIf="!maestro.editing">{{ maestro.region }}</span>
+            <input *ngIf="maestro.editing" [(ngModel)]="maestro.region" class="form-control" />
+          </td>
+          <td>
+            <span *ngIf="!maestro.editing">{{ maestro.marca }}</span>
+            <input *ngIf="maestro.editing" [(ngModel)]="maestro.marca" class="form-control" />
+          </td>
+          <td>
+            <span *ngIf="!maestro.editing">{{ maestro.modelo }}</span>
+            <input *ngIf="maestro.editing" [(ngModel)]="maestro.modelo" class="form-control" />
+          </td>
+          <td>
+            <button class="btn btn-warning action-button" (click)="toggleEdit(maestro)">{{ maestro.editing ? 'Guardar' : 'Modificar' }}</button>
             <button class="btn btn-danger action-button" (click)="deleteMaestro(maestro.Mid)">Eliminar</button>
           </td>
-      </tr>
-    </tbody>
-  </table>
+        </tr>
+      </tbody>
+    </table>
+  </div>
   <div class="button-container">
     <button class="btn btn-success" (click)="navigateToAddMaestro()">Agregar Maestro</button>
   </div>

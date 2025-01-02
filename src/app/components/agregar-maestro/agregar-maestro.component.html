@@ -43,17 +43,25 @@
         />
       </div>
       <div class="form-group">
-        <label for="region">Región</label>
-        <input
-          type="text"
+        <label for="region">Región de operación</label>
+        <select
           id="region"
           [(ngModel)]="maestro.region"
           name="region"
           required
-        />
+        >
+          <option value="" disabled selected>Seleccione una región</option>
+          <option value="Chile">Chile</option>
+          <option value="Ecuador">Ecuador</option>
+          <option value="Perú">Perú</option>
+          <option value="Bolivia">Bolivia</option>
+          <option value="México">México</option>
+          <option value="España">España</option>
+          <option value="Colombia">Colombia</option>
+        </select>
       </div>
       <div class="form-group">
-        <label for="marca">Marca</label>
+        <label for="marca">Marca Celular</label>
         <input
           type="text"
           id="marca"
@@ -62,7 +70,7 @@
         />
       </div>
       <div class="form-group  full-width">
-        <label for="modelo">Modelo</label>
+        <label for="modelo">Modelo Celular</label>
         <input
           type="text"
           id="modelo"

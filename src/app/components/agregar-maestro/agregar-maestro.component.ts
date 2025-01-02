@@ -126,6 +126,6 @@ export class AgregarMaestroComponent {
   }
   
   navigateToDashboard(): void {
-    this.router.navigate(['/dashNoard']);
+    this.router.navigate(['/dashBoard']);
   }
 }
