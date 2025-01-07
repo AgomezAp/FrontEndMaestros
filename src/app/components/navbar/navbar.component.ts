@@ -27,8 +27,4 @@ export class NavbarComponent {
     this.router.navigate(['/ver-historico-maestros']);
   }
 
-  generarInforme() {
-    this.router.navigate(['/generar-informe']);
-  }
-
 }

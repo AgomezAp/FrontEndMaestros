@@ -108,7 +108,7 @@ export class DashboardComponent implements OnInit {
 
   deleteMaestro(Mid: number): void {
     Swal.fire({
-      title: '¿Estás seguro?',
+      title: '¿Estás segura?',
       text: 'Esta acción es irreparable',
       icon: 'warning',
       showCancelButton: true,

@@ -168,7 +168,10 @@ body {
     padding: 8px 10px;
     font-size: 12px;
   }
-
+  body, html {
+    overflow: auto !important;
+    -webkit-overflow-scrolling: touch; /* Para un desplazamiento suave en iOS */
+  }
   .table th {
     display: none; /* Ocultar encabezados de columna en pantallas pequeñas */
   }
