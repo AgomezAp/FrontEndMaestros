@@ -109,6 +109,13 @@ html, body {
   background-color: #cccccc;
   cursor: not-allowed;
 }
+.descripcion-col {
+  max-width: 200px; /* Ajusta este valor según tus necesidades */
+  max-height: 100px; /* Ajusta este valor según tus necesidades */
+  word-wrap: break-word;
+  white-space: normal;
+  overflow-y: auto; /* Habilita el scroll vertical */
+}
 
 .estado-activo {
   background-color: #4caf50; /* Verde para activo */

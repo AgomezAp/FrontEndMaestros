@@ -7,12 +7,14 @@ import {
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+
 import { MaestroService } from '../../services/maestro.service';
 import { NavbarComponent } from '../navbar/navbar.component';
 
 @Component({
   selector: 'app-ver-maestros-activos',
-  imports: [NavbarComponent,CommonModule ],
+  imports: [NavbarComponent,CommonModule,FontAwesomeModule ],
   templateUrl: './ver-maestros-activos.component.html',
   styleUrl: './ver-maestros-activos.component.css',
   animations: [

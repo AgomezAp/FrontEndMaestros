@@ -13,6 +13,7 @@ import {
   NgSignaturePadOptions,
   SignaturePadComponent,
 } from '@almothafar/angular-signature-pad';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 import { MaestroService } from '../../services/maestro.service';
 import { NavbarComponent } from '../navbar/navbar.component';
@@ -24,6 +25,7 @@ import { NavbarComponent } from '../navbar/navbar.component';
     FormsModule,
     // SpinnerComponent,
     NavbarComponent,
+    FontAwesomeModule,
     AngularSignaturePadModule,
   ],
   templateUrl: './agregar-maestro.component.html',

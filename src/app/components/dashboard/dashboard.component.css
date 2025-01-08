@@ -11,7 +11,11 @@ body {
   margin: 20px auto;
   margin-top: 120px;
 }
-
+.descripcion-col {
+  max-width: 200px; /* Ajusta este valor según tus necesidades */
+  word-wrap: break-word;
+  white-space: normal;
+}
 .dashboard-container h2 {
   text-align: center;
   margin-bottom: 20px;

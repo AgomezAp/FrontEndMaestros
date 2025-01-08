@@ -38,7 +38,7 @@
           <td>{{ maestro.correo }}</td>
           <td>{{ maestro.cedula }}</td>
           <td><img [src]="maestro.firma" alt="Firma" width="100"></td>
-          <td>{{ maestro.descripcion }}</td>
+          <td class="descripcion-col">{{ maestro.descripcion }}</td>
           <td><span [ngClass]="{'estado-activo': maestro.estado === 'activo', 'estado-inactivo': maestro.estado === 'INACTIVO'}">{{ maestro.estado }}</span></td>
           <td>{{ maestro.region }}</td>
           <td>{{ maestro.usuarios.nombre }} {{ maestro.usuarios.apellido }}</td>
@@ -47,8 +47,8 @@
     </table>
   </div>
   <div class="pagination-container">
-    <button class="btn btn-pagination" (click)="previousPage()" [disabled]="currentPage === 1">&laquo;</button>
+    <button class="btn btn-pagination" (click)="previousPage()" [disabled]="currentPage === 1"><i class="fa-solid fa-arrow-left"></i></button>
     <span>Página {{ currentPage }}</span>
-    <button class="btn btn-pagination" (click)="nextPage()" [disabled]="currentPage * itemsPerPage >= totalMaestrosFiltrados">&raquo;</button>
+    <button class="btn btn-pagination" (click)="nextPage()" [disabled]="currentPage * itemsPerPage >= totalMaestrosFiltrados"><i class="fa-solid fa-arrow-right"></i></button>
   </div>
 </div>

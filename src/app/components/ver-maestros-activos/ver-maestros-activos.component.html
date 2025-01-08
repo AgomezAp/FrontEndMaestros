@@ -13,7 +13,7 @@
           <th>Correo</th>
           <th>Cédula</th>
           <th>Firma</th>
-          <th>Descripción</th>
+          <th class="descripcion-col">Descripción</th>
           <th>Estado</th>
           <th>Región</th>
           <th>Persona a cargo</th>
@@ -26,7 +26,7 @@
           <td data-label="Correo">{{ maestro.correo }}</td>
           <td data-label="Cédula">{{ maestro.cedula }}</td>
           <td data-label="Firma"><img [src]="maestro.firma" alt="Firma" width="100"></td>
-          <td data-label="Descripción">{{ maestro.descripcion }}</td>
+          <td data-label="Descripción" class="descripcion-col">{{ maestro.descripcion }}</td>
           <td data-label="Estado">{{ maestro.estado }}</td>
           <td data-label="Región">{{ maestro.region }}</td>
           <td data-label="Persona a cargo">{{ maestro.usuarios.nombre }} {{ maestro.usuarios.apellido }}</td>
@@ -35,8 +35,8 @@
     </table>
   </div>
   <div *ngIf="!loading" class="pagination-container">
-    <button class="btn btn-pagination" (click)="previousPage()" [disabled]="currentPage === 1">&laquo;</button>
+    <button class="btn btn-pagination" (click)="previousPage()" [disabled]="currentPage === 1"><i class="fa-solid fa-arrow-left"></i></button>
     <span>Página {{ currentPage }}</span>
-    <button class="btn btn-pagination" (click)="nextPage()" [disabled]="currentPage * itemsPerPage >= maestrosActivos.length">&raquo;</button>
+    <button class="btn btn-pagination" (click)="nextPage()" [disabled]="currentPage * itemsPerPage >= maestrosActivos.length"><i class="fa-solid fa-arrow-right"></i></button>
   </div>
 </div>

@@ -11,13 +11,15 @@ import {
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+
 import { Maestro } from '../../interfaces/maestro';
 import { MaestroService } from '../../services/maestro.service';
 import { NavbarComponent } from '../navbar/navbar.component';
 
 @Component({
   selector: 'app-historico-maestros',
-  imports: [NavbarComponent,CommonModule,FormsModule],
+  imports: [NavbarComponent,CommonModule,FormsModule,FontAwesomeModule],
   templateUrl: './historico-maestros.component.html',
   styleUrl: './historico-maestros.component.css',
    animations: [

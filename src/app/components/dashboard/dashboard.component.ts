@@ -15,6 +15,12 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import Swal from 'sweetalert2';
 
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import {
+  faAdd,
+  faPhone,
+} from '@fortawesome/free-solid-svg-icons';
+
 import { MaestroEdicion } from '../../interfaces/maestro';
 import { MaestroService } from '../../services/maestro.service';
 import { UserService } from '../../services/user.service';
@@ -22,7 +28,7 @@ import { NavbarComponent } from '../navbar/navbar.component';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [NavbarComponent,CommonModule,FormsModule],
+  imports: [NavbarComponent,CommonModule,FormsModule,FontAwesomeModule],
   animations: [
     trigger('fadeInOut', [
       transition(':enter', [
@@ -43,7 +49,8 @@ export class DashboardComponent implements OnInit {
   loading: boolean = true;
   currentPage: number = 1;
   itemsPerPage: number = 5;
-  
+  icon = faAdd;
+  icon1 = faPhone;
   constructor(private userService: UserService,private router: Router,private toastr: ToastrService,private maestroService: MaestroService) {}
 
   ngOnInit(): void {

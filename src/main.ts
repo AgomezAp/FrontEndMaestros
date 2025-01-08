@@ -14,6 +14,8 @@ import {
 } from 'ng2-charts';
 import { provideToastr } from 'ngx-toastr';
 
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+
 import { AppComponent } from './app/app.component';
 import { appConfig } from './app/app.config';
 import { tokenInterceptor } from './app/utils/token.interceptor';
@@ -24,6 +26,7 @@ bootstrapApplication(AppComponent, {
     ...appConfig.providers, 
     provideAnimations(), 
     BrowserAnimationsModule,
+    FontAwesomeModule,
     provideHttpClient(),  
     provideCharts(withDefaultRegisterables()),  // Agrega el proveedor de gráficos
     provideHttpClient(withInterceptors([tokenInterceptor])),   // Agrega el proveedor de animaciones

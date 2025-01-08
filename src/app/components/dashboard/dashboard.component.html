@@ -37,7 +37,7 @@
             <input *ngIf="maestro.editing" [(ngModel)]="maestro.correo" class="form-control" />
           </td>
           <td><img [src]="maestro.firma" alt="Firma" width="100"></td>
-          <td>
+          <td class="descripcion-col">
             <span *ngIf="!maestro.editing">{{ maestro.descripcion }}</span>
             <input *ngIf="maestro.editing" [(ngModel)]="maestro.descripcion" class="form-control" />
           </td>
@@ -70,13 +70,13 @@
     </table>
   </div>
   <div class="pagination-container">
-    <button class="btn btn-pagination" (click)="previousPage()" [disabled]="currentPage === 1">&laquo;</button>
+    <button class="btn btn-pagination" (click)="previousPage()" [disabled]="currentPage === 1"><i class="fa-solid fa-arrow-left"></i></button>
     <span>Página {{ currentPage }}</span>
-    <button class="btn btn-pagination" (click)="nextPage()" [disabled]="currentPage * itemsPerPage >= maestros.length">&raquo;</button>
+    <button class="btn btn-pagination" (click)="nextPage()" [disabled]="currentPage * itemsPerPage >= maestros.length"><i class="fa-solid fa-arrow-right"></i></button>
   </div>
   <div class="button-container">
     <button class="btn btn-success btn-agregar" (click)="navigateToAddMaestro()">
-      <i class="fas fa-plus"></i> Agregar Maestro
+      <i class="fa-solid fa-user-plus"style="margin-right: 10px;"></i> Agregar Maestro
     </button>
   </div>
 </div>

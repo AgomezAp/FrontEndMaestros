@@ -19,9 +19,16 @@ body {
   margin-top: 80px;
   overflow-y: auto !important; /* Asegurar que el contenedor permita el scroll vertical */
 }
-
+.descripcion-col {
+  max-width: 200px; /* Ajusta este valor según tus necesidades */
+  word-wrap: break-word;
+  white-space: normal;
+  max-height: 20px; /* Ajusta este valor según tus necesidades */
+  overflow-y: auto;
+}
 .table-responsive {
   overflow-x: auto;
+  
 }
 
 .table {

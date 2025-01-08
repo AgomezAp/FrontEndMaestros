@@ -23,7 +23,7 @@
         />
       </div>
       <div class="form-group">
-        <label for="correo">Correo</label>
+        <label for="correo">Correo <i class="fa-solid fa-at"style="margin-left: 5px;"></i></label>
         <input
           type="email"
           id="correo"
@@ -33,7 +33,7 @@
         />
       </div>
       <div class="form-group">
-        <label for="cedula">Cédula</label>
+        <label for="cedula">Cédula <i class="fa-solid fa-id-card" style="margin-left: 10px;"></i> </label>
         <input
           type="text"
           id="cedula"
@@ -43,7 +43,8 @@
         />
       </div>
       <div class="form-group">
-        <label for="region">Región de operación</label>
+        
+        <label for="region">Región de operación<i class="fa-solid fa-map-location"style="margin-left: 10px;"></i></label>
         <select
           id="region"
           [(ngModel)]="maestro.region"
@@ -61,7 +62,7 @@
         </select>
       </div>
       <div class="form-group">
-        <label for="marca">Marca Celular</label>
+        <label for="marca">Marca Celular <i class="fa-solid fa-mobile"></i></label>
         <input
           type="text"
           id="marca"
@@ -88,7 +89,7 @@
         ></textarea>
       </div>
       <div class="form-group full-width">
-        <label for="firma">Firma</label>
+        <label for="firma">Firma <i class="fa-solid fa-signature"style="margin-left: 10px;"></i></label>
         <signature-pad
           #signature
           [options]="signaturePadOptions"
@@ -101,9 +102,9 @@
     </div>
     <div class="btn-container">
       <button type="button" class="btn-limpiar" (click)="undo()">
-        Limpiar Firma
+        Limpiar Firma <i class="fa-solid fa-delete-left"style="margin-left: 5px;"></i>
       </button>
-      <button type="submit" class="btn-agregar">Agregar Maestro</button>
+      <button type="submit" class="btn-agregar">Agregar Maestro  <i class="fa-solid fa-user-plus"style="margin-left: 10px;"></i> </button>
     </div>
   </form>
   <div *ngIf="errorMessage" class="error-message">
@@ -113,6 +114,6 @@
     {{ successMessage }}
   </div>
   <button type="button" class="btn-cancelar" (click)="navigateToDashboard()">
-    Cancelar
-  </button>
+    Cancelar <i class="fa-solid fa-xmark"style="margin-left: 10px;"></i>
+  </button> 
 </div>

@@ -57,28 +57,38 @@
 
 .agregar-maestro-container .btn-limpiar {
   background-color: #ffcc00; /* Color amarillo */
+  border-radius: 50px;
   color: #333333;
   font-family: 'Roboto', sans-serif;
 }
 
 .agregar-maestro-container .btn-limpiar:hover {
   background-color: #e6b800;
+  border-radius: 50px;
 }
 
 .agregar-maestro-container .btn-agregar {
   background-color: #28a745; /* Color verde */
+  border-radius: 50px;
   color: white;
 }
 
 .agregar-maestro-container .btn-agregar:hover {
   background-color: #218838;
+  border-radius: 50px;
+  border-radius: 50px;
 }
 
 .agregar-maestro-container .btn-cancelar {
   background-color: #dc3545; /* Color rojo */
   color: white;
-  width: 100%; /* Hacer que el botón ocupe todo el ancho */
-  margin-top: 20px; /* Agregar un margen superior */
+  border-radius: 50px;
+  text-align: center;
+  width: 50%; /* Ajusta el ancho según tus necesidades */
+  padding: 10px 20px; /* Ajusta el padding según tus necesidades */
+  margin: 20px auto; /* Centrar el botón horizontalmente y agregar un margen superior */
+  margin-top: 30px;
+  display: block; /* Asegura que el botón se comporte como un bloque */
 }
 
 .agregar-maestro-container .btn-cancelar:hover {
