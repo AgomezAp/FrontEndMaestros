@@ -4,7 +4,7 @@ export interface Maestro {
   Mid: number;
   nombre: string;
   apellido: string;
-  nombreMaestro: string;
+  NombreMaestro: string;
   correo: string;
   cedula: string;
   firma: string;
