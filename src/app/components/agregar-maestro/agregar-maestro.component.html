@@ -23,6 +23,17 @@
         />
       </div>
       <div class="form-group">
+        <label for="NombreMaestro">Nombre Maestro</label>
+        <input
+          type="text"
+          id="NombreMaestro"
+          [(ngModel)]="maestro.NombreMaestro"
+          name="NombreMaestro"
+          required
+        />
+      </div>
+
+      <div class="form-group">
         <label for="correo">Correo <i class="fa-solid fa-at"style="margin-left: 5px;"></i></label>
         <input
           type="email"
@@ -33,7 +44,7 @@
         />
       </div>
       <div class="form-group">
-        <label for="cedula">Cédula <i class="fa-solid fa-id-card" style="margin-left: 10px;"></i> </label>
+        <label for="cedula">Número de Documento <i class="fa-solid fa-id-card" style="margin-left: 10px;"></i> </label>
         <input
           type="text"
           id="cedula"
@@ -70,7 +81,7 @@
           name="marca"
         />
       </div>
-      <div class="form-group  full-width">
+      <div class="form-group">
         <label for="modelo">Modelo Celular</label>
         <input
           type="text"
@@ -116,4 +127,6 @@
   <button type="button" class="btn-cancelar" (click)="navigateToDashboard()">
     Cancelar <i class="fa-solid fa-xmark"style="margin-left: 10px;"></i>
   </button> 
+  <app-spinner *ngIf="loading"></app-spinner>
+
 </div>

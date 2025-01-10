@@ -22,8 +22,9 @@
         <tr>
           <th>Nombre</th>
           <th>Apellidos</th>
+          <th>Nombre Maestro</th>
           <th>Correo</th>
-          <th>Cédula</th>
+          <th>Número Documento</th>
           <th>Firma</th>
           <th>Descripción</th>
           <th>Estado</th>
@@ -35,6 +36,7 @@
         <tr *ngFor="let maestro of paginatedMaestros">
           <td>{{ maestro.nombre }}</td>
           <td>{{ maestro.apellido }}</td>
+          <td>{{ maestro.nombreMaestro }}</td>
           <td>{{ maestro.correo }}</td>
           <td>{{ maestro.cedula }}</td>
           <td><img [src]="maestro.firma" alt="Firma" width="100"></td>
@@ -46,6 +48,7 @@
       </tbody>
     </table>
   </div>
+  <app-spinner *ngIf="loading"></app-spinner>
   <div class="pagination-container">
     <button class="btn btn-pagination" (click)="previousPage()" [disabled]="currentPage === 1"><i class="fa-solid fa-arrow-left"></i></button>
     <span>Página {{ currentPage }}</span>

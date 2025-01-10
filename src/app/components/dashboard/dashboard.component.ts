@@ -24,11 +24,14 @@ import {
 import { MaestroEdicion } from '../../interfaces/maestro';
 import { MaestroService } from '../../services/maestro.service';
 import { UserService } from '../../services/user.service';
+import {
+  SpinnerComponent,
+} from '../../shared/spinner/spinner/spinner.component';
 import { NavbarComponent } from '../navbar/navbar.component';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [NavbarComponent,CommonModule,FormsModule,FontAwesomeModule],
+  imports: [NavbarComponent,CommonModule,FormsModule,FontAwesomeModule,SpinnerComponent],
   animations: [
     trigger('fadeInOut', [
       transition(':enter', [

@@ -9,9 +9,10 @@
       <thead>
         <tr>
           <th>Nombre</th>
-          <th>Apellido</th>
+          <th>Apellidos</th>
+          <th>Nombre Maestro</th>
           <th>Correo</th>
-          <th>Cédula</th>
+          <th>Número Documento</th>
           <th>Firma</th>
           <th class="descripcion-col">Descripción</th>
           <th>Estado</th>
@@ -23,6 +24,7 @@
         <tr *ngFor="let maestro of paginatedMaestros" [ngClass]="{'activo': maestro.estado === 'activo', 'inactivo': maestro.estado === 'INACTIVO'}">
           <td data-label="Nombre">{{ maestro.nombre }}</td>
           <td data-label="Apellido">{{ maestro.apellido }}</td>
+          <td data-label="Nombre Maestro">{{maestro.nombreMaestro}}</td>
           <td data-label="Correo">{{ maestro.correo }}</td>
           <td data-label="Cédula">{{ maestro.cedula }}</td>
           <td data-label="Firma"><img [src]="maestro.firma" alt="Firma" width="100"></td>

@@ -7,7 +7,8 @@
         <tr>
           <th>Nombre</th>
           <th>Apellidos</th>
-          <th>Cédula</th>
+          <th>Nombre Maestro</th>
+          <th>Número Documento</th>
           <th>Correo</th>
           <th>Firma</th>
           <th>Descripción</th>
@@ -29,10 +30,13 @@
             <input *ngIf="maestro.editing" [(ngModel)]="maestro.apellido" class="form-control" />
           </td>
           <td>
+            <span *ngIf="!maestro.editing">{{ maestro.NombreMaestro }}</span>
+            <input *ngIf="maestro.editing" [(ngModel)]="maestro.NombreMaestro" class="form-control" />
+          <td>
             <span *ngIf="!maestro.editing">{{ maestro.cedula }}</span>
             <input *ngIf="maestro.editing" [(ngModel)]="maestro.cedula" class="form-control" />
           </td>
-          <td>
+          <td class="descripcion-col">
             <span *ngIf="!maestro.editing">{{ maestro.correo }}</span>
             <input *ngIf="maestro.editing" [(ngModel)]="maestro.correo" class="form-control" />
           </td>
@@ -69,6 +73,7 @@
       </tbody>
     </table>
   </div>
+  <app-spinner *ngIf="loading"></app-spinner>
   <div class="pagination-container">
     <button class="btn btn-pagination" (click)="previousPage()" [disabled]="currentPage === 1"><i class="fa-solid fa-arrow-left"></i></button>
     <span>Página {{ currentPage }}</span>

@@ -15,11 +15,14 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 import { Maestro } from '../../interfaces/maestro';
 import { MaestroService } from '../../services/maestro.service';
+import {
+  SpinnerComponent,
+} from '../../shared/spinner/spinner/spinner.component';
 import { NavbarComponent } from '../navbar/navbar.component';
 
 @Component({
   selector: 'app-historico-maestros',
-  imports: [NavbarComponent,CommonModule,FormsModule,FontAwesomeModule],
+  imports: [NavbarComponent,CommonModule,FormsModule,FontAwesomeModule,SpinnerComponent],
   templateUrl: './historico-maestros.component.html',
   styleUrl: './historico-maestros.component.css',
    animations: [

@@ -16,6 +16,9 @@ import {
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 import { MaestroService } from '../../services/maestro.service';
+import {
+  SpinnerComponent,
+} from '../../shared/spinner/spinner/spinner.component';
 import { NavbarComponent } from '../navbar/navbar.component';
 
 @Component({
@@ -23,7 +26,7 @@ import { NavbarComponent } from '../navbar/navbar.component';
   imports: [
     CommonModule,
     FormsModule,
-    // SpinnerComponent,
+    SpinnerComponent,
     NavbarComponent,
     FontAwesomeModule,
     AngularSignaturePadModule,
@@ -35,6 +38,7 @@ export class AgregarMaestroComponent {
   maestro: any = {
     nombre: '',
     apellido: '',
+    NombreMaestro: '',
     correo: '',
     cedula: '',
     firma: '',
@@ -74,9 +78,11 @@ export class AgregarMaestroComponent {
     console.log('Start drawing', event);
   }
   onSubmit() {
+    this.loading= true;
     if (
       !this.maestro.nombre ||
       !this.maestro.apellido ||
+      !this.maestro.NombreMaestro ||
       !this.maestro.correo ||
       !this.maestro.cedula ||
       !this.maestro.firma ||
@@ -90,6 +96,7 @@ export class AgregarMaestroComponent {
         this.successMessage = 'Maestro registrado con éxito';
         this.errorMessage = '';
         this.router.navigate(['/dashBoard']);
+        this.loading= true;
         // Redirigir o limpiar el formulario si es necesario
       },
       (error) => {
