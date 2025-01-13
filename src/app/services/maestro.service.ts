@@ -19,11 +19,17 @@ export class MaestroService {
     this.appUrl= environment.apiUrl
     this.apiUrl = 'api/maestros'
   }
+
   getProduct():Observable<Maestro[]>{
     return this.http.get<Maestro[]>(`${this.appUrl}${this.apiUrl}/obtener-maestros`)
   }
+
   registrarMaestro(maestro:Maestro):Observable<Maestro>{
     return this.http.post<Maestro>(`${this.appUrl}${this.apiUrl}/registrar-maestro`, maestro)
+  }
+
+  reactivarMaestro(Mid:number):Observable<Maestro>{
+    return this.http.delete<Maestro>(`${this.appUrl}${this.apiUrl}/reactivar-maestro/${Mid}`)
   }
 
   actualizarMaestro( Mid:number, maestro:MaestroEdicion): Observable<Maestro> {
@@ -33,10 +39,13 @@ export class MaestroService {
   BorrarMaestroId(Mid:number):Observable<Maestro>{
     return this.http.delete<Maestro>(`${this.appUrl}${this.apiUrl}/borrar-maestro/${Mid}`)
   }
+
   ObtenerHistoricoMaestros():Observable<Maestro[]>{
     return this.http.get<Maestro[]>(`${this.appUrl}${this.apiUrl}/obtenerRecordMaestros`)
   }
+
   ObtenerMaestrosActivos():Observable<Maestro[]>{  
     return this.http.get<Maestro[]>(`${this.appUrl}${this.apiUrl}/activos`)
   }
+  
 }

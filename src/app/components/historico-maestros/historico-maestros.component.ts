@@ -11,6 +11,9 @@ import {
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
+import { ToastrService } from 'ngx-toastr';
+import Swal from 'sweetalert2';
+
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 import { Maestro } from '../../interfaces/maestro';
@@ -22,20 +25,24 @@ import { NavbarComponent } from '../navbar/navbar.component';
 
 @Component({
   selector: 'app-historico-maestros',
-  imports: [NavbarComponent,CommonModule,FormsModule,FontAwesomeModule,SpinnerComponent],
+  imports: [
+    NavbarComponent,
+    CommonModule,
+    FormsModule,
+    FontAwesomeModule,
+    SpinnerComponent,
+  ],
   templateUrl: './historico-maestros.component.html',
   styleUrl: './historico-maestros.component.css',
-   animations: [
-      trigger('fadeInOut', [
-        transition(':enter', [
-          style({ opacity: 0 }),
-          animate('500ms', style({ opacity: 1 }))
-        ]),
-        transition(':leave', [
-          animate('500ms', style({ opacity: 0 }))
-        ])
-      ])
-    ],
+  animations: [
+    trigger('fadeInOut', [
+      transition(':enter', [
+        style({ opacity: 0 }),
+        animate('500ms', style({ opacity: 1 })),
+      ]),
+      transition(':leave', [animate('500ms', style({ opacity: 0 }))]),
+    ]),
+  ],
 })
 export class HistoricoMaestrosComponent implements OnInit {
   maestros: Maestro[] = [];
@@ -47,8 +54,7 @@ export class HistoricoMaestrosComponent implements OnInit {
   filtroRegion: string = '';
   totalMaestrosFiltrados: number = 0;
 
-
-  constructor(private maestroService: MaestroService,) {}
+  constructor(private maestroService: MaestroService,private toastr: ToastrService) {}
 
   ngOnInit(): void {
     this.obtenerHistoricoMaestros();
@@ -63,7 +69,7 @@ export class HistoricoMaestrosComponent implements OnInit {
           this.maestros = data.maestros;
           this.totalMaestrosFiltrados = this.maestros.length; // Inicializar con el número total de maestros
           this.actualizarTotalMaestrosFiltrados(); // Actualizar el total de maestros filtrados
-          this.maestros.forEach(maestro => {
+          this.maestros.forEach((maestro) => {
             console.log('Maestro Estado:', maestro.estado);
             console.log('Maestro Region:', maestro.Uid);
             console.log('Persona a cargo:', maestro.usuarios);
@@ -80,20 +86,63 @@ export class HistoricoMaestrosComponent implements OnInit {
     );
   }
 
+  reactivarMaestro(Mid: number): void {
+    Swal.fire({
+      title: '¿Estás segura?',
+      text: 'Esta acción es irreparable',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí, reactivar',
+      cancelButtonText: 'Cancelar',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.loading = true;
+        this.maestroService.reactivarMaestro(Mid).subscribe({
+          next: () => {
+            this.loading = false;
+            this.obtenerHistoricoMaestros(); // Recargar la lista de maestros
+          },
+          error: (err) => {
+            this.toastr.error('Error al eliminar el maestro', 'Error');
+            this.loading = false;
+          },
+        });
+      }
+    });
+  }
+
   actualizarTotalMaestrosFiltrados(): void {
-    this.totalMaestrosFiltrados = this.maestros.filter(maestro => {
-      return (this.filtroEstado === '' || maestro.estado === this.filtroEstado) &&
-             (this.filtroPersona === '' || `${maestro.usuarios.nombre} ${maestro.usuarios.apellido}`.toLowerCase().includes(this.filtroPersona.toLowerCase())) &&
-             (this.filtroRegion === '' || maestro.region.toLowerCase().includes(this.filtroRegion.toLowerCase()));
+    this.totalMaestrosFiltrados = this.maestros.filter((maestro) => {
+      return (
+        (this.filtroEstado === '' || maestro.estado === this.filtroEstado) &&
+        (this.filtroPersona === '' ||
+          `${maestro.usuarios.nombre} ${maestro.usuarios.apellido}`
+            .toLowerCase()
+            .includes(this.filtroPersona.toLowerCase())) &&
+        (this.filtroRegion === '' ||
+          maestro.region
+            .toLowerCase()
+            .includes(this.filtroRegion.toLowerCase()))
+      );
     }).length;
     this.currentPage = 1; // Reset to first page when filters change
   }
 
   get paginatedMaestros(): Maestro[] {
-    const filteredMaestros = this.maestros.filter(maestro => {
-      return (this.filtroEstado === '' || maestro.estado === this.filtroEstado) &&
-             (this.filtroPersona === '' || `${maestro.usuarios.nombre} ${maestro.usuarios.apellido}`.toLowerCase().includes(this.filtroPersona.toLowerCase())) &&
-             (this.filtroRegion === '' || maestro.region.toLowerCase().includes(this.filtroRegion.toLowerCase()));
+    const filteredMaestros = this.maestros.filter((maestro) => {
+      return (
+        (this.filtroEstado === '' || maestro.estado === this.filtroEstado) &&
+        (this.filtroPersona === '' ||
+          `${maestro.usuarios.nombre} ${maestro.usuarios.apellido}`
+            .toLowerCase()
+            .includes(this.filtroPersona.toLowerCase())) &&
+        (this.filtroRegion === '' ||
+          maestro.region
+            .toLowerCase()
+            .includes(this.filtroRegion.toLowerCase()))
+      );
     });
 
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;

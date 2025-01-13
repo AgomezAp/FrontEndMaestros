@@ -30,6 +30,7 @@
           <th>Estado</th>
           <th>Región</th>
           <th>Persona a cargo</th>
+          <th>Acciones</th>
         </tr>
       </thead>
       <tbody>
@@ -44,6 +45,9 @@
           <td><span [ngClass]="{'estado-activo': maestro.estado === 'activo', 'estado-inactivo': maestro.estado === 'INACTIVO'}">{{ maestro.estado }}</span></td>
           <td>{{ maestro.region }}</td>
           <td>{{ maestro.usuarios.nombre }} {{ maestro.usuarios.apellido }}</td>
+          <td>
+            <button *ngIf="maestro.estado === 'INACTIVO'" (click)="reactivarMaestro(maestro.Mid)" class="btn btn-primary">Reactivar</button>
+          </td>
         </tr>
       </tbody>
     </table>
