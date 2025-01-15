@@ -20,34 +20,35 @@
     <table class="table table-bordered">
       <thead>
         <tr>
-          <th>Nombre</th>
-          <th>Apellidos</th>
+          <th>fecha</th>
+          <th>Monitor</th>
           <th>Nombre Maestro</th>
-          <th>Correo</th>
-          <th>Número Documento</th>
-          <th>Firma</th>
+          <th>Región</th>
           <th>Descripción</th>
           <th>Estado</th>
-          <th>Región</th>
+          <th>Marca Celular</th>
+          <th>Modelo</th>
+          <th>imei</th>
           <th>Persona a cargo</th>
-          <th>Acciones</th>
+          <th>Firma</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let maestro of paginatedMaestros">
+          <td>{{ maestro.fecha }}</td>
           <td>{{ maestro.nombre }}</td>
-          <td>{{ maestro.apellido }}</td>
           <td>{{ maestro.NombreMaestro }}</td>
-          <td>{{ maestro.correo }}</td>
-          <td>{{ maestro.cedula }}</td>
-          <td><img [src]="maestro.firma" alt="Firma" width="100"></td>
+          <td>{{ maestro.region }}</td>
           <td class="descripcion-col">{{ maestro.descripcion }}</td>
           <td><span [ngClass]="{'estado-activo': maestro.estado === 'activo', 'estado-inactivo': maestro.estado === 'INACTIVO'}">{{ maestro.estado }}</span></td>
-          <td>{{ maestro.region }}</td>
+          <td>{{ maestro.marca }}</td>
+          <td>{{ maestro.modelo }}</td>
+          <td>{{ maestro.imei }}</td>
           <td>{{ maestro.usuarios.nombre }} {{ maestro.usuarios.apellido }}</td>
-          <td>
+          <td><img [src]="maestro.firma" alt="Firma" width="100"></td>
+          <!-- <td>
             <button *ngIf="maestro.estado === 'INACTIVO'" (click)="reactivarMaestro(maestro.Mid)" class="btn btn-primary">Reactivar</button>
-          </td>
+          </td> -->
         </tr>
       </tbody>
     </table>

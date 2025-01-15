@@ -5,42 +5,37 @@
     <table class="table table-bordered">
       <thead>
         <tr>
-          <th>Nombre</th>
-          <th>Apellidos</th>
+          <th>fecha</th>
+          <th>Monitor</th>
           <th>Nombre Maestro</th>
-          <th>Número Documento</th>
-          <th>Correo</th>
-          <th>Firma</th>
+          <th>Región</th>
           <th>Descripción</th>
           <th>Estado</th>
-          <th>Región</th>
           <th>Marca Celular</th>
           <th>Modelo</th>
+          <th>imei</th>
+          <th>Firma</th>
           <th scope="col">Acciones</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let maestro of paginatedMaestros">
           <td>
+            <span *ngIf="!maestro.editing">{{ maestro.fecha }}</span>
+            <input *ngIf="maestro.editing" [(ngModel)]="maestro.fecha" class="form-control" />
+          </td>
+          <td>
             <span *ngIf="!maestro.editing">{{ maestro.nombre }}</span>
             <input *ngIf="maestro.editing" [(ngModel)]="maestro.nombre" class="form-control" />
           </td>
           <td>
-            <span *ngIf="!maestro.editing">{{ maestro.apellido }}</span>
-            <input *ngIf="maestro.editing" [(ngModel)]="maestro.apellido" class="form-control" />
-          </td>
-          <td>
             <span *ngIf="!maestro.editing">{{ maestro.NombreMaestro }}</span>
             <input *ngIf="maestro.editing" [(ngModel)]="maestro.NombreMaestro" class="form-control" />
+          </td>
           <td>
-            <span *ngIf="!maestro.editing">{{ maestro.cedula }}</span>
-            <input *ngIf="maestro.editing" [(ngModel)]="maestro.cedula" class="form-control" />
+            <span *ngIf="!maestro.editing">{{ maestro.region }}</span>
+            <input *ngIf="maestro.editing" [(ngModel)]="maestro.region" class="form-control" />
           </td>
-          <td class="descripcion-col">
-            <span *ngIf="!maestro.editing">{{ maestro.correo }}</span>
-            <input *ngIf="maestro.editing" [(ngModel)]="maestro.correo" class="form-control" />
-          </td>
-          <td><img [src]="maestro.firma" alt="Firma" width="100"></td>
           <td class="descripcion-col">
             <span *ngIf="!maestro.editing">{{ maestro.descripcion }}</span>
             <input *ngIf="maestro.editing" [(ngModel)]="maestro.descripcion" class="form-control" />
@@ -49,10 +44,7 @@
             <span *ngIf="!maestro.editing" [ngClass]="{'estado-activo': maestro.estado === 'activo', 'estado-inactivo': maestro.estado === 'inactivo'}">{{ maestro.estado }}</span>
             <input *ngIf="maestro.editing" [(ngModel)]="maestro.estado" class="form-control" />
           </td>
-          <td>
-            <span *ngIf="!maestro.editing">{{ maestro.region }}</span>
-            <input *ngIf="maestro.editing" [(ngModel)]="maestro.region" class="form-control" />
-          </td>
+      
           <td>
             <span *ngIf="!maestro.editing">{{ maestro.marca }}</span>
             <input *ngIf="maestro.editing" [(ngModel)]="maestro.marca" class="form-control" />
@@ -62,11 +54,17 @@
             <input *ngIf="maestro.editing" [(ngModel)]="maestro.modelo" class="form-control" />
           </td>
           <td>
+            <span *ngIf="!maestro.editing">{{ maestro.imei }}</span>
+            <input *ngIf="maestro.editing" [(ngModel)]="maestro.imei" class="form-control" />
+          </td>
+          <td><img [src]="maestro.firma" alt="Firma" width="100"></td>
+          
+          <td>
             <button class="btn btn-warning action-button btn-modificar" (click)="toggleEdit(maestro)">
               <i class="fas fa-edit"></i> {{ maestro.editing ? 'Guardar' : 'Modificar' }}
             </button>
             <button class="btn btn-danger action-button btn-eliminar" (click)="deleteMaestro(maestro.Mid)">
-              <i class="fas fa-trash-alt"></i> Eliminar
+              <i class="fas fa-trash-alt"></i> Entregar
             </button>
           </td>
         </tr>

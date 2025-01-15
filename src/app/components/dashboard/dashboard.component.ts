@@ -63,7 +63,6 @@ export class DashboardComponent implements OnInit {
   obtenerMaestros(): void {
     this.userService.obtenerMaestrosPorIdUsuario(this.userId).subscribe(
       (data:any) => {
-        console.log('Respuesta del servicio:', data);
         if (data && Array.isArray(data.maestros)) {
           this.maestros = data.maestros;
         } else {

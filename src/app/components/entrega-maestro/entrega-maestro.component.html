@@ -1,0 +1,46 @@
+<div class="container">
+    <h2>Actualizar Maestro</h2>
+    <form (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="nombre">Monitor:</label>
+        <input type="text" id="nombre" [(ngModel)]="maestro.nombre" name="nombre" class="form-control" readonly>
+      </div>
+      <div class="form-group">
+        <label for="apellido">Nombre Maestro:</label>
+        <input type="text" id="apellido" [(ngModel)]="maestro.NombreMaestro" name="apellido" class="form-control" readonly>
+      </div>
+      <div class="form-group">
+        <label for="apellido">Region:</label>
+        <input type="text" id="apellido" [(ngModel)]="maestro.region" name="apellido" class="form-control" readonly>
+      </div>
+      <div class="form-group">
+        <label for="apellido">Marca celular:</label>
+        <input type="text" id="apellido" [(ngModel)]="maestro.marca" name="apellido" class="form-control" readonly>
+      </div>
+      <div class="form-group">
+        <label for="apellido">Modelo Celular:</label>
+        <input type="text" id="apellido" [(ngModel)]="maestro.modelo" name="apellido" class="form-control" readonly>
+      </div>
+      <div class="form-group">
+        <label for="apellido">Imei Celular:</label>
+        <input type="text" id="apellido" [(ngModel)]="maestro.imei" name="apellido" class="form-control" readonly>
+      </div>
+      <!-- Otros campos de solo lectura -->
+      <div class="form-group">
+        <label for="descripcion">Descripción:</label>
+        <textarea id="descripcion" [(ngModel)]="descripcion" name="descripcion" class="form-control" required></textarea>
+      </div>
+      <div class="form-group full-width">
+        <label for="firma">Firma <i class="fa-solid fa-signature"style="margin-left: 10px;"></i></label>
+        <signature-pad
+          #signature
+          [options]="signaturePadOptions"
+          (drawStart)="drawStart($event)"
+          (drawEnd)="drawComplete($event)"
+          class="signature-pad"
+        >
+        </signature-pad>
+      </div>
+      <button type="submit" class="btn btn-primary">Realizar Entrega</button>
+    </form>
+  </div>

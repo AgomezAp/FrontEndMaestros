@@ -2,11 +2,7 @@ import { User } from './user';
 
 export interface Maestro {
   Mid: number;
-  nombre: string;
-  apellido: string;
   NombreMaestro: string;
-  correo: string;
-  cedula: string;
   firma: string;
   descripcion: string;
   Uid: number;
@@ -14,16 +10,14 @@ export interface Maestro {
   region: string;
   marca: string;
   modelo: string;
-  usuarios: User;
+  imei: string;
+  fecha: Date;
+usuarios: User;
 
 }
 export interface MaestroEdicion {
   Mid: number;
-  nombre: string;
-  apellido: string;
   NombreMaestro: string;
-  correo: string;
-  cedula: string;
   firma: string;
   descripcion: string;
   Uid: number;
@@ -31,5 +25,7 @@ export interface MaestroEdicion {
   region: string;
   marca: string;
   modelo: string;
+  imei: string;
+  fecha: Date;
   editing?: boolean;
 }

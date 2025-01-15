@@ -3,25 +3,29 @@
   <form (ngSubmit)="onSubmit()">
     <div class="form-grid">
       <div class="form-group">
-        <label for="nombre">Nombre</label>
-        <input
-          type="text"
+        <label for="nombre">Monitor<i class="fa-solid fa-map-location"style="margin-left: 10px;"></i></label>
+        <select
           id="nombre"
           [(ngModel)]="maestro.nombre"
           name="nombre"
           required
-        />
+        >
+          <option value="" disabled selected>Seleccione un Monitor</option>
+          <option value="Luisa-rodriguez">Luisa Rodriguez</option>
+          <option value="Carmen">Carmen</option>
+          <option value="Roxana">Roxana</option>
+          <option value="Oswaldo">Oswaldo</option>
+          <option value="Luis-enrique">Luis Enrique</option>
+          <option value="Macaco">Macaco</option>
+          <option value="Henyer">Henyer</option>
+          <option value="Jean-carlos">Jean Carlos</option>
+          <option value="Feliz">Feliz</option>
+          <option value="Biter">Biter</option>
+          <option value="Tarot">Tarot</option>
+          <option value="Oficina">Oficina</option>
+        </select>
       </div>
-      <div class="form-group">
-        <label for="apellido">Apellidos</label>
-        <input
-          type="text"
-          id="apellido"
-          [(ngModel)]="maestro.apellido"
-          name="apellido"
-          required
-        />
-      </div>
+    
       <div class="form-group">
         <label for="NombreMaestro">Nombre Maestro</label>
         <input
@@ -33,26 +37,6 @@
         />
       </div>
 
-      <div class="form-group">
-        <label for="correo">Correo <i class="fa-solid fa-at"style="margin-left: 5px;"></i></label>
-        <input
-          type="email"
-          id="correo"
-          [(ngModel)]="maestro.correo"
-          name="correo"
-          required
-        />
-      </div>
-      <div class="form-group">
-        <label for="cedula">Número de Documento <i class="fa-solid fa-id-card" style="margin-left: 10px;"></i> </label>
-        <input
-          type="text"
-          id="cedula"
-          [(ngModel)]="maestro.cedula"
-          name="cedula"
-          required
-        />
-      </div>
       <div class="form-group">
         
         <label for="region">Región de operación<i class="fa-solid fa-map-location"style="margin-left: 10px;"></i></label>
@@ -70,6 +54,7 @@
           <option value="México">México</option>
           <option value="España">España</option>
           <option value="Colombia">Colombia</option>
+          <option value="Argentina">Panamá</option>
         </select>
       </div>
       <div class="form-group">
@@ -88,6 +73,24 @@
           id="modelo"
           [(ngModel)]="maestro.modelo"
           name="modelo"
+        />
+      </div>
+      <div class="form-group">
+        <label for="imei">Imei</label>
+        <input
+          type="text"
+          id="imei"
+          [(ngModel)]="maestro.imei"
+          name="imei"
+        />
+      </div>
+      <div class="form-group">
+        <label for="fecha">Fecha</label>
+        <input
+          type="date"
+          id="fecha"
+          [(ngModel)]="maestro.fecha"
+          name="fecha"
         />
       </div>
       <div class="form-group full-width">

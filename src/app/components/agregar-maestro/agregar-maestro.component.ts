@@ -37,15 +37,15 @@ import { NavbarComponent } from '../navbar/navbar.component';
 export class AgregarMaestroComponent {
   maestro: any = {
     nombre: '',
-    apellido: '',
     NombreMaestro: '',
-    correo: '',
-    cedula: '',
     firma: '',
     descripcion: '',
     estado: 'activo',
     marca:'',
     modelo:'',
+    imei:'',
+    fecha: new Date(),
+
     Uid: localStorage.getItem('userId'),
   };
   loading: boolean = false;
