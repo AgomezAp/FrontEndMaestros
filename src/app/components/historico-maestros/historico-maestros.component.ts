@@ -45,13 +45,16 @@ import { NavbarComponent } from '../navbar/navbar.component';
   ],
 })
 export class HistoricoMaestrosComponent implements OnInit {
-  maestros: Maestro[] = [];
+  maestros: any[] = [];
   loading: boolean = true;
   currentPage: number = 1;
   itemsPerPage: number = 5;
   filtroEstado: string = '';
   filtroPersona: string = '';
   filtroRegion: string = '';
+  filtroImei: string = '';
+  filtroFechaEntrega: string = '';
+  filtroFechaRecibido: string = '';
   totalMaestrosFiltrados: number = 0;
 
   constructor(private maestroService: MaestroService,private toastr: ToastrService) {}
@@ -73,6 +76,10 @@ export class HistoricoMaestrosComponent implements OnInit {
             console.log('Maestro Estado:', maestro.estado);
             console.log('Maestro Region:', maestro.Uid);
             console.log('Persona a cargo:', maestro.usuarios);
+            console.log('Descripcion:', maestro.descripcionEntrega);	
+            console.log('Descripcion Recibe:', maestro.descripcionRecibe);
+            console.log('Fecha Entrega:', maestro.fechaEntrega);
+            console.log('Fecha Recibe:', maestro.fechaRecibe);
           });
         } else {
           console.error('La respuesta no contiene un array de maestros', data);
@@ -97,7 +104,7 @@ export class HistoricoMaestrosComponent implements OnInit {
       confirmButtonText: 'Sí, reactivar',
       cancelButtonText: 'Cancelar',
     }).then((result) => {
-      if (result.isConfirmed) {
+      if (result.isConfirmed) { 
         this.loading = true;
         this.maestroService.reactivarMaestro(Mid).subscribe({
           next: () => {
@@ -122,9 +129,10 @@ export class HistoricoMaestrosComponent implements OnInit {
             .toLowerCase()
             .includes(this.filtroPersona.toLowerCase())) &&
         (this.filtroRegion === '' ||
-          maestro.region
-            .toLowerCase()
-            .includes(this.filtroRegion.toLowerCase()))
+          maestro.region.toLowerCase().includes(this.filtroRegion.toLowerCase())) &&
+        (this.filtroImei === '' || maestro.imei.includes(this.filtroImei)) &&
+        (this.filtroFechaEntrega === '' || maestro.fechaEntrega === this.filtroFechaEntrega) &&
+        (this.filtroFechaRecibido === '' || maestro.fechaRecibe === this.filtroFechaRecibido)
       );
     }).length;
     this.currentPage = 1; // Reset to first page when filters change
@@ -139,9 +147,10 @@ export class HistoricoMaestrosComponent implements OnInit {
             .toLowerCase()
             .includes(this.filtroPersona.toLowerCase())) &&
         (this.filtroRegion === '' ||
-          maestro.region
-            .toLowerCase()
-            .includes(this.filtroRegion.toLowerCase()))
+          maestro.region.toLowerCase().includes(this.filtroRegion.toLowerCase())) &&
+        (this.filtroImei === '' || maestro.imei.includes(this.filtroImei)) &&
+        (this.filtroFechaEntrega === '' || maestro.fechaEntrega === this.filtroFechaEntrega) &&
+        (this.filtroFechaRecibido === '' || maestro.fechaRecibe === this.filtroFechaRecibido)
       );
     });
 

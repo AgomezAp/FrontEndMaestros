@@ -1,46 +1,74 @@
+<app-navbar></app-navbar>
 <div class="container">
-    <h2>Actualizar Maestro</h2>
-    <form (ngSubmit)="onSubmit()">
-      <div class="form-group">
-        <label for="nombre">Monitor:</label>
-        <input type="text" id="nombre" [(ngModel)]="maestro.nombre" name="nombre" class="form-control" readonly>
-      </div>
-      <div class="form-group">
-        <label for="apellido">Nombre Maestro:</label>
-        <input type="text" id="apellido" [(ngModel)]="maestro.NombreMaestro" name="apellido" class="form-control" readonly>
-      </div>
-      <div class="form-group">
-        <label for="apellido">Region:</label>
-        <input type="text" id="apellido" [(ngModel)]="maestro.region" name="apellido" class="form-control" readonly>
-      </div>
-      <div class="form-group">
-        <label for="apellido">Marca celular:</label>
-        <input type="text" id="apellido" [(ngModel)]="maestro.marca" name="apellido" class="form-control" readonly>
-      </div>
-      <div class="form-group">
-        <label for="apellido">Modelo Celular:</label>
-        <input type="text" id="apellido" [(ngModel)]="maestro.modelo" name="apellido" class="form-control" readonly>
-      </div>
-      <div class="form-group">
-        <label for="apellido">Imei Celular:</label>
-        <input type="text" id="apellido" [(ngModel)]="maestro.imei" name="apellido" class="form-control" readonly>
-      </div>
-      <!-- Otros campos de solo lectura -->
-      <div class="form-group">
-        <label for="descripcion">Descripción:</label>
-        <textarea id="descripcion" [(ngModel)]="descripcion" name="descripcion" class="form-control" required></textarea>
-      </div>
-      <div class="form-group full-width">
-        <label for="firma">Firma <i class="fa-solid fa-signature"style="margin-left: 10px;"></i></label>
-        <signature-pad
-          #signature
-          [options]="signaturePadOptions"
-          (drawStart)="drawStart($event)"
-          (drawEnd)="drawComplete($event)"
-          class="signature-pad"
-        >
-        </signature-pad>
-      </div>
-      <button type="submit" class="btn btn-primary">Realizar Entrega</button>
-    </form>
+  <h2>Actualizar Maestro</h2>
+  <form (ngSubmit)="onSubmit()">
+    <!-- Otros campos de solo lectura -->
+    <div class="form-group">
+      <label for="nombre"
+        >Monitor<i
+          class="fa-solid fa-map-location"
+          style="margin-left: 10px"
+        ></i
+      ></label>
+      <select
+        id="nombre"
+        [(ngModel)]="maestro.maestroRecibido"
+        name="nombre"
+        required
+      >
+        <option value="" disabled selected>Seleccione un Monitor</option>
+        <option value="Luisa-rodriguez">Luisa Rodriguez</option>
+        <option value="Carmen">Carmen</option>
+        <option value="Roxana">Roxana</option>
+        <option value="Oswaldo">Oswaldo</option>
+        <option value="Luis-enrique">Luis Enrique</option>
+        <option value="Macaco">Macaco</option>
+        <option value="Henyer">Henyer</option>
+        <option value="Jean-carlos">Jean Carlos</option>
+        <option value="Feliz">Feliz</option>
+        <option value="Biter">Biter</option>
+        <option value="Tarot">Tarot</option>
+        <option value="Oficina">Oficina</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="descripcionRecibe">Descripción:</label>
+      <textarea
+        id="descripcionRecibe"
+        [(ngModel)]="maestro.descripcionRecibe"
+        name="descripcionRecibe"
+        class="form-control"
+        required
+      ></textarea>
+    </div>
+    <div class="form-group full-width">
+      <label for="firma"
+        >Firma <i class="fa-solid fa-signature" style="margin-left: 10px"></i
+      ></label>
+      <signature-pad
+        #signature
+        [options]="signaturePadOptions"
+        (drawStart)="drawStart($event)"
+        (drawEnd)="drawComplete($event)"
+        class="signature-pad"
+      >
+      </signature-pad>
+    </div>
+    <div class="btn-container">
+      <button type="button" class="btn-limpiar" (click)="undo()">
+        Limpiar Firma <i class="fa-solid fa-delete-left"style="margin-left: 5px;"></i>
+      </button>
+      <button type="submit" class="btn-agregar">Agregar Maestro<i class="fa-solid fa-user-plus"style="margin-left: 10px;"></i> </button>
+    </div>
+  </form>
+  <div *ngIf="errorMessage" class="error-message">
+    {{ errorMessage }}
   </div>
+  <div *ngIf="successMessage" class="success-message">
+    {{ successMessage }}
+  </div>
+  <button type="button" class="btn-cancelar" (click)="navigateToDashboard()">
+    Cancelar <i class="fa-solid fa-xmark"style="margin-left: 10px;"></i>
+  </button> 
+  <app-spinner *ngIf="loading"></app-spinner>
+</div>

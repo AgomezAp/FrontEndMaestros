@@ -2,50 +2,75 @@
 <div class="historico-maestros-container fade-enter-active" @fadeInOut>
   <h2>Histórico de Maestros</h2>
   <p>Total de maestros: {{ totalMaestrosFiltrados }}</p>
-  <div class="filters">
-    <label for="estado">Estado:</label>
-    <select id="estado" [(ngModel)]="filtroEstado" (ngModelChange)="actualizarTotalMaestrosFiltrados()">
-      <option value="">Todos</option>
-      <option value="activo">Activo</option>
-      <option value="INACTIVO">Inactivo</option>
-    </select>
+  <div class="filter-container">
+    <div class="form-group">
+      <label for="filtroEstado">Filtrar por Estado:</label>
+      <input type="text" id="filtroEstado" [(ngModel)]="filtroEstado" class="form-control" (ngModelChange)="actualizarTotalMaestrosFiltrados()" />
+    </div>
+    <div class="form-group">
+      <label for="filtroPersona">Filtrar por Persona a cargo:</label>
+      <input type="text" id="filtroPersona" [(ngModel)]="filtroPersona" class="form-control" (ngModelChange)="actualizarTotalMaestrosFiltrados()" />
+    </div>
+    <div class="form-group">
+      <label for="filtroRegion">Filtrar por Región:</label>
+      <input type="text" id="filtroRegion" [(ngModel)]="filtroRegion" class="form-control" (ngModelChange)="actualizarTotalMaestrosFiltrados()" />
+    </div>
+    <div class="form-group">
+      <label for="filtroImei">Filtrar por IMEI:</label>
+      <input type="text" id="filtroImei" [(ngModel)]="filtroImei" class="form-control" (ngModelChange)="actualizarTotalMaestrosFiltrados()" />
+    </div>
+    <div class="form-group">
+      <label for="filtroFechaRecibido">Filtrar por Fecha de entrega:</label>
+      <input type="date" id="filtroFechaRecibido" [(ngModel)]="filtroFechaRecibido" class="form-control" (ngModelChange)="actualizarTotalMaestrosFiltrados()" />
+    </div>
+    
+    <div class="form-group">
+      <label for="filtroFechaEntrega">Filtrar por Fecha de Recibido:</label>
+      <input type="date" id="filtroFechaEntrega" [(ngModel)]="filtroFechaEntrega" class="form-control" (ngModelChange)="actualizarTotalMaestrosFiltrados()" />
+    </div>
 
-    <label for="persona">Persona a cargo:</label>
-    <input id="persona" type="text" [(ngModel)]="filtroPersona" placeholder="Nombre de la persona a cargo" (input)="actualizarTotalMaestrosFiltrados()">
-
-    <label for="region">Región:</label>
-    <input id="region" type="text" [(ngModel)]="filtroRegion" placeholder="Región del maestro" (input)="actualizarTotalMaestrosFiltrados()">
   </div>
+  
   <div class="table-responsive">
     <table class="table table-bordered">
       <thead>
         <tr>
-          <th>fecha</th>
+          <th>Fecha entregado</th>
+          <th>Fecha recibido</th>
           <th>Monitor</th>
-          <th>Nombre Maestro</th>
+          <th>Nombre de quien recibe  </th>
+          <th>Nombre del quien entrega</th>
           <th>Región</th>
-          <th>Descripción</th>
+          <th>Descripción Entregado</th>
+          <th>Descripción Recibido</th>
           <th>Estado</th>
           <th>Marca Celular</th>
           <th>Modelo</th>
           <th>imei</th>
           <th>Persona a cargo</th>
-          <th>Firma</th>
+          <th>Firma Entrega</th>
+          <th>Firma Recibe</th>
+
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let maestro of paginatedMaestros">
-          <td>{{ maestro.fecha }}</td>
+          <td>{{ maestro.fechaRecibe }}</td>
+          <td>{{ maestro.fechaEntrega }}</td>
           <td>{{ maestro.nombre }}</td>
           <td>{{ maestro.NombreMaestro }}</td>
+          <td>{{ maestro.maestroRecibido}}</td>
           <td>{{ maestro.region }}</td>
-          <td class="descripcion-col">{{ maestro.descripcion }}</td>
+          <td class="descripcion-col">{{ maestro.descripcionEntrega }}</td>
+          <td class="descripcion-col">{{ maestro.descripcionRecibe }}</td>
           <td><span [ngClass]="{'estado-activo': maestro.estado === 'activo', 'estado-inactivo': maestro.estado === 'INACTIVO'}">{{ maestro.estado }}</span></td>
           <td>{{ maestro.marca }}</td>
           <td>{{ maestro.modelo }}</td>
           <td>{{ maestro.imei }}</td>
           <td>{{ maestro.usuarios.nombre }} {{ maestro.usuarios.apellido }}</td>
-          <td><img [src]="maestro.firma" alt="Firma" width="100"></td>
+          <td><img [src]="maestro.firmaEntrega" alt="Firma" width="100"></td>
+          <td><img [src]="maestro.firmaRecibe" alt="Firma" width="100"></td>
+
           <!-- <td>
             <button *ngIf="maestro.estado === 'INACTIVO'" (click)="reactivarMaestro(maestro.Mid)" class="btn btn-primary">Reactivar</button>
           </td> -->

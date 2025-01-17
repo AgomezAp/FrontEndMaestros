@@ -1,0 +1,127 @@
+/* Contenedor principal */
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Título del formulario */
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+/* Estilos para los grupos de formulario */
+.form-group {
+  margin-bottom: 15px;
+}
+
+.signature-pad {
+  background-color: #ffffff; /* Fondo blanco */
+  border: 1px solid #dddddd; /* Borde gris claro */
+  border-radius: 5px; /* Bordes redondeados */
+  width: 100%;
+  height: 300px; /* Altura del área de firma */
+  box-sizing: border-box;
+  margin-bottom: 15px;
+  overflow: hidden; /* Evitar que el contenido se desborde */
+}
+
+/* Etiquetas de los campos */
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #555;
+}
+
+/* Campos de entrada de texto */
+.form-group input[type="text"],
+.form-group input[type="date"],
+.form-group textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+/* Campo de texto de solo lectura */
+.form-group input[readonly] {
+  background-color: #e9ecef;
+  cursor: not-allowed;
+}
+
+/* Área de texto */
+.form-group textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+/* Contenedor de botones */
+.button-container {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+/* Botones */
+button[type="submit"],
+button[type="button"] {
+  display: inline-block;
+  padding: 10px 20px;
+  margin-top: 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+button[type="submit"] {
+  background-color: #28a745;
+  border-radius: 50px;
+  color: white;
+  margin: 20px auto; /* Centrar el botón horizontalmente y agregar un margen superior */
+  margin-top: 30px;
+}
+
+button[type="button"] {
+  background-color: #ffcc00;
+  border-radius: 50px;
+  color: white;
+  margin: 20px auto; /* Centrar el botón horizontalmente y agregar un margen superior */
+  margin-top: 30px;
+}
+
+.btn-cancelar {
+  background-color: #dc3545 !important; /* Color rojo */
+  color: white;
+  border-radius: 50px;
+  text-align: center;
+  width: 50%; /* Ajusta el ancho según tus necesidades */
+  padding: 10px 20px; /* Ajusta el padding según tus necesidades */
+  margin: 20px auto; /* Centrar el botón horizontalmente y agregar un margen superior */
+  margin-top: 30px;
+  display: block; /* Asegura que el botón se comporte como un bloque */
+}
+
+/* Estilos para el área de firma */
+.signature-pad {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: white;
+  width: 100%;
+  height: 300px;
+  margin-top: 10px;
+}
+
+/* Estilos para el spinner de carga */
+app-spinner {
+  display: block;
+  margin: 20px auto;
+}

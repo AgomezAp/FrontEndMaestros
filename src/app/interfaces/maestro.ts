@@ -2,30 +2,40 @@ import { User } from './user';
 
 export interface Maestro {
   Mid: number;
+  nombre: string;
   NombreMaestro: string;
-  firma: string;
-  descripcion: string;
+  maestroRecibido:string;
+  firmaEntrega: string;
+  firmaRecibe: string;
+  descripcionEntrega: string;
+  descripcionRecibe: string;
   Uid: number;
   estado: string;
   region: string;
   marca: string;
   modelo: string;
   imei: string;
-  fecha: Date;
-usuarios: User;
+  fechaRecibe: Date;
+  fechaEntrega: Date;
+  usuarios: User;
 
 }
 export interface MaestroEdicion {
   Mid: number;
+  nombre: string;
   NombreMaestro: string;
-  firma: string;
-  descripcion: string;
+  maestroRecibido:string;
+  firmaEntrega: string;
+  firmaRecibe: string;
+  descripcionEntrega: string;
+  descripcionRecibe: string;
   Uid: number;
   estado: string;
   region: string;
   marca: string;
   modelo: string;
   imei: string;
-  fecha: Date;
+  fechaRecibido: Date;
+  fechaEntregado: Date;
   editing?: boolean;
 }

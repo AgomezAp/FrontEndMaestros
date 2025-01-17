@@ -35,9 +35,8 @@ export class MaestroService {
   actualizarMaestro( Mid:number, maestro:MaestroEdicion): Observable<Maestro> {
     return this.http.patch<Maestro>(`${this.appUrl}${this.apiUrl}/actualizar-maestro/${Mid}`, maestro);
   }
-
-  BorrarMaestroId(Mid:number):Observable<Maestro>{
-    return this.http.delete<Maestro>(`${this.appUrl}${this.apiUrl}/borrar-maestro/${Mid}`)
+  BorrarMaestroId(Mid:number,maestro: Maestro):Observable<Maestro>{
+    return this.http.post<Maestro>(`${this.appUrl}${this.apiUrl}/borrar-maestro/${Mid}`,maestro)
   }
 
   ObtenerHistoricoMaestros():Observable<Maestro[]>{

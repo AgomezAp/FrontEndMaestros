@@ -1,16 +1,39 @@
 <app-navbar></app-navbar>
 <div class="dashboard-container  fade-enter-active" @fadeInOut>
   <h2>Lista de Maestros</h2>
+  
+  <div class="filter-container">
+    <div class="form-group">
+      <label for="filterFecha">Filtrar por Fecha:</label>
+      <input type="date" id="filterFecha" [(ngModel)]="filterFecha" class="form-control" (ngModelChange)="applyFilters()" />
+    </div>
+    <div class="form-group">
+      <label for="filterImei">Filtrar por IMEI:</label>
+      <input type="text" id="filterImei" [(ngModel)]="filterImei" class="form-control" (ngModelChange)="applyFilters()" />
+    </div>
+    <div class="form-group">
+      <label for="filterMonitor">Filtrar por Monitor:</label>
+      <input type="text" id="filterMonitor" [(ngModel)]="filterMonitor" class="form-control" (ngModelChange)="applyFilters()" />
+    </div>
+    <div class="form-group">
+      <label for="filterRegion">Filtrar por Región:</label>
+      <input type="text" id="filterRegion" [(ngModel)]="filterRegion" class="form-control" (ngModelChange)="applyFilters()" />
+    </div>
+    <div class="form-group">
+      <label for="filterMarca">Filtrar por Marca Celular:</label>
+      <input type="text" id="filterMarca" [(ngModel)]="filterMarca" class="form-control" (ngModelChange)="applyFilters()" />
+    </div>
+  </div>
+
   <div class="table-responsive">
     <table class="table table-bordered">
       <thead>
         <tr>
-          <th>fecha</th>
+          <th>Fecha entrega</th>
           <th>Monitor</th>
           <th>Nombre Maestro</th>
           <th>Región</th>
           <th>Descripción</th>
-          <th>Estado</th>
           <th>Marca Celular</th>
           <th>Modelo</th>
           <th>imei</th>
@@ -21,8 +44,8 @@
       <tbody>
         <tr *ngFor="let maestro of paginatedMaestros">
           <td>
-            <span *ngIf="!maestro.editing">{{ maestro.fecha }}</span>
-            <input *ngIf="maestro.editing" [(ngModel)]="maestro.fecha" class="form-control" />
+            <span *ngIf="!maestro.editing">{{ maestro.fechaRecibe }}</span>
+            <input *ngIf="maestro.editing" [(ngModel)]="maestro.fechaRecibe" class="form-control" />
           </td>
           <td>
             <span *ngIf="!maestro.editing">{{ maestro.nombre }}</span>
@@ -37,14 +60,9 @@
             <input *ngIf="maestro.editing" [(ngModel)]="maestro.region" class="form-control" />
           </td>
           <td class="descripcion-col">
-            <span *ngIf="!maestro.editing">{{ maestro.descripcion }}</span>
-            <input *ngIf="maestro.editing" [(ngModel)]="maestro.descripcion" class="form-control" />
+            <span *ngIf="!maestro.editing">{{ maestro.descripcionEntrega }}</span>
+            <input *ngIf="maestro.editing" [(ngModel)]="maestro.descripcionEntrega" class="form-control" />
           </td>
-          <td>
-            <span *ngIf="!maestro.editing" [ngClass]="{'estado-activo': maestro.estado === 'activo', 'estado-inactivo': maestro.estado === 'inactivo'}">{{ maestro.estado }}</span>
-            <input *ngIf="maestro.editing" [(ngModel)]="maestro.estado" class="form-control" />
-          </td>
-      
           <td>
             <span *ngIf="!maestro.editing">{{ maestro.marca }}</span>
             <input *ngIf="maestro.editing" [(ngModel)]="maestro.marca" class="form-control" />
@@ -57,14 +75,12 @@
             <span *ngIf="!maestro.editing">{{ maestro.imei }}</span>
             <input *ngIf="maestro.editing" [(ngModel)]="maestro.imei" class="form-control" />
           </td>
-          <td><img [src]="maestro.firma" alt="Firma" width="100"></td>
+          <td><img [src]="maestro.firmaEntrega" alt="Firma" width="100"></td>
           
           <td>
-            <button class="btn btn-warning action-button btn-modificar" (click)="toggleEdit(maestro)">
-              <i class="fas fa-edit"></i> {{ maestro.editing ? 'Guardar' : 'Modificar' }}
-            </button>
+       
             <button class="btn btn-danger action-button btn-eliminar" (click)="deleteMaestro(maestro.Mid)">
-              <i class="fas fa-trash-alt"></i> Entregar
+              <i class="fa-solid fa-right-to-bracket"></i>Recibir 
             </button>
           </td>
         </tr>
@@ -79,7 +95,7 @@
   </div>
   <div class="button-container">
     <button class="btn btn-success btn-agregar" (click)="navigateToAddMaestro()">
-      <i class="fa-solid fa-user-plus"style="margin-right: 10px;"></i> Agregar Maestro
+      <i class="fa-solid fa-user-plus"style="margin-right: 10px;"></i> Hacer entrega de celular
     </button>
   </div>
 </div>

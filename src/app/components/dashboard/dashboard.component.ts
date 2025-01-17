@@ -16,10 +16,6 @@ import { ToastrService } from 'ngx-toastr';
 import Swal from 'sweetalert2';
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import {
-  faAdd,
-  faPhone,
-} from '@fortawesome/free-solid-svg-icons';
 
 import { MaestroEdicion } from '../../interfaces/maestro';
 import { MaestroService } from '../../services/maestro.service';
@@ -48,13 +44,23 @@ import { NavbarComponent } from '../navbar/navbar.component';
 })
 export class DashboardComponent implements OnInit {
   maestros: any[] = [];
+  filteredMaestros: any[] = [];
+  filterFecha: string = '';
+  filterImei: string = '';
+  filterMonitor: string = '';
+  filterRegion: string = '';
+  filterMarca: string = '';
   userId: string = localStorage.getItem('userId') || '0';
   loading: boolean = true;
   currentPage: number = 1;
   itemsPerPage: number = 5;
-  icon = faAdd;
-  icon1 = faPhone;
-  constructor(private userService: UserService,private router: Router,private toastr: ToastrService,private maestroService: MaestroService) {}
+
+  constructor(
+    private userService: UserService,
+    private router: Router,
+    private toastr: ToastrService,
+    private maestroService: MaestroService
+  ) {}
 
   ngOnInit(): void {
     this.obtenerMaestros();
@@ -62,9 +68,11 @@ export class DashboardComponent implements OnInit {
 
   obtenerMaestros(): void {
     this.userService.obtenerMaestrosPorIdUsuario(this.userId).subscribe(
-      (data:any) => {
+      (data: any) => {
         if (data && Array.isArray(data.maestros)) {
           this.maestros = data.maestros;
+          this.filteredMaestros = data.maestros;
+          this.loading = false;
         } else {
           console.error('La respuesta no contiene un array de maestros', data);
         }
@@ -76,14 +84,26 @@ export class DashboardComponent implements OnInit {
       }
     );
   }
-  
+
+  applyFilters(): void {
+    this.filteredMaestros = this.maestros.filter(maestro => {
+      const matchesFecha = this.filterFecha ? maestro.fecha === this.filterFecha : true;
+      const matchesImei = this.filterImei ? maestro.imei.includes(this.filterImei) : true;
+      const matchesMonitor = this.filterMonitor ? maestro.nombre.includes(this.filterMonitor) : true;
+      const matchesRegion = this.filterRegion ? maestro.region.includes(this.filterRegion) : true;
+      const matchesMarca = this.filterMarca ? maestro.marca.includes(this.filterMarca) : true;
+      return matchesFecha && matchesImei && matchesMonitor && matchesRegion && matchesMarca;
+    });
+  }
+
   get paginatedMaestros(): any[] {
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
     const endIndex = startIndex + this.itemsPerPage;
-    return this.maestros.slice(startIndex, endIndex);
+    return this.filteredMaestros.slice(startIndex, endIndex);
   }
+
   nextPage(): void {
-    if (this.currentPage * this.itemsPerPage < this.maestros.length) {
+    if (this.currentPage * this.itemsPerPage < this.filteredMaestros.length) {
       this.currentPage++;
     }
   }
@@ -93,6 +113,7 @@ export class DashboardComponent implements OnInit {
       this.currentPage--;
     }
   }
+
   navigateToAddMaestro(): void {
     this.router.navigate(['/agregarMaestro']);
   }
@@ -123,23 +144,10 @@ export class DashboardComponent implements OnInit {
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
-      confirmButtonText: 'Sí, eliminar',
+      confirmButtonText: 'Sí, Entregar',
       cancelButtonText: 'Cancelar'
     }).then((result) => {
-      if (result.isConfirmed) {
-        this.loading = true;
-        this.maestroService.BorrarMaestroId(Mid).subscribe({
-          next: () => {
-            this.toastr.success('Maestro eliminado con éxito', 'Éxito');
-            this.obtenerMaestros(); // Actualizar la lista de maestros
-            this.loading = false;
-          },
-          error: (err) => {
-            this.toastr.error('Error al eliminar el maestro', 'Error');
-            this.loading = false;
-          }
-        });
-      }
+      this.router.navigate(['/entrega-maestro', Mid]);
     });
   }
 }

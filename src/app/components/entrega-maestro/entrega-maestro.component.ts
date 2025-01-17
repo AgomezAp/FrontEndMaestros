@@ -1,10 +1,14 @@
 import { CommonModule } from '@angular/common';
 import {
   Component,
+  OnInit,
   ViewChild,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import {
+  ActivatedRoute,
+  Router,
+} from '@angular/router';
 
 import { PointGroup } from 'signature_pad';
 
@@ -34,22 +38,24 @@ import { NavbarComponent } from '../navbar/navbar.component';
   templateUrl: './entrega-maestro.component.html',
   styleUrl: './entrega-maestro.component.css',
 })
-export class EntregaMaestroComponent {
+export class EntregaMaestroComponent implements OnInit {
   maestro: any = {
     nombre: '',
     NombreMaestro: '',
-    correo: '',
-    cedula: '',
-    firma: '',
-    descripcion: '',
-    estado: 'activo',
+    maestroRecibe: '',
+    firmaRecibe: '',
+    descripcionRecibe: '',
+    estado: 'Entregado',
     marca:'',
     modelo:'',
     imei:'',
-    fecha: new Date(),
+    fechaEntrega: new Date(),
     Uid: localStorage.getItem('userId'),
   };
-
+  loading: boolean = false;
+  errorMessage: string = '';
+  successMessage: string = '';
+  Mid!: number;
 
   isDrawn = false;
   private history: PointGroup[] = [];
@@ -57,19 +63,46 @@ export class EntregaMaestroComponent {
   @ViewChild('signature') signaturePad!: SignaturePadComponent;
   public signaturePadOptions: NgSignaturePadOptions = {
     minWidth: 1,
-    canvasWidth: 500,
-    canvasHeight: 300,
+    canvasWidth: 800,
+    canvasHeight: 500,
     penColor: 'black',
     backgroundColor: 'white',
     dotSize: 1,
     maxWidth: 1,
     velocityFilterWeight: 1,
   };
- constructor(private maestroService: MaestroService, private router: Router) {}
-
+constructor(private maestroService: MaestroService, private router: Router, private route: ActivatedRoute) {}
+ ngOnInit(): void {
+  this.Mid = parseInt(this.route.snapshot.paramMap.get('Mid')!, 10);
+}
+ onSubmit() {
+  this.loading= true;
+  if (
+    !this.maestro.firmaRecibe
+   /*  !this.maestro.descripcionRecibe||
+    !this.maestro.maestroRecibe  */
+  ) {
+    this.errorMessage = 'Todos los campos son obligatorios';
+    return;
+  }
+  this.maestroService.BorrarMaestroId(this.Mid,this.maestro).subscribe(
+    (response) => {
+      this.successMessage = 'Entrega del maestro hecha con éxito';
+      this.errorMessage = '';
+      this.router.navigate(['/dashBoard']);
+      this.loading= true;
+      // Redirigir o limpiar el formulario si es necesario
+    },
+    (error) => {
+      this.errorMessage =
+        error.error.msg || 'Problemas al hacer la entrega del maestro';
+      this.successMessage = '';
+    }
+  );
+}
  drawComplete(event: MouseEvent | Touch) {
   console.log('Completed drawing', event);
-  this.maestro.firma = this.signaturePad.toDataURL();
+  this.maestro.firmaRecibe = this.signaturePad.toDataURL();
   this.isDrawn = true;
 }
 
@@ -82,6 +115,10 @@ clearSignature() {
   this.future = []; // Limpiar el futuro
 }
 
+navigateToDashboard(): void {
+  this.router.navigate(['/dashBoard']);
+}
+
 undo() {
   const data = this.signaturePad.toData();
   if (data.length) {
@@ -92,7 +129,6 @@ undo() {
     }
   }
 }
-
 redo() {
   if (this.future.length) {
     const data = this.signaturePad.toData();

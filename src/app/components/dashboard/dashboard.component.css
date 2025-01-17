@@ -1,6 +1,13 @@
 body {
   background-color: #e0f7fa; /* Fondo suave */
 }
+/* Contenedor de filtros */
+.filter-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 20px;
+}
 
 .dashboard-container {
   padding: 20px;

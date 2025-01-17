@@ -5,6 +5,12 @@ html, body {
 .fade-enter-active, .fade-leave-active {
   transition: opacity 0.5s;
 }
+.filter-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 20px;
+}
 
 .fade-enter, .fade-leave-to /* .fade-leave-active in <2.1.8 */ {
   opacity: 0;

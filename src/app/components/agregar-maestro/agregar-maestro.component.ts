@@ -38,13 +38,13 @@ export class AgregarMaestroComponent {
   maestro: any = {
     nombre: '',
     NombreMaestro: '',
-    firma: '',
-    descripcion: '',
+    firmaEntrega: '',
+    descripcionEntrega: '',
     estado: 'activo',
     marca:'',
     modelo:'',
     imei:'',
-    fecha: new Date(),
+    fechaRecibe: new Date(),
 
     Uid: localStorage.getItem('userId'),
   };
@@ -58,8 +58,8 @@ export class AgregarMaestroComponent {
   @ViewChild('signature') signaturePad!: SignaturePadComponent;
   public signaturePadOptions: NgSignaturePadOptions = {
     minWidth: 1,
-    canvasWidth: 500,
-    canvasHeight: 300,
+    canvasWidth: 600,
+    canvasHeight: 400,
     penColor: 'black',
     backgroundColor: 'white',
     dotSize: 1,
@@ -70,7 +70,7 @@ export class AgregarMaestroComponent {
 
   drawComplete(event: MouseEvent | Touch) {
     console.log('Completed drawing', event);
-    this.maestro.firma = this.signaturePad.toDataURL();
+    this.maestro.firmaEntrega = this.signaturePad.toDataURL();
     this.isDrawn = true;
   }
 
@@ -80,13 +80,14 @@ export class AgregarMaestroComponent {
   onSubmit() {
     this.loading= true;
     if (
-      !this.maestro.nombre ||
+    /*   !this.maestro.nombre ||
       !this.maestro.apellido ||
       !this.maestro.NombreMaestro ||
       !this.maestro.correo ||
       !this.maestro.cedula ||
-      !this.maestro.firma ||
-      !this.maestro.descripcion
+     */
+      !this.maestro.firmaEntrega 
+    /*   !this.maestro.descripcion */
     ) {
       this.errorMessage = 'Todos los campos son obligatorios';
       return;

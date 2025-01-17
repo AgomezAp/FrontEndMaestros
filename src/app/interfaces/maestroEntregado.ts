@@ -3,15 +3,18 @@ import { User } from './user';
 export interface MaestroEntregado {
   Mid: number;
   NombreMaestro: string;
-  firma: string;
-  descripcion: string;
+  firmaEntrega: string;
+  firmaRecibe: string;
+  descripcionEntrega: string;
+  descripcionRecibe: string;
   Uid: number;
   estado: string;
   region: string;
   marca: string;
   modelo: string;
   imei: string;
-  fecha: Date;
+  fechaRecibe: Date;
+  fechaEntrega: Date;
   usuarios: User;
 
 }
