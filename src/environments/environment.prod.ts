@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'http://185.137.92.54:3020/',
+  apiUrl: 'https://api.andrespublicidadmonitoreo.com/',
 };

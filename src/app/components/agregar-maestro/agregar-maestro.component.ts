@@ -10,7 +10,6 @@ import { PointGroup } from 'signature_pad';
 
 import {
   AngularSignaturePadModule,
-  NgSignaturePadOptions,
   SignaturePadComponent,
 } from '@almothafar/angular-signature-pad';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -56,18 +55,11 @@ export class AgregarMaestroComponent {
   private history: PointGroup[] = [];
   private future: PointGroup[] = [];
   @ViewChild('signature') signaturePad!: SignaturePadComponent;
-  public signaturePadOptions: NgSignaturePadOptions = {
-    minWidth: 1,
-    canvasWidth: 600,
-    canvasHeight: 400,
-    penColor: 'black',
-    backgroundColor: 'white',
-    dotSize: 1,
-    maxWidth: 1,
-    velocityFilterWeight: 1,
-  };
+  
+  
   constructor(private maestroService: MaestroService, private router: Router) {}
-
+  
+  
   drawComplete(event: MouseEvent | Touch) {
     console.log('Completed drawing', event);
     this.maestro.firmaEntrega = this.signaturePad.toDataURL();
@@ -83,7 +75,7 @@ export class AgregarMaestroComponent {
     /*   !this.maestro.nombre ||
       !this.maestro.apellido ||
       !this.maestro.NombreMaestro ||
-      !this.maestro.correo ||
+      !this.maestro.correo || 
       !this.maestro.cedula ||
      */
       !this.maestro.firmaEntrega 

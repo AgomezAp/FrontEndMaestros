@@ -93,11 +93,10 @@
           required
         ></textarea>
       </div>
-      <div class="form-group full-width">
+      <div class="form-group full-width signature-container">
         <label for="firmaEntrega">Firma <i class="fa-solid fa-signature"style="margin-left: 10px;"></i></label>
         <signature-pad
           #signature
-          [options]="signaturePadOptions"
           (drawStart)="drawStart($event)"
           (drawEnd)="drawComplete($event)"
           class="signature-pad"
