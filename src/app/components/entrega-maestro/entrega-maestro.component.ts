@@ -14,7 +14,6 @@ import { PointGroup } from 'signature_pad';
 
 import {
   AngularSignaturePadModule,
-  NgSignaturePadOptions,
   SignaturePadComponent,
 } from '@almothafar/angular-signature-pad';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -61,16 +60,6 @@ export class EntregaMaestroComponent implements OnInit {
   private history: PointGroup[] = [];
   private future: PointGroup[] = [];
   @ViewChild('signature') signaturePad!: SignaturePadComponent;
-  public signaturePadOptions: NgSignaturePadOptions = {
-    minWidth: 1,
-    canvasWidth: 800,
-    canvasHeight: 500,
-    penColor: 'black',
-    backgroundColor: 'white',
-    dotSize: 1,
-    maxWidth: 1,
-    velocityFilterWeight: 1,
-  };
 constructor(private maestroService: MaestroService, private router: Router, private route: ActivatedRoute) {}
  ngOnInit(): void {
   this.Mid = parseInt(this.route.snapshot.paramMap.get('Mid')!, 10);

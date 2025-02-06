@@ -147,7 +147,9 @@ export class DashboardComponent implements OnInit {
       confirmButtonText: 'Sí, Entregar',
       cancelButtonText: 'Cancelar'
     }).then((result) => {
-      this.router.navigate(['/entrega-maestro', Mid]);
+      if (result.isConfirmed) {
+        this.router.navigate(['/entrega-maestro', Mid]);
+      }
     });
   }
 }

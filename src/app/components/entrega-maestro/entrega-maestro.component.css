@@ -1,8 +1,9 @@
 /* Contenedor principal */
 .container {
   max-width: 800px;
-  margin: 0 auto;
-  padding: 20px;
+  margin: 20px auto;
+  padding: 15px 20px;
+  margin-top: 100px;
   background-color: #f9f9f9;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -13,6 +14,7 @@ h2 {
   text-align: center;
   margin-bottom: 20px;
   color: #333;
+  font-size: 1.8em;
 }
 
 /* Estilos para los grupos de formulario */
@@ -20,18 +22,6 @@ h2 {
   margin-bottom: 15px;
 }
 
-.signature-pad {
-  background-color: #ffffff; /* Fondo blanco */
-  border: 1px solid #dddddd; /* Borde gris claro */
-  border-radius: 5px; /* Bordes redondeados */
-  width: 100%;
-  height: 300px; /* Altura del área de firma */
-  box-sizing: border-box;
-  margin-bottom: 15px;
-  overflow: hidden; /* Evitar que el contenido se desborde */
-}
-
-/* Etiquetas de los campos */
 .form-group label {
   display: block;
   margin-bottom: 5px;
@@ -39,89 +29,112 @@ h2 {
   color: #555;
 }
 
-/* Campos de entrada de texto */
+/* Select y Textarea */
+.form-group select,
 .form-group input[type="text"],
 .form-group input[type="date"],
 .form-group textarea {
   width: 100%;
-  padding: 10px;
+  padding: 8px 10px;
   border: 1px solid #ccc;
   border-radius: 4px;
   box-sizing: border-box;
 }
 
-/* Campo de texto de solo lectura */
-.form-group input[readonly] {
-  background-color: #e9ecef;
-  cursor: not-allowed;
-}
-
 /* Área de texto */
 .form-group textarea {
   resize: vertical;
-  min-height: 100px;
+  min-height: 80px;
+}
+
+/* Contenedor del área de firma */
+.signature-container {
+  margin-bottom: 20px;
+}
+
+/* Área de firma */
+.signature-pad {
+  background-color: #ffffff; /* Fondo blanco */
+  border-radius: 5px; /* Bordes redondeados */
+  box-sizing: border-box;
+  overflow: hidden; /* Evitar que el contenido se desborde */
 }
 
 /* Contenedor de botones */
-.button-container {
+.btn-container {
   display: flex;
-  justify-content: center;
+  flex-wrap: wrap;
+  justify-content: space-between;
   gap: 10px;
-  margin-top: 20px;
+  margin-bottom: 15px;
 }
 
 /* Botones */
 button[type="submit"],
-button[type="button"] {
-  display: inline-block;
+button[type="button"],
+.btn-cancelar {
   padding: 10px 20px;
-  margin-top: 10px;
   border: none;
-  border-radius: 4px;
+  border-radius: 50px;
   cursor: pointer;
   font-size: 16px;
+  display: inline-block;
 }
 
-button[type="submit"] {
+/* Botón de enviar */
+.btn-agregar {
   background-color: #28a745;
-  border-radius: 50px;
-  color: white;
-  margin: 20px auto; /* Centrar el botón horizontalmente y agregar un margen superior */
-  margin-top: 30px;
+  color: #fff;
+  flex: 1 1 auto;
 }
 
-button[type="button"] {
+/* Botón limpiar firma */
+.btn-limpiar {
   background-color: #ffcc00;
-  border-radius: 50px;
-  color: white;
-  margin: 20px auto; /* Centrar el botón horizontalmente y agregar un margen superior */
-  margin-top: 30px;
+  color: #fff;
+  flex: 1 1 auto;
 }
 
+/* Botón cancelar */
 .btn-cancelar {
-  background-color: #dc3545 !important; /* Color rojo */
-  color: white;
-  border-radius: 50px;
-  text-align: center;
-  width: 50%; /* Ajusta el ancho según tus necesidades */
-  padding: 10px 20px; /* Ajusta el padding según tus necesidades */
-  margin: 20px auto; /* Centrar el botón horizontalmente y agregar un margen superior */
-  margin-top: 30px;
-  display: block; /* Asegura que el botón se comporte como un bloque */
-}
-
-/* Estilos para el área de firma */
-.signature-pad {
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  background-color: white;
+  background-color: #dc3545;
+  color: #fff;
   width: 100%;
-  height: 300px;
-  margin-top: 10px;
+  margin: 0 auto;
 }
 
-/* Estilos para el spinner de carga */
+/* Spinner de carga */
 app-spinner {
   display: block;
   margin: 20px auto;
+}
+
+/* Responsive: dispositivos medianos */
+@media (max-width: 768px) {
+  .container {
+    padding: 10px 15px;
+  }
+  h2 {
+    font-size: 1.6em;
+  }
+  .btn-container {
+    flex-direction: column;
+  }
+  button[type="submit"],
+  button[type="button"] {
+    width: 100%;
+  }
+}
+
+/* Responsive: dispositivos pequeños */
+@media (max-width: 480px) {
+  .container {
+    padding: 8px 10px;
+  }
+  h2 {
+    font-size: 1.4em;
+  }
+  .signature-pad {
+    height: 170px;
+  }
 }
