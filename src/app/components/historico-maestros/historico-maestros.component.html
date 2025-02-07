@@ -48,9 +48,10 @@
           <th>Modelo</th>
           <th>imei</th>
           <th>Persona a cargo</th>
+          <th>Persona que recibió</th>
           <th>Firma Entrega</th>
           <th>Firma Recibe</th>
-
+          <th scope="col">Acciones</th>
         </tr>
       </thead>
       <tbody>
@@ -68,9 +69,14 @@
           <td>{{ maestro.modelo }}</td>
           <td>{{ maestro.imei }}</td>
           <td>{{ maestro.usuarios.nombre }} {{ maestro.usuarios.apellido }}</td>
+          <td>{{ maestro.nombreCompletoRecibe}}</td>
           <td><img [src]="maestro.firmaEntrega" alt="Firma" width="100"></td>
           <td><img [src]="maestro.firmaRecibe" alt="Firma" width="100"></td>
-
+          <td>
+            <button *ngIf="maestro.estado === 'activo'" class="btn btn-danger action-button btn-eliminar" (click)="deleteMaestro(maestro.Mid)">
+              <i class="fa-solid fa-right-to-bracket"></i>Recibir 
+            </button>
+          </td>
           <!-- <td>
             <button *ngIf="maestro.estado === 'INACTIVO'" (click)="reactivarMaestro(maestro.Mid)" class="btn btn-primary">Reactivar</button>
           </td> -->

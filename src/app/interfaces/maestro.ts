@@ -10,6 +10,7 @@ export interface Maestro {
   descripcionEntrega: string;
   descripcionRecibe: string;
   Uid: number;
+  nombreCompletoRecibe: string;
   estado: string;
   region: string;
   marca: string;
@@ -30,6 +31,7 @@ export interface MaestroEdicion {
   descripcionEntrega: string;
   descripcionRecibe: string;
   Uid: number;
+  nombreCompletoRecibe: string;
   estado: string;
   region: string;
   marca: string;

@@ -33,16 +33,12 @@
 
     <!-- Área de Firma -->
     <div class="form-group full-width signature-container">
-      <label for="firmaEntrega">
-        Firma 
-        <i class="fa-solid fa-signature" style="margin-left: 10px"></i>
-      </label>
-      <signature-pad
-        #signature
-        (drawStart)="drawStart($event)"
-        (drawEnd)="drawComplete($event)"
-        class="signature-pad">
-      </signature-pad>
+      <label for="firmaRecibe"
+        >Firma <i class="fa-solid fa-signature" style="margin-left: 10px"></i
+      ></label>
+      <div class="form-group">
+        <canvas #signaturePad class="signature-pad"></canvas>
+      </div>
     </div>
 
     <!-- Botones -->

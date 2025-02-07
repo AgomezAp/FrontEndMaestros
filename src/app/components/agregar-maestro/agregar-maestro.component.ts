@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import {
   Component,
+  HostListener,
   ViewChild,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -8,10 +9,7 @@ import { Router } from '@angular/router';
 
 import { PointGroup } from 'signature_pad';
 
-import {
-  AngularSignaturePadModule,
-  SignaturePadComponent,
-} from '@almothafar/angular-signature-pad';
+import { AngularSignaturePadModule } from '@almothafar/angular-signature-pad';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 import { MaestroService } from '../../services/maestro.service';
@@ -54,12 +52,80 @@ export class AgregarMaestroComponent {
   isDrawn = false;
   private history: PointGroup[] = [];
   private future: PointGroup[] = [];
-  @ViewChild('signature') signaturePad!: SignaturePadComponent;
-  
+  @ViewChild('signaturePad') signaturePad!: any;
+  private canvas!: HTMLCanvasElement;
+  private ctx!: CanvasRenderingContext2D;
+  private drawing = false;
   
   constructor(private maestroService: MaestroService, private router: Router) {}
   
+  ngAfterViewInit(): void {
+    this.canvas = this.signaturePad.nativeElement;
+    this.ctx = this.canvas.getContext('2d')!;
+    this.resizeCanvas();
+    this.initCanvasEvents();
+  }
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any): void {
+    this.resizeCanvas();
+  }
   
+  resizeCanvas(): void {
+    const ratio = Math.max(window.devicePixelRatio || 1, 1);
+    this.canvas.width = this.canvas.offsetWidth * ratio;
+    this.canvas.height = this.canvas.offsetHeight * ratio;
+    this.ctx.scale(ratio, ratio);
+    this.clearSignature(); // Clear the canvas to avoid drawing issues
+  }
+
+  initCanvasEvents(): void {
+    this.canvas.addEventListener('mousedown', this.startDrawing.bind(this));
+    this.canvas.addEventListener('touchstart', this.startDrawing.bind(this));
+    this.canvas.addEventListener('mousemove', this.draw.bind(this));
+    this.canvas.addEventListener('touchmove', this.draw.bind(this));
+    this.canvas.addEventListener('mouseup', this.stopDrawing.bind(this));
+    this.canvas.addEventListener('touchend', this.stopDrawing.bind(this));
+  }
+
+  startDrawing(event: MouseEvent | TouchEvent): void {
+    this.drawing = true;
+    this.ctx.beginPath();
+    this.ctx.moveTo(this.getX(event), this.getY(event));
+  }
+
+  draw(event: MouseEvent | TouchEvent): void {
+    if (!this.drawing) return;
+    this.ctx.lineTo(this.getX(event), this.getY(event));
+    this.ctx.stroke();
+  }
+
+  stopDrawing(): void {
+    this.drawing = false;
+    this.ctx.closePath();
+    this.maestro.firmaEntrega = this.canvas.toDataURL();
+    this.isDrawn = true;
+  }
+
+  getX(event: MouseEvent | TouchEvent): number {
+    if (event instanceof MouseEvent) {
+      return event.offsetX;
+    } else {
+      const touch = event.touches[0];
+      const rect = this.canvas.getBoundingClientRect();
+      return touch.clientX - rect.left;
+    }
+  }
+
+  getY(event: MouseEvent | TouchEvent): number {
+    if (event instanceof MouseEvent) {
+      return event.offsetY;
+    } else {
+      const touch = event.touches[0];
+      const rect = this.canvas.getBoundingClientRect();
+      return touch.clientY - rect.top;
+    }
+  }
+
   drawComplete(event: MouseEvent | Touch) {
     console.log('Completed drawing', event);
     this.maestro.firmaEntrega = this.signaturePad.toDataURL();
@@ -99,12 +165,17 @@ export class AgregarMaestroComponent {
       }
     );
   }
-  clearSignature() {
+  clearSignature(): void {
+    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    this.isDrawn = false;
+  }
+
+/*   clearSignature() {
     this.signaturePad.clear(); // Limpiar la firma
     this.history = []; // Limpiar el historial
     this.future = []; // Limpiar el futuro
   }
-
+ */
   undo() {
     const data = this.signaturePad.toData();
     if (data.length) {

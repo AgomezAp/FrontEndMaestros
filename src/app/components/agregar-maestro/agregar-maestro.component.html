@@ -3,13 +3,13 @@
   <form (ngSubmit)="onSubmit()">
     <div class="form-grid">
       <div class="form-group">
-        <label for="nombre">Monitor<i class="fa-solid fa-map-location"style="margin-left: 10px;"></i></label>
-        <select
-          id="nombre"
-          [(ngModel)]="maestro.nombre"
-          name="nombre"
-          required
-        >
+        <label for="nombre"
+          >Monitor<i
+            class="fa-solid fa-map-location"
+            style="margin-left: 10px"
+          ></i
+        ></label>
+        <select id="nombre" [(ngModel)]="maestro.nombre" name="nombre" required>
           <option value="" disabled selected>Seleccione un Monitor</option>
           <option value="Luisa-rodriguez">Luisa Rodriguez</option>
           <option value="Carmen">Carmen</option>
@@ -25,7 +25,7 @@
           <option value="Oficina">Oficina</option>
         </select>
       </div>
-    
+
       <div class="form-group">
         <label for="NombreMaestro">Nombre Maestro</label>
         <input
@@ -38,14 +38,13 @@
       </div>
 
       <div class="form-group">
-        
-        <label for="region">Región de operación<i class="fa-solid fa-map-location"style="margin-left: 10px;"></i></label>
-        <select
-          id="region"
-          [(ngModel)]="maestro.region"
-          name="region"
-          required
-        >
+        <label for="region"
+          >Región de operación<i
+            class="fa-solid fa-map-location"
+            style="margin-left: 10px"
+          ></i
+        ></label>
+        <select id="region" [(ngModel)]="maestro.region" name="region" required>
           <option value="" disabled selected>Seleccione una región</option>
           <option value="Chile">Chile</option>
           <option value="Ecuador">Ecuador</option>
@@ -58,7 +57,9 @@
         </select>
       </div>
       <div class="form-group">
-        <label for="marca">Marca Celular <i class="fa-solid fa-mobile"></i></label>
+        <label for="marca"
+          >Marca Celular <i class="fa-solid fa-mobile"></i
+        ></label>
         <input
           type="text"
           id="marca"
@@ -77,12 +78,7 @@
       </div>
       <div class="form-group">
         <label for="imei">Imei</label>
-        <input
-          type="text"
-          id="imei"
-          [(ngModel)]="maestro.imei"
-          name="imei"
-        />
+        <input type="text" id="imei" [(ngModel)]="maestro.imei" name="imei" />
       </div>
       <div class="form-group full-width">
         <label for="descripcionEntrega">Descripción</label>
@@ -94,21 +90,25 @@
         ></textarea>
       </div>
       <div class="form-group full-width signature-container">
-        <label for="firmaEntrega">Firma <i class="fa-solid fa-signature"style="margin-left: 10px;"></i></label>
-        <signature-pad
-          #signature
-          (drawStart)="drawStart($event)"
-          (drawEnd)="drawComplete($event)"
-          class="signature-pad"
-        >
-        </signature-pad>
+        <label for="firmaEntrega"
+          >Firma <i class="fa-solid fa-signature" style="margin-left: 10px"></i
+        ></label>
+        <div class="form-group">
+          <canvas #signaturePad class="signature-pad"></canvas>
+        </div>
       </div>
     </div>
     <div class="btn-container">
-      <button type="button" class="btn-limpiar" (click)="undo()">
-        Limpiar Firma <i class="fa-solid fa-delete-left"style="margin-left: 5px;"></i>
+      <button type="button" class="btn-limpiar" (click)="clearSignature()">
+        Limpiar Firma
+        <i class="fa-solid fa-delete-left" style="margin-left: 5px"></i>
       </button>
-      <button type="submit" class="btn-agregar">Agregar Maestro<i class="fa-solid fa-user-plus"style="margin-left: 10px;"></i> </button>
+      <button type="submit" class="btn-agregar">
+        Agregar Maestro<i
+          class="fa-solid fa-user-plus"
+          style="margin-left: 10px"
+        ></i>
+      </button>
     </div>
   </form>
   <div *ngIf="errorMessage" class="error-message">
@@ -118,8 +118,7 @@
     {{ successMessage }}
   </div>
   <button type="button" class="btn-cancelar" (click)="navigateToDashboard()">
-    Cancelar <i class="fa-solid fa-xmark"style="margin-left: 10px;"></i>
-  </button> 
+    Cancelar <i class="fa-solid fa-xmark" style="margin-left: 10px"></i>
+  </button>
   <app-spinner *ngIf="loading"></app-spinner>
-
 </div>

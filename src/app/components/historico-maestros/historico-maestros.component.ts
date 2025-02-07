@@ -10,6 +10,7 @@ import {
   OnInit,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 
 import { ToastrService } from 'ngx-toastr';
 import Swal from 'sweetalert2';
@@ -57,7 +58,7 @@ export class HistoricoMaestrosComponent implements OnInit {
   filtroFechaRecibido: string = '';
   totalMaestrosFiltrados: number = 0;
 
-  constructor(private maestroService: MaestroService,private toastr: ToastrService) {}
+  constructor(private maestroService: MaestroService,private toastr: ToastrService,private router: Router,) {}
 
   ngOnInit(): void {
     this.obtenerHistoricoMaestros();
@@ -170,4 +171,20 @@ export class HistoricoMaestrosComponent implements OnInit {
       this.currentPage--;
     }
   }
+   deleteMaestro(Mid: number): void {
+      Swal.fire({
+        title: '¿Estás segura?',
+        text: 'Esta acción es irreparable',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí, Entregar',
+        cancelButtonText: 'Cancelar'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.router.navigate(['/entrega-maestro', Mid]);
+        }
+      });
+    }
 }

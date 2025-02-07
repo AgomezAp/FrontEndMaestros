@@ -16,5 +16,6 @@ export interface MaestroEntregado {
   fechaRecibe: Date;
   fechaEntrega: Date;
   usuarios: User;
+  UidRecibe: number;
 
 }
