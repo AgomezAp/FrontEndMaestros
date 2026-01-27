@@ -1,0 +1,342 @@
+/* ==========================================
+   TRAZABILIDAD COMPONENT - ESTILOS
+   ========================================== */
+
+.trazabilidad-container {
+  padding: 20px;
+  max-width: 900px;
+  margin: 0 auto;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Header */
+.header-section {
+  margin-bottom: 30px;
+}
+
+.btn-volver {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  background: #f5f5f5;
+  color: #333;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 15px;
+  transition: all 0.3s ease;
+}
+
+.btn-volver:hover {
+  background: #e0e0e0;
+}
+
+.header-section h1 {
+  color: #7b1fa2;
+  font-size: 1.8rem;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Loading y errores */
+.loading, .error-message, .sin-movimientos {
+  text-align: center;
+  padding: 60px;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.loading i, .sin-movimientos i {
+  font-size: 3rem;
+  color: #7b1fa2;
+  margin-bottom: 15px;
+}
+
+.error-message {
+  background: #ffebee;
+  color: #c62828;
+}
+
+.sin-movimientos {
+  color: #999;
+}
+
+/* Tarjeta del dispositivo */
+.dispositivo-card {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+  background: white;
+  border-radius: 16px;
+  padding: 25px;
+  margin-bottom: 30px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+  border-left: 5px solid #7b1fa2;
+}
+
+.disp-icon {
+  width: 80px;
+  height: 80px;
+  background: linear-gradient(135deg, #f3e5f5, #e1bee7);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.disp-icon i {
+  font-size: 2.5rem;
+  color: #7b1fa2;
+}
+
+.disp-info {
+  flex: 1;
+}
+
+.disp-info h2 {
+  margin: 0 0 8px;
+  color: #333;
+}
+
+.disp-detalles {
+  color: #666;
+  margin: 0 0 8px;
+}
+
+.disp-detalles span:not(:last-child)::after {
+  content: ' • ';
+  color: #ccc;
+}
+
+.disp-serial {
+  font-family: monospace;
+  color: #888;
+  margin: 5px 0;
+  font-size: 0.9rem;
+}
+
+.disp-estado {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+}
+
+.estado-badge {
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.estado-disponible { background: #e8f5e9; color: #2e7d32; }
+.estado-entregado { background: #fff3e0; color: #ef6c00; }
+.estado-danado { background: #ffebee; color: #c62828; }
+.estado-perdido { background: #fce4ec; color: #ad1457; }
+.estado-obsoleto { background: #f3e5f5; color: #7b1fa2; }
+
+.ubicacion {
+  color: #666;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.ubicacion i {
+  color: #f44336;
+}
+
+/* Timeline Section */
+.timeline-section {
+  background: white;
+  border-radius: 16px;
+  padding: 25px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.timeline-section h3 {
+  color: #7b1fa2;
+  margin: 0 0 25px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Timeline */
+.timeline {
+  position: relative;
+  padding-left: 40px;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 15px;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: #e0e0e0;
+  border-radius: 2px;
+}
+
+.timeline-item {
+  position: relative;
+  margin-bottom: 30px;
+}
+
+.timeline-item:last-child {
+  margin-bottom: 0;
+}
+
+/* Marcador del timeline */
+.timeline-marker {
+  position: absolute;
+  left: -40px;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: white;
+  border: 3px solid #e0e0e0;
+  z-index: 1;
+}
+
+.timeline-marker i {
+  font-size: 0.9rem;
+}
+
+/* Colores por tipo de movimiento */
+.mov-ingreso .timeline-marker {
+  border-color: #4CAF50;
+  background: #e8f5e9;
+}
+.mov-ingreso .timeline-marker i { color: #4CAF50; }
+
+.mov-prestamo .timeline-marker {
+  border-color: #FF9800;
+  background: #fff3e0;
+}
+.mov-prestamo .timeline-marker i { color: #FF9800; }
+
+.mov-devolucion .timeline-marker {
+  border-color: #2196F3;
+  background: #e3f2fd;
+}
+.mov-devolucion .timeline-marker i { color: #2196F3; }
+
+.mov-cambio .timeline-marker {
+  border-color: #9c27b0;
+  background: #f3e5f5;
+}
+.mov-cambio .timeline-marker i { color: #9c27b0; }
+
+.mov-actualizacion .timeline-marker {
+  border-color: #607d8b;
+  background: #eceff1;
+}
+.mov-actualizacion .timeline-marker i { color: #607d8b; }
+
+.mov-baja .timeline-marker {
+  border-color: #f44336;
+  background: #ffebee;
+}
+.mov-baja .timeline-marker i { color: #f44336; }
+
+/* Contenido del timeline */
+.timeline-content {
+  background: #f9f9f9;
+  border-radius: 12px;
+  padding: 18px;
+  margin-left: 10px;
+}
+
+.timeline-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.mov-tipo {
+  font-weight: 700;
+  color: #333;
+}
+
+.mov-fecha {
+  font-size: 0.85rem;
+  color: #888;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.mov-descripcion {
+  color: #555;
+  margin: 0 0 10px;
+  line-height: 1.5;
+}
+
+.mov-estados {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.85rem;
+}
+
+.estado-anterior {
+  background: #ffcdd2;
+  color: #c62828;
+  padding: 4px 10px;
+  border-radius: 12px;
+}
+
+.estado-nuevo {
+  background: #c8e6c9;
+  color: #2e7d32;
+  padding: 4px 10px;
+  border-radius: 12px;
+}
+
+.mov-estados i {
+  color: #999;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .dispositivo-card {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .disp-estado {
+    align-items: center;
+  }
+  
+  .timeline {
+    padding-left: 30px;
+  }
+  
+  .timeline-marker {
+    left: -30px;
+    width: 28px;
+    height: 28px;
+  }
+  
+  .timeline-marker i {
+    font-size: 0.75rem;
+  }
+  
+  .timeline-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

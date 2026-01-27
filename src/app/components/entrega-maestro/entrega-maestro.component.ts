@@ -37,19 +37,21 @@ import { NavbarComponent } from '../navbar/navbar.component';
 })
 export class EntregaMaestroComponent implements OnInit {
   maestro: any = {
-    nombre: '',
-    NombreMaestro: '',
-    maestroRecibe: '',
-    firmaRecibe: '',
-    descripcionRecibe: '',
-    estado: 'Entregado',
-    marca:'',
-    modelo:'',
-    imei:'',
-    fechaEntrega: new Date(),
+    analistaAsignado: '',
+    Aid: null,
+    firmaEntrega: '',
+    descripcionEntrega: '',
+    fotosEntrega: [],
+    estado: 'en_uso',
+    almacen: 'Principal',
+    fechaSalida: new Date(),
     Uid: localStorage.getItem('userId'),
-    nombreCompletoRecibe: localStorage.getItem('nombreCompleto'),
   };
+  
+  celularesDisponibles: any[] = [];
+  celularSeleccionado: any = null;
+  analistas: any[] = [];
+  
   loading: boolean = false;
   errorMessage: string = '';
   successMessage: string = '';
@@ -64,9 +66,11 @@ export class EntregaMaestroComponent implements OnInit {
   private drawing = false;
   
 constructor(private maestroService: MaestroService, private router: Router, private route: ActivatedRoute) {}
+ 
  ngOnInit(): void {
-  this.Mid = parseInt(this.route.snapshot.paramMap.get('Mid')!, 10);
-}
+    this.cargarCelularesDisponibles();
+    this.cargarAnalistas();
+  }
  
   ngAfterViewInit(): void {
     this.canvas = this.signaturePad.nativeElement;
@@ -138,59 +142,124 @@ constructor(private maestroService: MaestroService, private router: Router, priv
     this.isDrawn = false;
   }
 
- onSubmit() {
-  this.loading= true;
-
-  this.maestroService.BorrarMaestroId(this.Mid,this.maestro).subscribe(
-    (response) => {
-      this.successMessage = 'Entrega del maestro hecha con éxito';
-      this.errorMessage = '';
-      this.router.navigate(['/dashBoard']);
-      this.loading= true;
-      // Redirigir o limpiar el formulario si es necesario
-    },
-    (error) => {
-      this.errorMessage =
-        error.error.msg || 'Problemas al hacer la entrega del maestro';
-      this.successMessage = '';
+  onSubmit(): void {
+    this.maestro.firmaEntrega = this.signaturePad.toDataURL();
+    
+    if (!this.celularSeleccionado) {
+      this.errorMessage = 'Debe seleccionar un celular';
+      return;
     }
-  );
-}
- drawComplete(event: MouseEvent | Touch) {
-  console.log('Completed drawing', event);
-  this.maestro.firmaRecibe = this.signaturePad.toDataURL();
-  this.isDrawn = true;
-}
+    
+    if (!this.maestro.analistaAsignado) {
+      this.errorMessage = 'Debe ingresar el nombre de la analista';
+      return;
+    }
 
-drawStart(event: MouseEvent | Touch) {
-  console.log('Start drawing', event);
-}
+    this.loading = true;
+    
+    // Preparar datos para enviar
+    const datosEntrega = {
+      analistaAsignado: this.maestro.analistaAsignado,
+      Aid: this.maestro.Aid,
+      firmaEntrega: this.maestro.firmaEntrega,
+      descripcionEntrega: this.maestro.descripcionEntrega,
+      fotosEntrega: this.maestro.fotosEntrega,
+      fechaSalida: this.maestro.fechaSalida,
+      Uid: this.maestro.Uid,
+    };
 
+    this.maestroService.BorrarMaestroId(this.celularSeleccionado.Mid, datosEntrega).subscribe(
+      (response) => {
+        this.successMessage = 'Celular entregado con éxito a ' + this.maestro.analistaAsignado;
+        this.errorMessage = '';
+        setTimeout(() => {
+          this.router.navigate(['/consolidado-celulares']);
+        }, 1500);
+        this.loading = false;
+      },
+      (error) => {
+        this.errorMessage =
+          error.error.msg || 'Problemas al hacer la entrega del celular';
+        this.successMessage = '';
+        this.loading = false;
+      }
+    );
+  }
 
-navigateToDashboard(): void {
-  this.router.navigate(['/dashBoard']);
-}
+  cargarCelularesDisponibles(): void {
+    this.loading = true;
+    this.maestroService.ObtenerMaestrosActivos().subscribe(
+      (response: any) => {
+        this.celularesDisponibles = response.filter((c: any) => c.estado === 'disponible');
+        this.loading = false;
+      },
+      (error) => {
+        this.errorMessage = 'Error al cargar celulares disponibles';
+        this.loading = false;
+      }
+    );
+  }
 
-undo() {
-  const data = this.signaturePad.toData();
-  if (data.length) {
-    const lastAction = data.pop();
-    if (lastAction) {
-      this.future.push(lastAction); // Mover la última acción al futuro
-      this.signaturePad.fromData(data); // Restaurar el estado anterior
+  cargarAnalistas(): void {
+    // Por ahora usamos un array estático, luego se puede conectar con el servicio de analistas
+    this.analistas = [
+      { Aid: 1, nombre: 'Karen', apellido: '' },
+      { Aid: 2, nombre: 'Ana', apellido: '' },
+      { Aid: 3, nombre: 'Valentina', apellido: '' },
+      { Aid: 4, nombre: 'Mafe', apellido: '' },
+      { Aid: 5, nombre: 'Angelina Peña', apellido: '' }
+    ];
+  }
+
+  onCelularChange(event: any): void {
+    const Mid = parseInt(event.target.value);
+    this.celularSeleccionado = this.celularesDisponibles.find(c => c.Mid === Mid);
+  }
+
+  onAnalistaChange(event: any): void {
+    const analistaNombre = event.target.value;
+    const analista = this.analistas.find(a => a.nombre === analistaNombre);
+    if (analista) {
+      this.maestro.Aid = analista.Aid;
+      this.maestro.analistaAsignado = analista.nombre;
     }
   }
-}
-redo() {
-  if (this.future.length) {
+
+  drawComplete(event: MouseEvent | Touch): void {
+    console.log('Completed drawing', event);
+    this.maestro.firmaRecibe = this.signaturePad.toDataURL();
+    this.isDrawn = true;
+  }
+
+  drawStart(event: MouseEvent | Touch): void {
+    console.log('Start drawing', event);
+  }
+
+  navigateToDashboard(): void {
+    this.router.navigate(['/consolidado-celulares']);
+  }
+
+  undo(): void {
     const data = this.signaturePad.toData();
-    const nextAction = this.future.pop();
-    if (nextAction) {
-      data.push(nextAction); // Mover la última acción del futuro al historial
-      this.signaturePad.fromData(data); // Restaurar el estado
+    if (data.length) {
+      const lastAction = data.pop();
+      if (lastAction) {
+        this.future.push(lastAction);
+        this.signaturePad.fromData(data);
+      }
     }
   }
-}
+
+  redo(): void {
+    if (this.future.length) {
+      const data = this.signaturePad.toData();
+      const nextAction = this.future.pop();
+      if (nextAction) {
+        data.push(nextAction);
+        this.signaturePad.fromData(data);
+      }
+    }
+  }
 
 
 

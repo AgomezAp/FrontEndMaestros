@@ -1,0 +1,225 @@
+<div class="crear-acta-container">
+  <div class="form-card">
+    <div class="form-header">
+      <h1><i class="fa-solid fa-file-signature"></i> Crear Acta de Entrega</h1>
+      <p>Registra la entrega de dispositivos con firma digital</p>
+    </div>
+
+    <!-- Mensajes -->
+    <div class="mensaje error" *ngIf="errorMessage">
+      <i class="fa-solid fa-exclamation-circle"></i> {{ errorMessage }}
+    </div>
+    
+    <div class="mensaje success" *ngIf="successMessage">
+      <i class="fa-solid fa-check-circle"></i> {{ successMessage }}
+    </div>
+
+    <form (ngSubmit)="crearActa()" class="form-content">
+      <!-- Datos del receptor -->
+      <div class="form-section">
+        <h3><i class="fa-solid fa-user"></i> Datos del receptor</h3>
+        
+        <div class="form-row two-cols">
+          <div class="form-group">
+            <label for="nombre">Nombre completo *</label>
+            <input 
+              type="text" 
+              id="nombre" 
+              [(ngModel)]="receptor.nombre" 
+              name="nombre"
+              placeholder="Nombre de quien recibe"
+              required
+            />
+          </div>
+          
+          <div class="form-group">
+            <label for="cargo">Cargo *</label>
+            <input 
+              type="text" 
+              id="cargo" 
+              [(ngModel)]="receptor.cargo" 
+              name="cargo"
+              placeholder="Cargo o posición"
+              required
+            />
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label for="correo">Correo electrónico</label>
+          <input 
+            type="email" 
+            id="correo" 
+            [(ngModel)]="receptor.correo" 
+            name="correo"
+            placeholder="correo@ejemplo.com"
+          />
+        </div>
+      </div>
+
+      <!-- Selección de dispositivos -->
+      <div class="form-section">
+        <h3><i class="fa-solid fa-boxes-stacked"></i> Dispositivos a entregar</h3>
+        
+        <!-- Dispositivos disponibles -->
+        <div class="dispositivos-disponibles">
+          <label>Seleccionar dispositivos disponibles:</label>
+          
+          <div class="loading-inline" *ngIf="loadingDispositivos">
+            <i class="fa-solid fa-spinner fa-spin"></i> Cargando...
+          </div>
+          
+          <div class="lista-disponibles" *ngIf="!loadingDispositivos && dispositivosDisponibles.length > 0">
+            <div 
+              class="dispositivo-disponible" 
+              *ngFor="let disp of dispositivosDisponibles"
+              (click)="agregarDispositivo(disp)"
+            >
+              <i class="fa-solid" [ngClass]="getCategoriaIcon(disp.categoria)"></i>
+              <div class="disp-info">
+                <strong>{{ disp.nombre }}</strong>
+                <span>{{ disp.marca }} {{ disp.modelo }}</span>
+                <span class="identificadores">
+                  <span *ngIf="disp.imei" class="imei">IMEI: {{ disp.imei }}</span>
+                  <span *ngIf="disp.serial" class="serial">S/N: {{ disp.serial }}</span>
+                </span>
+              </div>
+              <button type="button" class="btn-agregar-disp">
+                <i class="fa-solid fa-plus"></i>
+              </button>
+            </div>
+          </div>
+          
+          <div class="sin-disponibles" *ngIf="!loadingDispositivos && dispositivosDisponibles.length === 0">
+            <i class="fa-solid fa-inbox"></i>
+            <p>No hay dispositivos disponibles</p>
+          </div>
+        </div>
+
+        <!-- Dispositivos seleccionados -->
+        <div class="dispositivos-seleccionados" *ngIf="dispositivosSeleccionados.length > 0">
+          <label>Dispositivos seleccionados ({{ dispositivosSeleccionados.length }}):</label>
+          
+          <div class="lista-seleccionados">
+            <div class="dispositivo-seleccionado" *ngFor="let item of dispositivosSeleccionados; let i = index">
+              <div class="disp-header">
+                <div class="disp-titulo">
+                  <i class="fa-solid" [ngClass]="getCategoriaIcon(item.dispositivo.categoria)"></i>
+                  <div>
+                    <strong>{{ item.dispositivo.nombre }}</strong>
+                    <span>{{ item.dispositivo.marca }} {{ item.dispositivo.modelo }}</span>
+                    <span class="identificador" *ngIf="item.dispositivo.imei">IMEI: {{ item.dispositivo.imei }}</span>
+                    <span class="identificador" *ngIf="item.dispositivo.serial">S/N: {{ item.dispositivo.serial }}</span>
+                  </div>
+                </div>
+                <button type="button" class="btn-quitar" (click)="quitarDispositivo(i)">
+                  <i class="fa-solid fa-times"></i>
+                </button>
+              </div>
+              
+              <div class="disp-detalles">
+                <div class="form-row two-cols">
+                  <div class="form-group">
+                    <label>Condición al entregar</label>
+                    <select [(ngModel)]="item.condicion" [name]="'condicion_' + i">
+                      <option *ngFor="let cond of condiciones" [value]="cond.value">
+                        {{ cond.label }}
+                      </option>
+                    </select>
+                  </div>
+                  
+                  <div class="form-group">
+                    <label>Observaciones</label>
+                    <input 
+                      type="text" 
+                      [(ngModel)]="item.observaciones" 
+                      [name]="'obs_' + i"
+                      placeholder="Observaciones del dispositivo"
+                    />
+                  </div>
+                </div>
+                
+                <!-- Fotos del dispositivo -->
+                <div class="fotos-dispositivo">
+                  <label>
+                    <i class="fa-solid fa-camera"></i> Fotos del estado actual
+                    <input 
+                      type="file" 
+                      multiple 
+                      accept="image/*"
+                      (change)="onFotosSelected($event, i)"
+                    />
+                  </label>
+                  
+                  <div class="fotos-preview" *ngIf="item.fotosPreview.length > 0">
+                    <div class="foto-mini" *ngFor="let foto of item.fotosPreview; let fi = index">
+                      <img [src]="foto" alt="Foto" />
+                      <button type="button" (click)="eliminarFoto(i, fi)">
+                        <i class="fa-solid fa-times"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Observaciones generales -->
+      <div class="form-section">
+        <h3><i class="fa-solid fa-comment"></i> Observaciones de la entrega</h3>
+        <div class="form-group">
+          <textarea 
+            [(ngModel)]="observacionesEntrega" 
+            name="observaciones"
+            rows="3"
+            placeholder="Observaciones generales sobre la entrega..."
+          ></textarea>
+        </div>
+      </div>
+
+      <!-- Firma digital -->
+      <div class="form-section">
+        <h3><i class="fa-solid fa-signature"></i> Firma del receptor *</h3>
+        
+        <div class="firma-container">
+          <canvas 
+            #signaturePadCanvas 
+            class="signature-pad"
+            (mouseup)="onFirmaEnd()"
+            (touchend)="onFirmaEnd()"
+          ></canvas>
+          
+          <div class="firma-actions">
+            <button type="button" class="btn-limpiar" (click)="limpiarFirma()">
+              <i class="fa-solid fa-eraser"></i> Limpiar firma
+            </button>
+            <span class="firma-status" [class.firmado]="firmado">
+              <i class="fa-solid" [ngClass]="firmado ? 'fa-check-circle' : 'fa-circle'"></i>
+              {{ firmado ? 'Firmado' : 'Pendiente de firma' }}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Resumen -->
+      <div class="resumen-entrega" *ngIf="dispositivosSeleccionados.length > 0">
+        <h4>Resumen de la entrega</h4>
+        <p><strong>Receptor:</strong> {{ receptor.nombre || '-' }} ({{ receptor.cargo || '-' }})</p>
+        <p><strong>Dispositivos:</strong> {{ dispositivosSeleccionados.length }}</p>
+      </div>
+
+      <!-- Botones -->
+      <div class="form-actions">
+        <button type="button" class="btn-cancelar" (click)="cancelar()">
+          <i class="fa-solid fa-times"></i> Cancelar
+        </button>
+        <button type="submit" class="btn-crear" [disabled]="loading">
+          <i class="fa-solid" [ngClass]="loading ? 'fa-spinner fa-spin' : 'fa-file-signature'"></i>
+          {{ loading ? 'Creando acta...' : 'Crear Acta de Entrega' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

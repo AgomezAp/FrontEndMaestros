@@ -1,23 +1,15 @@
 import { Routes } from '@angular/router';
 
-import {
-  AgregarMaestroComponent,
-} from './components/agregar-maestro/agregar-maestro.component';
-import { DashboardComponent } from './components/dashboard/dashboard.component';
-import {
-  EntregaMaestroComponent,
-} from './components/entrega-maestro/entrega-maestro.component';
-import {
-  HistoricoMaestrosComponent,
-} from './components/historico-maestros/historico-maestros.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
-import {
-  ResetPasswordComponent,
-} from './components/reset-password/reset-password.component';
-import {
-  VerMaestrosActivosComponent,
-} from './components/ver-maestros-activos/ver-maestros-activos.component';
+import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
+import { InventarioComponent } from './components/inventario/inventario.component';
+import { AgregarDispositivoComponent } from './components/agregar-dispositivo/agregar-dispositivo.component';
+import { CrearActaComponent } from './components/crear-acta/crear-acta.component';
+import { ActasComponent } from './components/actas/actas.component';
+import { TrazabilidadComponent } from './components/trazabilidad/trazabilidad.component';
+import { DetalleDispositivoComponent } from './components/detalle-dispositivo/detalle-dispositivo.component';
+import { ActaDevolucionComponent } from './components/acta-devolucion/acta-devolucion.component';
 
 export const routes: Routes = [
   {
@@ -37,23 +29,35 @@ export const routes: Routes = [
     component: ResetPasswordComponent,
   },
   {
-    path: 'dashBoard',
-    component: DashboardComponent,
+    path: 'inventario',
+    component: InventarioComponent,
   },
   {
-    path: 'agregarMaestro',
-    component: AgregarMaestroComponent,
+    path: 'agregar-dispositivo',
+    component: AgregarDispositivoComponent,
   },
   {
-    path: 'ObtenerMaestrosActivos',
-    component: VerMaestrosActivosComponent,
+    path: 'crear-acta',
+    component: CrearActaComponent,
   },
   {
-    path: 'ver-historico-maestros',
-    component: HistoricoMaestrosComponent,
+    path: 'actas',
+    component: ActasComponent,
   },
   {
-    path: 'entrega-maestro/:Mid',
-    component: EntregaMaestroComponent
+    path: 'trazabilidad/:id',
+    component: TrazabilidadComponent,
+  },
+  {
+    path: 'dispositivo/:id',
+    component: DetalleDispositivoComponent,
+  },
+  {
+    path: 'acta-devolucion',
+    component: ActaDevolucionComponent,
+  },
+  {
+    path: '**',
+    redirectTo: 'inventario'
   }
 ];

@@ -1,200 +1,532 @@
-html, body {
-  background-color: #e0f7fa; /* Fondo suave */
-  overflow-y: auto; 
-}
-.fade-enter-active, .fade-leave-active {
-  transition: opacity 0.5s;
-}
-.filter-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-bottom: 20px;
+/* ========================================
+   HISTÓRICO DE CELULARES - ESTILOS
+   ======================================== */
+
+/* Contenedor principal */
+.historico-container {
+  min-height: 100vh;
+  background-color: #f5f5f5;
+  padding: 24px 20px;
+  font-family:
+    "Fira Sans",
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
 }
 
-.fade-enter, .fade-leave-to /* .fade-leave-active in <2.1.8 */ {
-  opacity: 0;
+/* ========================================
+   HEADER / TÍTULO
+   ======================================== */
+.historico-header {
+  margin-bottom: 24px;
 }
-#app-root {
-  min-height: 100%;
+
+.historico-title {
+  color: #141414;
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin: 0 0 8px 0;
+  padding-bottom: 8px;
+  position: relative;
+  display: inline-block;
 }
-.historico-maestros-container {
-  padding: 20px;
-  background-color: rgba(255, 255, 255, 0.95); /* Fondo blanco semitransparente */
+
+.historico-title::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 60px;
+  height: 3px;
+  background-color: #ffd600;
+  border-radius: 9999px;
+}
+
+.historico-total {
+  color: #616161;
+  font-size: 0.9375rem;
+  margin: 0;
+}
+
+.historico-total strong {
+  color: #141414;
+  font-weight: 600;
+}
+
+/* ========================================
+   CARD DE FILTROS
+   ======================================== */
+.filter-card {
+  background-color: #ffffff;
   border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  max-width: 90%;
-  margin: 20px auto;
-  margin-top: 80px;
+  padding: 20px;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 6px rgba(20, 20, 20, 0.1);
+  border: 1px solid #e0e0e0;
+  position: relative;
 }
 
-.historico-maestros-container h2 {
-  text-align: center;
-  margin-bottom: 20px;
-  color: #333;
+.filter-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 20px;
+  right: 20px;
+  height: 3px;
+  background: linear-gradient(90deg, #ffd600, transparent);
+  border-radius: 10px 10px 0 0;
 }
 
-.filters {
+.filter-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+}
+
+.filter-group {
   display: flex;
-  justify-content: space-around;
-  margin-bottom: 20px;
+  flex-direction: column;
+  gap: 6px;
 }
 
-.filters label {
-  margin-right: 10px;
-  color: #333;
+.filter-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #616161;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
 }
 
-.filters input, .filters select {
-  padding: 5px;
-  border: 1px solid #dddddd;
-  border-radius: 5px;
-  font-size: 14px;
+.filter-input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  background-color: #ffffff;
+  color: #141414;
+  font-family: inherit;
+  font-size: 0.875rem;
+  transition: all 150ms ease-in-out;
 }
 
-.table-responsive {
+.filter-input:focus {
+  outline: none;
+  border-color: #ffd600;
+  box-shadow: 0 0 0 3px rgba(255, 214, 0, 0.25);
+}
+
+.filter-input::placeholder {
+  color: #9e9e9e;
+}
+
+/* ========================================
+   CARD DE LA TABLA
+   ======================================== */
+.table-card {
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(20, 20, 20, 0.1);
+  border: 1px solid #e0e0e0;
+  overflow: hidden;
+  margin-bottom: 24px;
+}
+
+.table-wrapper {
   overflow-x: auto;
 }
 
-.table {
+/* ========================================
+   TABLA
+   ======================================== */
+.data-table {
   width: 100%;
-  border-collapse: collapse; /* Sin espaciado entre filas */
-  margin-bottom: 20px;
-  background-color: #fff;
-  border-radius: 10px;
-  overflow: hidden;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  border-collapse: collapse;
+  min-width: 1600px; /* Más ancha por más columnas */
 }
 
-.table th, .table td {
-  padding: 12px 15px;
+/* Header de la tabla */
+.table-head {
+  background-color: #141414;
+}
+
+.th-cell {
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 0.6875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 12px 8px;
   text-align: left;
-  border: 1px solid #dddddd;
+  white-space: nowrap;
+  border-bottom: 3px solid #ffd600;
 }
 
-.table th {
-  background-color: #b1acacbe; /* Color de encabezado gris claro */
-  color: #333;
-  font-weight: bold;
+.th-cell:first-child {
+  padding-left: 16px;
 }
 
-.table tbody tr {
-  transition: background-color 0.3s ease;
-}
-
-.table tbody tr:hover {
-  background-color: #e0f7fa; /* Color de fondo al pasar el mouse */
-}
-
-.table img {
-  border-radius: 5px;
-}
-
-.pagination-container {
+.th-actions {
   text-align: center;
-  margin-top: 20px;
+  padding-right: 16px;
 }
 
-.pagination-container .btn-pagination {
-  margin: 0 5px;
-  padding: 5px 10px;
-  font-size: 16px;
-  background-color: #007BFF; /* Color de fondo */
-  color: white;
-  border: none;
-  border-radius: 20px; /* Bordes redondeados */
-  transition: background-color 0.3s ease, transform 0.3s ease;
+/* Cuerpo de la tabla */
+.table-body {
+  background-color: #ffffff;
 }
 
-.pagination-container .btn-pagination:hover {
-  background-color: #0056b3; /* Color de fondo al pasar el mouse */
-  transform: scale(1.1);
+.table-row {
+  background-color: #ffffff;
+  border-bottom: 1px solid #e0e0e0;
+  transition: background-color 150ms ease-in-out;
 }
 
-.pagination-container .btn-pagination:disabled {
-  background-color: #cccccc;
-  cursor: not-allowed;
+.table-row:last-child {
+  border-bottom: none;
 }
-.descripcion-col {
-  max-width: 200px; /* Ajusta este valor según tus necesidades */
-  max-height: 100px; /* Ajusta este valor según tus necesidades */
-  word-wrap: break-word;
-  white-space: normal;
-  overflow-y: auto; /* Habilita el scroll vertical */
+
+.table-row:hover {
+  background-color: rgba(255, 214, 0, 0.1);
+}
+
+/* Celdas */
+.td-cell {
+  padding: 12px 8px;
+  vertical-align: middle;
+}
+
+.td-cell:first-child {
+  padding-left: 16px;
+}
+
+/* ⚠️ IMPORTANTE: Texto de las celdas */
+.cell-text {
+  color: #141414;
+  font-size: 0.8125rem;
+  line-height: 1.4;
+  display: block;
+}
+
+/* IMEI con estilo monoespaciado */
+.cell-imei {
+  font-family: "Courier New", monospace;
+  font-size: 0.75rem;
+  background-color: #f5f5f5;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+/* Columnas de descripción */
+.td-descripcion {
+  max-width: 120px;
+}
+
+.td-descripcion .cell-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  cursor: help;
+}
+
+/* ========================================
+   BADGES DE ESTADO
+   ======================================== */
+.estado-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 10px;
+  border-radius: 9999px;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
 }
 
 .estado-activo {
-  background-color: #4caf50; /* Verde para activo */
-  color: white;
-  padding: 5px 10px;
-  border-radius: 5px;
+  background-color: rgba(76, 175, 80, 0.15);
+  color: #2e7d32;
+  border: 1px solid rgba(76, 175, 80, 0.3);
 }
 
 .estado-inactivo {
-  background-color: #f44336; /* Rojo para inactivo */
-  color: white;
-  padding: 5px 10px;
-  border-radius: 5px;
+  background-color: rgba(244, 67, 54, 0.15);
+  color: #c62828;
+  border: 1px solid rgba(244, 67, 54, 0.3);
 }
 
-/* Estilos responsivos */
-/* Estilos responsivos */
+/* ========================================
+   CELDAS DE FIRMA
+   ======================================== */
+.td-firma {
+  text-align: center;
+  padding: 8px;
+}
+
+.firma-img {
+  width: 70px;
+  height: auto;
+  border-radius: 4px;
+  border: 1px solid #e0e0e0;
+  background-color: #ffffff;
+  padding: 2px;
+}
+
+/* ========================================
+   CELDA DE ACCIONES
+   ======================================== */
+.td-actions {
+  text-align: center;
+  padding-right: 16px;
+}
+
+.btn-recibir {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 6px;
+  background-color: #f44336;
+  color: #ffffff;
+  font-family: inherit;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 150ms ease-in-out;
+  white-space: nowrap;
+}
+
+.btn-recibir:hover {
+  background-color: #d32f2f;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(244, 67, 54, 0.3);
+}
+
+.btn-recibir i {
+  font-size: 0.6875rem;
+}
+
+.no-action {
+  color: #bdbdbd;
+  font-size: 0.875rem;
+}
+
+/* ========================================
+   FILA VACÍA
+   ======================================== */
+.empty-row {
+  background-color: #fafafa;
+}
+
+.empty-row:hover {
+  background-color: #fafafa;
+}
+
+.empty-row .td-cell {
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.empty-text {
+  color: #9e9e9e;
+  font-size: 0.9375rem;
+  font-style: italic;
+}
+
+/* ========================================
+   PAGINACIÓN
+   ======================================== */
+.pagination-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 14px 20px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 1px 2px rgba(20, 20, 20, 0.05);
+  border: 1px solid #e0e0e0;
+}
+
+.page-info {
+  color: #141414;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  padding: 0 16px;
+}
+
+.btn-page {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 2px solid #e0e0e0;
+  border-radius: 6px;
+  background-color: #ffffff;
+  color: #141414;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 150ms ease-in-out;
+}
+
+.btn-page:hover:not(:disabled) {
+  border-color: #ffd600;
+  color: #ffd600;
+  background-color: rgba(255, 214, 0, 0.1);
+}
+
+.btn-page:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* ========================================
+   ANIMACIÓN
+   ======================================== */
+.fade-enter-active {
+  animation: fadeInUp 0.4s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ========================================
+   SCROLLBAR DE LA TABLA
+   ======================================== */
+.table-wrapper::-webkit-scrollbar {
+  height: 10px;
+}
+
+.table-wrapper::-webkit-scrollbar-track {
+  background: #f5f5f5;
+  border-radius: 9999px;
+}
+
+.table-wrapper::-webkit-scrollbar-thumb {
+  background: #bdbdbd;
+  border-radius: 9999px;
+}
+
+.table-wrapper::-webkit-scrollbar-thumb:hover {
+  background: #ffd600;
+}
+
+/* ========================================
+   RESPONSIVE
+   ======================================== */
+@media (max-width: 1200px) {
+  .filter-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
 @media (max-width: 768px) {
-  .historico-maestros-container {
-    padding: 10px;
-    margin-top: 120px;
-  }
-  body, html {
-    overflow: auto !important;
-    -webkit-overflow-scrolling: touch; /* Para un desplazamiento suave en iOS */
-  }
-  .filters {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 5px; /* Añadir un pequeño espacio entre los elementos */
+  .historico-container {
+    padding: 16px;
   }
 
-  .filters label {
-    margin-bottom: 2px; /* Reducir el margen inferior */
+  .historico-title {
+    font-size: 1.5rem;
   }
 
-  .filters input, .filters select {
-    margin-bottom: 5px; /* Reducir el margen inferior */
-    width: 100%;
-    padding: 5px; /* Ajustar el padding para que sea más compacto */
+  .filter-grid {
+    grid-template-columns: repeat(2, 1fr);
   }
 
-  .table th, .table td {
-    padding: 8px 10px;
-    font-size: 12px;
+  .filter-card {
+    padding: 16px;
+  }
+}
+
+@media (max-width: 576px) {
+  .filter-grid {
+    grid-template-columns: 1fr;
   }
 
-  .table th {
-    display: none; /* Ocultar encabezados de columna en pantallas pequeñas */
+  .pagination-card {
+    flex-wrap: wrap;
+    gap: 12px;
   }
+}
 
-  .table td {
-    display: block;
-    width: 100%;
-    box-sizing: border-box;
-  }
+/* ========================================
+   MODO OSCURO
+   ======================================== */
+:host-context(body.dark-mode) .historico-container {
+  background-color: #141414;
+}
 
-  .table td::before {
-    content: attr(data-label); /* Mostrar el encabezado de la columna como contenido antes de cada celda */
-    font-weight: bold;
-    text-transform: uppercase;
-    display: block;
-    margin-bottom: 5px;
-    color: #333;
-  }
+:host-context(body.dark-mode) .historico-title,
+:host-context(body.dark-mode) .historico-total strong {
+  color: #ffffff;
+}
 
-  .table tbody tr {
-    margin-bottom: 10px;
-    display: block;
-    border-bottom: 2px solid #ddd;
-  }
+:host-context(body.dark-mode) .historico-total {
+  color: #b0b0b0;
+}
 
-  .table tbody tr:hover {
-    background-color: transparent; /* Desactivar el fondo al pasar el mouse en pantallas pequeñas */
-  }
+:host-context(body.dark-mode) .filter-card,
+:host-context(body.dark-mode) .table-card,
+:host-context(body.dark-mode) .pagination-card {
+  background-color: #1a1a1a;
+  border-color: #2a2a2a;
+}
+
+:host-context(body.dark-mode) .filter-label {
+  color: #b0b0b0;
+}
+
+:host-context(body.dark-mode) .filter-input {
+  background-color: #1a1a1a;
+  border-color: #2a2a2a;
+  color: #ffffff;
+}
+
+:host-context(body.dark-mode) .table-body,
+:host-context(body.dark-mode) .table-row {
+  background-color: #1a1a1a;
+}
+
+:host-context(body.dark-mode) .table-row {
+  border-color: #2a2a2a;
+}
+
+:host-context(body.dark-mode) .table-row:hover {
+  background-color: rgba(255, 214, 0, 0.1);
+}
+
+:host-context(body.dark-mode) .cell-text {
+  color: #ffffff;
+}
+
+:host-context(body.dark-mode) .cell-imei {
+  background-color: #2a2a2a;
+  color: #ffffff;
+}
+
+:host-context(body.dark-mode) .page-info {
+  color: #ffffff;
+}
+
+:host-context(body.dark-mode) .btn-page {
+  background-color: #1a1a1a;
+  border-color: #2a2a2a;
+  color: #ffffff;
+}
+
+:host-context(body.dark-mode) .empty-row {
+  background-color: #0a0a0a;
 }

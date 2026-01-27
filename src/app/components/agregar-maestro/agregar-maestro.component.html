@@ -1,124 +1,213 @@
 <app-navbar></app-navbar>
-<div class="agregar-maestro-container">
-  <form (ngSubmit)="onSubmit()">
-    <div class="form-grid">
-      <div class="form-group">
-        <label for="nombre"
-          >Monitor<i
-            class="fa-solid fa-map-location"
-            style="margin-left: 10px"
-          ></i
-        ></label>
-        <select id="nombre" [(ngModel)]="maestro.nombre" name="nombre" required>
-          <option value="" disabled selected>Seleccione un Monitor</option>
-          <option value="Luisa-rodriguez">Luisa Rodriguez</option>
-          <option value="Carmen">Carmen</option>
-          <option value="Roxana">Roxana</option>
-          <option value="Oswaldo">Oswaldo</option>
-          <option value="Luis-enrique">Luis Enrique</option>
-          <option value="Macaco">Macaco</option>
-          <option value="Henyer">Henyer</option>
-          <option value="Jean-carlos">Jean Carlos</option>
-          <option value="Feliz">Feliz</option>
-          <option value="Biter">Biter</option>
-          <option value="Tarot">Tarot</option>
-          <option value="Oficina">Oficina</option>
-        </select>
-      </div>
+<div class="agregar-container">
+  <div class="agregar-header">
+    <h2 class="agregar-title">Agregar Celular al Inventario</h2>
+    <p class="agregar-subtitle">
+      Complete los datos para registrar un nuevo dispositivo en el inventario
+    </p>
+  </div>
 
-      <div class="form-group">
-        <label for="NombreMaestro">Nombre Maestro</label>
-        <input
-          type="text"
-          id="NombreMaestro"
-          [(ngModel)]="maestro.NombreMaestro"
-          name="NombreMaestro"
-          required
-        />
-      </div>
-
-      <div class="form-group">
-        <label for="region"
-          >Región de operación<i
-            class="fa-solid fa-map-location"
-            style="margin-left: 10px"
-          ></i
-        ></label>
-        <select id="region" [(ngModel)]="maestro.region" name="region" required>
-          <option value="" disabled selected>Seleccione una región</option>
-          <option value="Chile">Chile</option>
-          <option value="Ecuador">Ecuador</option>
-          <option value="Perú">Perú</option>
-          <option value="Bolivia">Bolivia</option>
-          <option value="México">México</option>
-          <option value="España">España</option>
-          <option value="Colombia">Colombia</option>
-          <option value="Argentina">Panamá</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label for="marca"
-          >Marca Celular <i class="fa-solid fa-mobile"></i
-        ></label>
-        <input
-          type="text"
-          id="marca"
-          [(ngModel)]="maestro.marca"
-          name="marca"
-        />
-      </div>
-      <div class="form-group">
-        <label for="modelo">Modelo Celular</label>
-        <input
-          type="text"
-          id="modelo"
-          [(ngModel)]="maestro.modelo"
-          name="modelo"
-        />
-      </div>
-      <div class="form-group">
-        <label for="imei">Imei</label>
-        <input type="text" id="imei" [(ngModel)]="maestro.imei" name="imei" />
-      </div>
-      <div class="form-group full-width">
-        <label for="descripcionEntrega">Descripción</label>
-        <textarea
-          id="descripcionEntrega"
-          [(ngModel)]="maestro.descripcionEntrega"
-          name="descripcionEntrega"
-          required
-        ></textarea>
-      </div>
-      <div class="form-group full-width signature-container">
-        <label for="firmaEntrega"
-          >Firma <i class="fa-solid fa-signature" style="margin-left: 10px"></i
-        ></label>
+  <div class="form-card">
+    <form (ngSubmit)="onSubmit()">
+      <div class="form-grid">
+        <!-- Nombre del Celular (Identificador) -->
         <div class="form-group">
-          <canvas #signaturePad class="signature-pad"></canvas>
+          <label class="form-label" for="nombre">
+            <i class="fa-solid fa-tag"></i>
+            Identificador / Nombre del Dispositivo
+          </label>
+          <input
+            type="text"
+            id="nombre"
+            class="form-input"
+            placeholder="Ej: Samsung-A54-001"
+            [(ngModel)]="celular.nombre"
+            name="nombre"
+            required
+          />
+        </div>
+
+        <!-- Marca -->
+        <div class="form-group">
+          <label class="form-label" for="marca">
+            <i class="fa-solid fa-mobile"></i>
+            Marca
+          </label>
+          <input
+            type="text"
+            id="marca"
+            class="form-input"
+            placeholder="Ej: Samsung, Apple, Motorola"
+            [(ngModel)]="celular.marca"
+            name="marca"
+            required
+          />
+        </div>
+
+        <!-- Modelo -->
+        <div class="form-group">
+          <label class="form-label" for="modelo">
+            <i class="fa-solid fa-mobile-screen"></i>
+            Modelo
+          </label>
+          <input
+            type="text"
+            id="modelo"
+            class="form-input"
+            placeholder="Ej: Galaxy A54, iPhone 14, Moto G53"
+            [(ngModel)]="celular.modelo"
+            name="modelo"
+            required
+          />
+        </div>
+
+        <!-- IMEI -->
+        <div class="form-group">
+          <label class="form-label" for="imei">
+            <i class="fa-solid fa-barcode"></i>
+            IMEI
+          </label>
+          <input
+            type="text"
+            id="imei"
+            class="form-input"
+            placeholder="Número IMEI del dispositivo"
+            [(ngModel)]="celular.imei"
+            name="imei"
+            required
+          />
+        </div>
+
+        <!-- Tipo de Dispositivo -->
+        <div class="form-group">
+          <label class="form-label" for="tipo">
+            <i class="fa-solid fa-sitemap"></i>
+            Tipo de Dispositivo
+          </label>
+          <div class="select-wrapper">
+            <select
+              id="tipo"
+              class="form-select"
+              [(ngModel)]="celular.tipo"
+              name="tipo"
+              required
+            >
+              <option value="" disabled selected>Seleccione un tipo</option>
+              <option *ngFor="let tipo of tipos" [value]="tipo">
+                {{ tipo }}
+              </option>
+            </select>
+            <i class="fa-solid fa-chevron-down select-icon"></i>
+          </div>
+        </div>
+
+        <!-- Estado -->
+        <div class="form-group">
+          <label class="form-label" for="estado">
+            <i class="fa-solid fa-circle-info"></i>
+            Estado
+          </label>
+          <div class="select-wrapper">
+            <select
+              id="estado"
+              class="form-select"
+              [(ngModel)]="celular.estado"
+              name="estado"
+              required
+            >
+              <option value="disponible">Disponible</option>
+              <option value="en_uso">En Uso</option>
+              <option value="dañado">Dañado</option>
+            </select>
+            <i class="fa-solid fa-chevron-down select-icon"></i>
+          </div>
+        </div>
+
+        <!-- Almacén -->
+        <div class="form-group">
+          <label class="form-label" for="almacen">
+            <i class="fa-solid fa-warehouse"></i>
+            Almacén / Ubicación
+          </label>
+          <div class="select-wrapper">
+            <select
+              id="almacen"
+              class="form-select"
+              [(ngModel)]="celular.almacen"
+              name="almacen"
+              required
+            >
+              <option *ngFor="let almacen of almacenes" [value]="almacen">
+                {{ almacen }}
+              </option>
+            </select>
+            <i class="fa-solid fa-chevron-down select-icon"></i>
+          </div>
+        </div>
+
+        <!-- Stock Mínimo -->
+        <div class="form-group">
+          <label class="form-label" for="stockMinimo">
+            <i class="fa-solid fa-boxes-stacked"></i>
+            Stock Mínimo
+          </label>
+          <input
+            type="number"
+            id="stockMinimo"
+            class="form-input"
+            min="1"
+            placeholder="Cantidad mínima en inventario"
+            [(ngModel)]="celular.stockMinimo"
+            name="stockMinimo"
+            required
+          />
+        </div>
+
+        <!-- Descripción -->
+        <div class="form-group form-group-full">
+          <label class="form-label" for="descripcionEntrega">
+            <i class="fa-solid fa-align-left"></i>
+            Descripción / Observaciones
+          </label>
+          <textarea
+            id="descripcionEntrega"
+            class="form-textarea"
+            placeholder="Describa el estado, características o información adicional del dispositivo..."
+            [(ngModel)]="celular.descripcionEntrega"
+            name="descripcionEntrega"
+          ></textarea>
         </div>
       </div>
-    </div>
-    <div class="btn-container">
-      <button type="button" class="btn-limpiar" (click)="clearSignature()">
-        Limpiar Firma
-        <i class="fa-solid fa-delete-left" style="margin-left: 5px"></i>
-      </button>
-      <button type="submit" class="btn-agregar">
-        Agregar Maestro<i
-          class="fa-solid fa-user-plus"
-          style="margin-left: 10px"
-        ></i>
-      </button>
-    </div>
-  </form>
-  <div *ngIf="errorMessage" class="error-message">
-    {{ errorMessage }}
+
+      <!-- Botones del formulario -->
+      <div class="form-actions">
+        <button type="button" class="btn-secondary" (click)="limpiarFormulario()">
+          <i class="fa-solid fa-eraser"></i>
+          <span>Limpiar Formulario</span>
+        </button>
+        <button type="submit" class="btn-primary">
+          <i class="fa-solid fa-plus"></i>
+          <span>Agregar Celular</span>
+        </button>
+      </div>
+    </form>
   </div>
-  <div *ngIf="successMessage" class="success-message">
-    {{ successMessage }}
+
+  <!-- Mensajes -->
+  <div *ngIf="errorMessage" class="message message-error">
+    <i class="fa-solid fa-circle-exclamation"></i>
+    <span>{{ errorMessage }}</span>
   </div>
-  <button type="button" class="btn-cancelar" (click)="navigateToDashboard()">
-    Cancelar <i class="fa-solid fa-xmark" style="margin-left: 10px"></i>
+  <div *ngIf="successMessage" class="message message-success">
+    <i class="fa-solid fa-circle-check"></i>
+    <span>{{ successMessage }}</span>
+  </div>
+
+  <!-- Botón Cancelar -->
+  <button type="button" class="btn-cancel" (click)="navigateToDashboard()">
+    <i class="fa-solid fa-xmark"></i>
+    <span>Cancelar</span>
   </button>
+
   <app-spinner *ngIf="loading"></app-spinner>
 </div>

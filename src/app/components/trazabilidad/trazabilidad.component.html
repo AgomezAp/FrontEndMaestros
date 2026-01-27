@@ -1,0 +1,94 @@
+<div class="trazabilidad-container">
+  <!-- Header -->
+  <div class="header-section">
+    <button class="btn-volver" (click)="volver()">
+      <i class="fa-solid fa-arrow-left"></i> Volver al Inventario
+    </button>
+    <h1><i class="fa-solid fa-history"></i> Trazabilidad del Dispositivo</h1>
+  </div>
+
+  <!-- Loading -->
+  <div class="loading" *ngIf="loading">
+    <i class="fa-solid fa-spinner fa-spin"></i>
+    <p>Cargando historial...</p>
+  </div>
+
+  <!-- Error -->
+  <div class="error-message" *ngIf="error">
+    <i class="fa-solid fa-exclamation-circle"></i> {{ error }}
+  </div>
+
+  <!-- Información del dispositivo -->
+  <div class="dispositivo-card" *ngIf="dispositivo && !loading">
+    <div class="disp-icon">
+      <i class="fa-solid" [ngClass]="getCategoriaIcon(dispositivo.categoria)"></i>
+    </div>
+    <div class="disp-info">
+      <h2>{{ dispositivo.nombre }}</h2>
+      <p class="disp-detalles">
+        <span *ngIf="dispositivo.marca">{{ dispositivo.marca }}</span>
+        <span *ngIf="dispositivo.modelo">{{ dispositivo.modelo }}</span>
+      </p>
+      <p class="disp-serial" *ngIf="dispositivo.serial">
+        <strong>S/N:</strong> {{ dispositivo.serial }}
+      </p>
+      <p class="disp-serial" *ngIf="dispositivo.imei">
+        <strong>IMEI:</strong> {{ dispositivo.imei }}
+      </p>
+    </div>
+    <div class="disp-estado">
+      <span class="estado-badge" [ngClass]="getEstadoClass(dispositivo.estado)">
+        {{ dispositivo.estado | uppercase }}
+      </span>
+      <span class="ubicacion">
+        <i class="fa-solid fa-location-dot"></i>
+        {{ dispositivo.ubicacion }}
+      </span>
+    </div>
+  </div>
+
+  <!-- Timeline de movimientos -->
+  <div class="timeline-section" *ngIf="!loading && movimientos.length > 0">
+    <h3><i class="fa-solid fa-timeline"></i> Historial de Movimientos</h3>
+    
+    <div class="timeline">
+      <div 
+        class="timeline-item" 
+        *ngFor="let mov of movimientos"
+        [ngClass]="getMovimientoClass(mov.tipoMovimiento)"
+      >
+        <div class="timeline-marker">
+          <i class="fa-solid" [ngClass]="getMovimientoIcon(mov.tipoMovimiento)"></i>
+        </div>
+        
+        <div class="timeline-content">
+          <div class="timeline-header">
+            <span class="mov-tipo">{{ getMovimientoLabel(mov.tipoMovimiento) }}</span>
+            <span class="mov-fecha">
+              <i class="fa-solid fa-calendar"></i>
+              {{ mov.fecha | date:'dd/MM/yyyy HH:mm' }}
+            </span>
+          </div>
+          
+          <p class="mov-descripcion">{{ mov.descripcion }}</p>
+          
+          <div class="mov-estados" *ngIf="mov.estadoAnterior || mov.estadoNuevo">
+            <span class="estado-anterior" *ngIf="mov.estadoAnterior">
+              {{ mov.estadoAnterior }}
+            </span>
+            <i class="fa-solid fa-arrow-right" *ngIf="mov.estadoAnterior && mov.estadoNuevo"></i>
+            <span class="estado-nuevo" *ngIf="mov.estadoNuevo">
+              {{ mov.estadoNuevo }}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sin movimientos -->
+  <div class="sin-movimientos" *ngIf="!loading && movimientos.length === 0">
+    <i class="fa-solid fa-inbox"></i>
+    <p>No hay movimientos registrados para este dispositivo</p>
+  </div>
+</div>

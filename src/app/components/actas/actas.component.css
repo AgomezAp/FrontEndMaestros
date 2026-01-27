@@ -1,0 +1,605 @@
+/* ==========================================
+   ACTAS COMPONENT - ESTILOS
+   ========================================== */
+
+.actas-container {
+  padding: 20px;
+  max-width: 1400px;
+  margin: 0 auto;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Header */
+.header-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.header-title h1 {
+  color: #1565c0;
+  font-size: 1.8rem;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.header-title p {
+  color: #666;
+  margin: 5px 0 0;
+}
+
+.header-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.btn-inventario, .btn-nueva {
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.3s ease;
+}
+
+.btn-inventario {
+  background: #f5f5f5;
+  color: #333;
+}
+
+.btn-inventario:hover {
+  background: #e0e0e0;
+}
+
+.btn-nueva {
+  background: linear-gradient(135deg, #2196F3, #1976D2);
+  color: white;
+}
+
+.btn-nueva:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(33, 150, 243, 0.4);
+}
+
+/* Stats row */
+.stats-row {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.stat-item {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 18px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.stat-item i {
+  font-size: 1.8rem;
+}
+
+.stat-activas i { color: #FF9800; }
+.stat-parciales i { color: #f44336; }
+.stat-completas i { color: #4CAF50; }
+
+.stat-num {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #333;
+}
+
+.stat-label {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+/* Filtros */
+.filtros-section {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 25px;
+  flex-wrap: wrap;
+}
+
+.filtro-grupo select {
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  min-width: 180px;
+}
+
+.filtro-busqueda {
+  flex: 1;
+  min-width: 250px;
+  position: relative;
+}
+
+.filtro-busqueda input {
+  width: 100%;
+  padding: 12px 15px 12px 45px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 0.95rem;
+}
+
+.filtro-busqueda i {
+  position: absolute;
+  left: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #999;
+}
+
+/* Grid de actas */
+.actas-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 20px;
+}
+
+.acta-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-left: 4px solid #ddd;
+}
+
+.acta-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+}
+
+.acta-activa { border-left-color: #FF9800; }
+.acta-devuelta_parcial { border-left-color: #f44336; }
+.acta-devuelta_completa { border-left-color: #4CAF50; }
+.acta-vencida { border-left-color: #9e9e9e; }
+
+.acta-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  background: #f9f9f9;
+}
+
+.acta-numero {
+  font-weight: 700;
+  color: #333;
+  font-size: 1rem;
+}
+
+.acta-estado {
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.estado-activa { background: #fff3e0; color: #e65100; }
+.estado-parcial { background: #ffebee; color: #c62828; }
+.estado-completa { background: #e8f5e9; color: #2e7d32; }
+.estado-vencida { background: #f5f5f5; color: #616161; }
+
+.acta-body {
+  padding: 20px;
+}
+
+.receptor-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 15px;
+}
+
+.receptor-info > i {
+  font-size: 1.5rem;
+  color: #1565c0;
+}
+
+.receptor-info strong {
+  display: block;
+  color: #333;
+}
+
+.receptor-info span {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.acta-fecha, .acta-dispositivos {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #666;
+  font-size: 0.9rem;
+  margin-bottom: 10px;
+}
+
+.acta-fecha i, .acta-dispositivos i {
+  color: #999;
+  width: 20px;
+}
+
+.pendientes {
+  color: #f44336;
+  font-weight: 600;
+}
+
+.acta-actions {
+  padding: 15px 20px;
+  border-top: 1px solid #eee;
+}
+
+.btn-devolucion {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #FF9800, #F57C00);
+  color: white;
+  cursor: pointer;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.3s ease;
+}
+
+.btn-devolucion:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 152, 0, 0.4);
+}
+
+.sin-actas {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 60px;
+  color: #999;
+}
+
+.sin-actas i {
+  font-size: 4rem;
+  margin-bottom: 15px;
+}
+
+/* Loading */
+.loading {
+  text-align: center;
+  padding: 60px;
+  color: #1565c0;
+}
+
+.loading i {
+  font-size: 2.5rem;
+  margin-bottom: 15px;
+}
+
+/* Modal */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.modal-content {
+  background: white;
+  border-radius: 16px;
+  width: 100%;
+  max-height: 90vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-detalle {
+  max-width: 700px;
+}
+
+.modal-devolucion {
+  max-width: 800px;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 25px;
+  background: linear-gradient(135deg, #1565c0, #1976D2);
+  color: white;
+}
+
+.modal-header h2 {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.btn-cerrar {
+  background: rgba(255,255,255,0.2);
+  border: none;
+  color: white;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.btn-cerrar:hover {
+  background: rgba(255,255,255,0.3);
+}
+
+.modal-body {
+  padding: 25px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.detalle-section {
+  margin-bottom: 25px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #eee;
+}
+
+.detalle-section:last-child {
+  border-bottom: none;
+}
+
+.detalle-section h4 {
+  color: #1565c0;
+  margin: 0 0 15px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.detalle-section p {
+  margin: 8px 0;
+  color: #555;
+}
+
+.dispositivos-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.disp-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  background: #f5f5f5;
+  border-radius: 8px;
+}
+
+.disp-item.devuelto {
+  background: #e8f5e9;
+}
+
+.disp-item > i {
+  font-size: 1.3rem;
+  color: #1565c0;
+}
+
+.disp-info {
+  flex: 1;
+}
+
+.disp-info strong {
+  display: block;
+}
+
+.disp-info span {
+  font-size: 0.85rem;
+  color: #666;
+}
+
+.disp-estado {
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 12px;
+}
+
+.disp-estado.si {
+  background: #c8e6c9;
+  color: #2e7d32;
+}
+
+.disp-estado.no {
+  background: #ffcdd2;
+  color: #c62828;
+}
+
+.firma-imagen {
+  max-width: 100%;
+  max-height: 150px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+/* Modal devolución */
+.info-acta {
+  background: #e3f2fd;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.devoluciones-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.devolucion-item {
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.dev-header {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 15px;
+  background: #f9f9f9;
+}
+
+.checkbox-container {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.checkbox-container input {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+.dev-disp-info strong {
+  display: block;
+}
+
+.dev-disp-info span {
+  font-size: 0.85rem;
+  color: #666;
+}
+
+.dev-opciones {
+  padding: 15px;
+  background: white;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-group label {
+  font-weight: 600;
+  color: #333;
+  font-size: 0.85rem;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 0.95rem;
+}
+
+.modal-footer {
+  padding: 20px 25px;
+  border-top: 1px solid #eee;
+  display: flex;
+  justify-content: flex-end;
+  gap: 15px;
+}
+
+.btn-cancelar, .btn-registrar {
+  padding: 12px 25px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.3s ease;
+}
+
+.btn-cancelar {
+  background: #f5f5f5;
+  color: #666;
+}
+
+.btn-registrar {
+  background: linear-gradient(135deg, #4CAF50, #45a049);
+  color: white;
+}
+
+.btn-registrar:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.4);
+}
+
+.btn-registrar:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .header-section {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .stats-row {
+    flex-direction: column;
+  }
+  
+  .actas-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+  
+  .modal-footer {
+    flex-direction: column;
+  }
+  
+  .btn-cancelar, .btn-registrar {
+    width: 100%;
+    justify-content: center;
+  }
+}

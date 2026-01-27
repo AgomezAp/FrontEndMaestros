@@ -1,32 +1,56 @@
 /* Contenedor principal */
 .container {
-  max-width: 800px;
+  max-width: 900px;
   margin: 20px auto;
-  padding: 15px 20px;
+  padding: 25px 30px;
   margin-top: 120px;
-  background-color: #f9f9f9;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 }
 
 /* Título del formulario */
 h2 {
   text-align: center;
+  margin-bottom: 10px;
+  color: #2c3e50;
+  font-size: 2em;
+  font-weight: 600;
+}
+
+.subtitle {
+  text-align: center;
+  color: #7f8c8d;
+  margin-bottom: 30px;
+  font-size: 0.95em;
+}
+
+/* Información del celular seleccionado */
+.info-celular {
+  background: #f8f9fa;
+  padding: 15px;
+  border-radius: 8px;
   margin-bottom: 20px;
-  color: #333;
-  font-size: 1.8em;
+  border-left: 4px solid #ffd900;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
 }
 
 /* Estilos para los grupos de formulario */
 .form-group {
-  margin-bottom: 15px;
+  margin-bottom: 20px;
 }
 
 .form-group label {
   display: block;
-  margin-bottom: 5px;
-  font-weight: bold;
-  color: #555;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #2c3e50;
+  font-size: 0.95em;
 }
 
 /* Select y Textarea */
@@ -35,19 +59,50 @@ h2 {
 .form-group input[type="date"],
 .form-group textarea {
   width: 100%;
-  padding: 8px 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  padding: 12px 15px;
+  border: 2px solid #e0e0e0;
+  border-radius: 6px;
   box-sizing: border-box;
+  font-size: 0.95em;
+  transition: border-color 0.3s;
+}
+
+.form-group select:focus,
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #ffd900;
+}
+
+.form-group input[readonly] {
+  background-color: #f5f5f5;
+  cursor: not-allowed;
+  font-weight: 500;
 }
 
 /* Área de texto */
 .form-group textarea {
   resize: vertical;
-  min-height: 80px;
+  min-height: 100px;
+  font-family: inherit;
 }
 
 /* Contenedor del área de firma */
+.signature-container {
+  margin-top: 20px;
+}
+
+.signature-wrapper {
+  position: relative;
+}
+
+.signature-help {
+  text-align: center;
+  color: #95a5a6;
+  font-size: 0.85em;
+  margin-top: 8px;
+  font-style: italic;
+}
 .signature-container {
   margin-bottom: 20px;
 }

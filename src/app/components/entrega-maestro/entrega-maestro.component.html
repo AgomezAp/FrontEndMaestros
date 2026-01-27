@@ -1,71 +1,117 @@
 <app-navbar></app-navbar>
 <div class="container">
-  <h2>Recibir Celular</h2>
+  <h2>📱 Entrega de Celular</h2>
+  <p class="subtitle">Complete los datos para registrar la entrega del celular</p>
+  
   <form (ngSubmit)="onSubmit()">
-    <!-- Campo Monitor -->
+    
+    <!-- Selección de Celular -->
     <div class="form-group">
-      <label for="nombre">
-        Monitor 
-        <i class="fa-solid fa-map-location" style="margin-left: 10px"></i>
+      <label for="celular">
+        📱 Celular
       </label>
-      <select id="nombre" [(ngModel)]="maestro.maestroRecibido" name="nombre" required>
-        <option value="" disabled selected>Seleccione un Monitor</option>
-        <option value="Luisa-rodriguez">Luisa Rodriguez</option>
-        <option value="Carmen">Carmen</option>
-        <option value="Roxana">Roxana</option>
-        <option value="Oswaldo">Oswaldo</option>
-        <option value="Luis-enrique">Luis Enrique</option>
-        <option value="Macaco">Macaco</option>
-        <option value="Henyer">Henyer</option>
-        <option value="Jean-carlos">Jean Carlos</option>
-        <option value="Feliz">Feliz</option>
-        <option value="Biter">Biter</option>
-        <option value="Tarot">Tarot</option>
-        <option value="Oficina">Oficina</option>
+      <select id="celular" (change)="onCelularChange($event)" name="celular" required>
+        <option value="" disabled selected>Seleccione un Celular</option>
+        <option *ngFor="let celular of celularesDisponibles" [value]="celular.Mid">
+          {{ celular.marca }} {{ celular.modelo }} - IMEI: {{ celular.imei }}
+        </option>
+      </select>
+    </div>
+
+    <!-- Información del Celular Seleccionado (Read-only) -->
+    <div *ngIf="celularSeleccionado" class="info-celular">
+      <div class="row">
+        <div class="form-group">
+          <label>Marca Celular</label>
+          <input type="text" [value]="celularSeleccionado.marca" readonly />
+        </div>
+        <div class="form-group">
+          <label>Modelo Celular</label>
+          <input type="text" [value]="celularSeleccionado.modelo" readonly />
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label>📱 IMEI</label>
+        <input type="text" [value]="celularSeleccionado.imei" readonly />
+      </div>
+    </div>
+
+    <!-- Nombre de la Analista -->
+    <div class="form-group">
+      <label for="analista">
+        👤 Nombre de la Analista
+      </label>
+      <select id="analista" (change)="onAnalistaChange($event)" name="analista" required>
+        <option value="" disabled selected>Seleccione una Analista</option>
+        <option *ngFor="let analista of analistas" [value]="analista.nombre">
+          {{ analista.nombre }}
+        </option>
+      </select>
+    </div>
+
+    <!-- Región de Operación / Almacén -->
+    <div class="form-group">
+      <label for="almacen">
+        📍 Región de Operación
+      </label>
+      <select id="almacen" [(ngModel)]="maestro.almacen" name="almacen" required>
+        <option value="Principal">Principal</option>
+        <option value="Secundario">Secundario</option>
+        <option value="Norte">Norte</option>
+        <option value="Sur">Sur</option>
+        <option value="Oriente">Oriente</option>
+        <option value="Occidente">Occidente</option>
       </select>
     </div>
 
     <!-- Campo Descripción -->
     <div class="form-group">
-      <label for="descripcionRecibe">Descripción:</label>
-      <textarea id="descripcionRecibe" [(ngModel)]="maestro.descripcionRecibe" name="descripcionRecibe" required></textarea>
+      <label for="descripcionEntrega">
+        📝 Descripción
+      </label>
+      <textarea 
+        id="descripcionEntrega" 
+        [(ngModel)]="maestro.descripcionEntrega" 
+        name="descripcionEntrega" 
+        placeholder="Describa el estado del celular o información adicional..."
+        required>
+      </textarea>
     </div>
 
     <!-- Área de Firma -->
     <div class="form-group full-width signature-container">
-      <label for="firmaRecibe"
-        >Firma <i class="fa-solid fa-signature" style="margin-left: 10px"></i
-      ></label>
-      <div class="form-group">
+      <label for="firmaEntrega">
+        ✍️ Firma de Entrega
+      </label>
+      <div class="signature-wrapper">
         <canvas #signaturePad class="signature-pad"></canvas>
+        <p class="signature-help">Firme dentro del recuadro</p>
       </div>
     </div>
 
     <!-- Botones -->
     <div class="btn-container">
       <button type="button" class="btn-limpiar" (click)="undo()">
-        Limpiar Firma 
-        <i class="fa-solid fa-delete-left" style="margin-left: 5px"></i>
+        🗑️ Limpiar Firma
       </button>
       <button type="submit" class="btn-agregar">
-        Entregar Celular 
-        <i class="fa-solid fa-user-plus" style="margin-left: 10px"></i>
+        📤 Entregar Celular
       </button>
     </div>
   </form>
 
   <!-- Mensajes -->
   <div *ngIf="errorMessage" class="error-message">
-    {{ errorMessage }}
+    ❌ {{ errorMessage }}
   </div>
   <div *ngIf="successMessage" class="success-message">
-    {{ successMessage }}
+    ✅ {{ successMessage }}
   </div>
 
   <!-- Botón Cancelar -->
   <button type="button" class="btn-cancelar" (click)="navigateToDashboard()">
-    Cancelar 
-    <i class="fa-solid fa-xmark" style="margin-left: 10px"></i>
+    ❌ Cancelar
   </button>
 
   <!-- Spinner de carga -->

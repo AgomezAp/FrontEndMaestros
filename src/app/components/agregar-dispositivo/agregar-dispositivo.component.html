@@ -1,0 +1,212 @@
+<div class="agregar-container">
+  <div class="form-card">
+    <div class="form-header">
+      <h1><i class="fa-solid fa-plus-circle"></i> Agregar Dispositivo</h1>
+      <p>Registra un nuevo dispositivo en el inventario</p>
+    </div>
+
+    <!-- Mensajes -->
+    <div class="mensaje error" *ngIf="errorMessage">
+      <i class="fa-solid fa-exclamation-circle"></i> {{ errorMessage }}
+    </div>
+    
+    <div class="mensaje success" *ngIf="successMessage">
+      <i class="fa-solid fa-check-circle"></i> {{ successMessage }}
+    </div>
+
+    <form (ngSubmit)="guardarDispositivo()" class="form-content">
+      <!-- Categoría -->
+      <div class="form-section">
+        <h3><i class="fa-solid fa-tags"></i> Categoría del dispositivo</h3>
+        <div class="categoria-grid">
+          <label 
+            *ngFor="let cat of categorias" 
+            class="categoria-option"
+            [class.selected]="dispositivo.categoria === cat.value"
+          >
+            <input 
+              type="radio" 
+              name="categoria" 
+              [value]="cat.value"
+              [(ngModel)]="dispositivo.categoria"
+            />
+            <i class="fa-solid" [ngClass]="cat.icon"></i>
+            <span>{{ cat.label }}</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Información básica -->
+      <div class="form-section">
+        <h3><i class="fa-solid fa-info-circle"></i> Información básica</h3>
+        
+        <div class="form-row">
+          <div class="form-group">
+            <label for="nombre">Nombre / Identificador *</label>
+            <input 
+              type="text" 
+              id="nombre" 
+              [(ngModel)]="dispositivo.nombre" 
+              name="nombre"
+              placeholder="Ej: iPhone 13 Pro - Oficina 1"
+              required
+            />
+          </div>
+        </div>
+        
+        <div class="form-row two-cols">
+          <div class="form-group">
+            <label for="marca">Marca</label>
+            <input 
+              type="text" 
+              id="marca" 
+              [(ngModel)]="dispositivo.marca" 
+              name="marca"
+              placeholder="Ej: Apple, Samsung, HP"
+            />
+          </div>
+          
+          <div class="form-group">
+            <label for="modelo">Modelo</label>
+            <input 
+              type="text" 
+              id="modelo" 
+              [(ngModel)]="dispositivo.modelo" 
+              name="modelo"
+              placeholder="Ej: iPhone 13 Pro, Galaxy S22"
+            />
+          </div>
+        </div>
+        
+        <div class="form-row two-cols">
+          <div class="form-group">
+            <label for="serial">Número de Serie</label>
+            <input 
+              type="text" 
+              id="serial" 
+              [(ngModel)]="dispositivo.serial" 
+              name="serial"
+              placeholder="Número de serie del dispositivo"
+            />
+          </div>
+          
+          <div class="form-group" *ngIf="requiereIMEI()">
+            <label for="imei">IMEI</label>
+            <input 
+              type="text" 
+              id="imei" 
+              [(ngModel)]="dispositivo.imei" 
+              name="imei"
+              placeholder="IMEI del dispositivo"
+            />
+          </div>
+          
+          <div class="form-group" *ngIf="!requiereIMEI()">
+            <label for="color">Color</label>
+            <input 
+              type="text" 
+              id="color" 
+              [(ngModel)]="dispositivo.color" 
+              name="color"
+              placeholder="Color del dispositivo"
+            />
+          </div>
+        </div>
+      </div>
+
+      <!-- Estado y ubicación -->
+      <div class="form-section">
+        <h3><i class="fa-solid fa-cog"></i> Estado y ubicación</h3>
+        
+        <div class="form-row two-cols">
+          <div class="form-group">
+            <label for="condicion">Condición física</label>
+            <select id="condicion" [(ngModel)]="dispositivo.condicion" name="condicion">
+              <option *ngFor="let cond of condiciones" [value]="cond.value">
+                {{ cond.label }}
+              </option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label for="ubicacion">Ubicación / Almacén</label>
+            <input 
+              type="text" 
+              id="ubicacion" 
+              [(ngModel)]="dispositivo.ubicacion" 
+              name="ubicacion"
+              placeholder="Ej: Almacén Principal, Bodega 2"
+            />
+          </div>
+        </div>
+      </div>
+
+      <!-- Descripción -->
+      <div class="form-section">
+        <h3><i class="fa-solid fa-file-alt"></i> Descripción adicional</h3>
+        
+        <div class="form-group">
+          <label for="descripcion">Descripción</label>
+          <textarea 
+            id="descripcion" 
+            [(ngModel)]="dispositivo.descripcion" 
+            name="descripcion"
+            rows="3"
+            placeholder="Descripción detallada del dispositivo, especificaciones técnicas, etc."
+          ></textarea>
+        </div>
+        
+        <div class="form-group">
+          <label for="observaciones">Observaciones</label>
+          <textarea 
+            id="observaciones" 
+            [(ngModel)]="dispositivo.observaciones" 
+            name="observaciones"
+            rows="2"
+            placeholder="Observaciones adicionales"
+          ></textarea>
+        </div>
+      </div>
+
+      <!-- Fotos -->
+      <div class="form-section">
+        <h3><i class="fa-solid fa-camera"></i> Fotos del dispositivo</h3>
+        
+        <div class="fotos-upload">
+          <label class="upload-area" for="fotos">
+            <input 
+              type="file" 
+              id="fotos" 
+              multiple 
+              accept="image/*"
+              (change)="onFileSelected($event)"
+            />
+            <i class="fa-solid fa-cloud-upload-alt"></i>
+            <span>Arrastra fotos aquí o haz clic para seleccionar</span>
+            <small>Máximo 10 fotos, 10MB cada una</small>
+          </label>
+          
+          <div class="fotos-preview" *ngIf="fotosPreview.length > 0">
+            <div class="foto-item" *ngFor="let foto of fotosPreview; let i = index">
+              <img [src]="foto" alt="Preview" />
+              <button type="button" class="btn-eliminar" (click)="eliminarFoto(i)">
+                <i class="fa-solid fa-times"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Botones -->
+      <div class="form-actions">
+        <button type="button" class="btn-cancelar" (click)="cancelar()">
+          <i class="fa-solid fa-times"></i> Cancelar
+        </button>
+        <button type="submit" class="btn-guardar" [disabled]="loading">
+          <i class="fa-solid" [ngClass]="loading ? 'fa-spinner fa-spin' : 'fa-save'"></i>
+          {{ loading ? 'Guardando...' : 'Guardar Dispositivo' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

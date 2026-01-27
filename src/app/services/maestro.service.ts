@@ -45,7 +45,7 @@ export class MaestroService {
       maestro
     );
   }
-  BorrarMaestroId(Mid: number, maestro: Maestro): Observable<Maestro> {
+  BorrarMaestroId(Mid: number, maestro: Partial<Maestro>): Observable<Maestro> {
     return this.http.post<Maestro>(
       `${this.appUrl}${this.apiUrl}/borrar-maestro/${Mid}`,
       maestro

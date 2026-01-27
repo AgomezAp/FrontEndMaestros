@@ -1,0 +1,190 @@
+<app-navbar></app-navbar>
+<div class="consolidado-container" @fadeInOut>
+  <div class="consolidado-header">
+    <h2 class="consolidado-title">Consolidado de Celulares</h2>
+    <div class="header-actions">
+      <span class="consolidado-badge">
+        <i class="fa-solid fa-mobile-screen"></i>
+        {{ celularesFiltrados.length }} celulares
+      </span>
+      <button class="btn-agregar-header" type="button" (click)="agregarCelular()">
+        <i class="fa-solid fa-plus"></i>
+        Agregar Celular
+      </button>
+    </div>
+  </div>
+
+  <!-- Filtros -->
+  <div class="filtros-card">
+    <div class="filtros-grid">
+      <div class="filtro-group">
+        <label for="filtroEstado" class="filtro-label">Estado</label>
+        <select
+          id="filtroEstado"
+          class="filtro-select"
+          [(ngModel)]="filtroEstado"
+          (change)="aplicarFiltros()"
+        >
+          <option value="todos">Todos</option>
+          <option *ngFor="let estado of estados" [value]="estado">
+            {{ estado | uppercase }}
+          </option>
+        </select>
+      </div>
+
+      <div class="filtro-group">
+        <label for="filtroAlmacen" class="filtro-label">Almacén</label>
+        <select
+          id="filtroAlmacen"
+          class="filtro-select"
+          [(ngModel)]="filtroAlmacen"
+          (change)="aplicarFiltros()"
+        >
+          <option value="todos">Todos</option>
+          <option *ngFor="let almacen of almacenes" [value]="almacen">
+            {{ almacen }}
+          </option>
+        </select>
+      </div>
+
+      <div class="filtro-group">
+        <label for="filtroMarca" class="filtro-label">Marca</label>
+        <select
+          id="filtroMarca"
+          class="filtro-select"
+          [(ngModel)]="filtroMarca"
+          (change)="aplicarFiltros()"
+        >
+          <option value="todos">Todas</option>
+          <option *ngFor="let marca of marcas" [value]="marca">
+            {{ marca }}
+          </option>
+        </select>
+      </div>
+
+      <div class="filtro-group">
+        <button class="btn-limpiar" (click)="limpiarFiltros()">
+          <i class="fa-solid fa-eraser"></i>
+          Limpiar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="loading" class="loading-card">
+    <div class="loading-spinner"></div>
+    <p class="loading-text">Cargando celulares...</p>
+  </div>
+
+  <!-- Tabla -->
+  <div *ngIf="!loading" class="table-card">
+    <div class="table-wrapper">
+      <table class="data-table">
+        <thead class="table-head">
+          <tr>
+            <th class="th-cell">Identificador</th>
+            <th class="th-cell">Tipo</th>
+            <th class="th-cell">Marca</th>
+            <th class="th-cell">Modelo</th>
+            <th class="th-cell">IMEI</th>
+            <th class="th-cell">Estado</th>
+            <th class="th-cell">Almacén</th>
+            <th class="th-cell">Stock Mínimo</th>
+            <th class="th-cell">Fecha Ingreso</th>
+            <th class="th-cell">Descripción</th>
+          </tr>
+        </thead>
+        <tbody class="table-body">
+          <tr
+            class="table-row"
+            *ngFor="let celular of paginatedCelulares"
+            [class.row-disponible]="celular.estado === 'disponible'"
+            [class.row-en-uso]="celular.estado === 'en_uso'"
+            [class.row-danado]="celular.estado === 'dañado'"
+          >
+            <td class="td-cell" data-label="Identificador">
+              <span class="cell-text cell-nombre">
+                <i class="fa-solid fa-tag"></i>
+                {{ celular.nombre }}
+              </span>
+            </td>
+            <td class="td-cell" data-label="Tipo">
+              <span class="cell-text">{{ celular.tipo }}</span>
+            </td>
+            <td class="td-cell" data-label="Marca">
+              <span class="cell-text">{{ celular.marca }}</span>
+            </td>
+            <td class="td-cell" data-label="Modelo">
+              <span class="cell-text">{{ celular.modelo }}</span>
+            </td>
+            <td class="td-cell" data-label="IMEI">
+              <span class="cell-text cell-imei">{{ celular.imei }}</span>
+            </td>
+            <td class="td-cell" data-label="Estado">
+              <span
+                class="estado-badge"
+                [class.estado-disponible]="celular.estado === 'disponible'"
+                [class.estado-en-uso]="celular.estado === 'en_uso'"
+                [class.estado-danado]="celular.estado === 'dañado'"
+              >
+                <i
+                  class="fa-solid"
+                  [ngClass]="getEstadoIcon(celular.estado)"
+                ></i>
+                {{ celular.estado | uppercase }}
+              </span>
+            </td>
+            <td class="td-cell" data-label="Almacén">
+              <span class="cell-text cell-almacen">
+                <i class="fa-solid fa-warehouse"></i>
+                {{ celular.almacen }}
+              </span>
+            </td>
+            <td class="td-cell" data-label="Stock Mínimo">
+              <span class="cell-text">{{ celular.stockMinimo }}</span>
+            </td>
+            <td class="td-cell" data-label="Fecha Ingreso">
+              <span class="cell-text">
+                {{ celular.fechaIngreso | date: 'dd/MM/yyyy' }}
+              </span>
+            </td>
+            <td class="td-cell td-descripcion" data-label="Descripción">
+              <span class="cell-text" [title]="celular.descripcionEntrega">
+                {{ celular.descripcionEntrega || 'N/A' }}
+              </span>
+            </td>
+          </tr>
+          <!-- Fila vacía -->
+          <tr class="table-row empty-row" *ngIf="paginatedCelulares.length === 0">
+            <td class="td-cell" colspan="9">
+              <div class="empty-state">
+                <i class="fa-solid fa-mobile-screen"></i>
+                <span class="empty-text">No hay celulares que coincidan con los filtros</span>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Paginación -->
+  <div *ngIf="!loading && celularesFiltrados.length > 0" class="pagination-card">
+    <button
+      class="btn-page"
+      (click)="previousPage()"
+      [disabled]="currentPage === 1"
+    >
+      <i class="fa-solid fa-arrow-left"></i>
+    </button>
+    <span class="page-info">Página {{ currentPage }} de {{ totalPages }}</span>
+    <button
+      class="btn-page"
+      (click)="nextPage()"
+      [disabled]="currentPage === totalPages"
+    >
+      <i class="fa-solid fa-arrow-right"></i>
+    </button>
+  </div>
+</div>

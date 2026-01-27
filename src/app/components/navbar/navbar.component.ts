@@ -9,22 +9,31 @@ import { Router } from '@angular/router';
   styleUrl: './navbar.component.css'
 })
 export class NavbarComponent {
-  constructor(private router:Router){}
-  logOut(){
-    localStorage.removeItem('token')
+  constructor(private router: Router) {}
+  
+  logOut() {
+    localStorage.removeItem('token');
     localStorage.clear();
-    this.router.navigate(['/logIn'])
+    this.router.navigate(['/logIn']);
   }
-  verMaestros() {
-    this.router.navigate(['/dashBoard']);
-  }
-
-  verMaestrosActivos() {
-    this.router.navigate(['/ObtenerMaestrosActivos']);
+  
+  irInventario() {
+    this.router.navigate(['/inventario']);
   }
 
-  verHistoricoMaestros() {
-    this.router.navigate(['/ver-historico-maestros']);
+  agregarDispositivo() {
+    this.router.navigate(['/agregar-dispositivo']);
   }
 
+  crearActa() {
+    this.router.navigate(['/crear-acta']);
+  }
+
+  verActas() {
+    this.router.navigate(['/actas']);
+  }
+
+  registrarDevolucion() {
+    this.router.navigate(['/acta-devolucion']);
+  }
 }

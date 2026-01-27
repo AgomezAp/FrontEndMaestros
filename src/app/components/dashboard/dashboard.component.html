@@ -1,101 +1,219 @@
 <app-navbar></app-navbar>
-<div class="dashboard-container  fade-enter-active" @fadeInOut>
-  <h2>Lista de celulares activos</h2>
-  
-  <div class="filter-container">
-    <div class="form-group">
-      <label for="filterFecha">Filtrar por Fecha:</label>
-      <input type="date" id="filterFecha" [(ngModel)]="filterFecha" class="form-control" (ngModelChange)="applyFilters()" />
-    </div>
-    <div class="form-group">
-      <label for="filterImei">Filtrar por IMEI:</label>
-      <input type="text" id="filterImei" [(ngModel)]="filterImei" class="form-control" (ngModelChange)="applyFilters()" />
-    </div>
-    <div class="form-group">
-      <label for="filterMonitor">Filtrar por Monitor:</label>
-      <input type="text" id="filterMonitor" [(ngModel)]="filterMonitor" class="form-control" (ngModelChange)="applyFilters()" />
-    </div>
-    <div class="form-group">
-      <label for="filterRegion">Filtrar por Región:</label>
-      <input type="text" id="filterRegion" [(ngModel)]="filterRegion" class="form-control" (ngModelChange)="applyFilters()" />
-    </div>
-    <div class="form-group">
-      <label for="filterMarca">Filtrar por Marca Celular:</label>
-      <input type="text" id="filterMarca" [(ngModel)]="filterMarca" class="form-control" (ngModelChange)="applyFilters()" />
+<div class="dashboard-container fade-enter-active" @fadeInOut>
+  <div class="dashboard-header">
+    <h2 class="dashboard-title">Lista de celulares activos</h2>
+  </div>
+
+  <div class="filter-card">
+    <div class="filter-grid">
+      <div class="filter-group">
+        <label class="filter-label" for="filterFecha">Filtrar por Fecha:</label>
+        <input
+          type="date"
+          id="filterFecha"
+          [(ngModel)]="filterFecha"
+          class="filter-input"
+          (ngModelChange)="applyFilters()"
+        />
+      </div>
+      <div class="filter-group">
+        <label class="filter-label" for="filterImei">Filtrar por IMEI:</label>
+        <input
+          type="text"
+          id="filterImei"
+          [(ngModel)]="filterImei"
+          class="filter-input"
+          placeholder="Buscar IMEI..."
+          (ngModelChange)="applyFilters()"
+        />
+      </div>
+      <div class="filter-group">
+        <label class="filter-label" for="filterMonitor"
+          >Filtrar por Monitor:</label
+        >
+        <input
+          type="text"
+          id="filterMonitor"
+          [(ngModel)]="filterMonitor"
+          class="filter-input"
+          placeholder="Buscar monitor..."
+          (ngModelChange)="applyFilters()"
+        />
+      </div>
+      <div class="filter-group">
+        <label class="filter-label" for="filterRegion"
+          >Filtrar por Región:</label
+        >
+        <input
+          type="text"
+          id="filterRegion"
+          [(ngModel)]="filterRegion"
+          class="filter-input"
+          placeholder="Buscar región..."
+          (ngModelChange)="applyFilters()"
+        />
+      </div>
+      <div class="filter-group">
+        <label class="filter-label" for="filterMarca">Filtrar por Marca:</label>
+        <input
+          type="text"
+          id="filterMarca"
+          [(ngModel)]="filterMarca"
+          class="filter-input"
+          placeholder="Buscar marca..."
+          (ngModelChange)="applyFilters()"
+        />
+      </div>
     </div>
   </div>
 
-  <div class="table-responsive">
-    <table class="table table-bordered">
-      <thead>
-        <tr>
-          <th>Fecha entrega</th>
-          <th>Monitor</th>
-          <th>Nombre Maestro</th>
-          <th>Región</th>
-          <th>Descripción</th>
-          <th>Marca Celular</th>
-          <th>Modelo</th>
-          <th>imei</th>
-          <th>Firma</th>
-          <th scope="col">Acciones</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let maestro of paginatedMaestros">
-          <td>
-            <span *ngIf="!maestro.editing">{{ maestro.fechaRecibe }}</span>
-            <input *ngIf="maestro.editing" [(ngModel)]="maestro.fechaRecibe" class="form-control" />
-          </td>
-          <td>
-            <span *ngIf="!maestro.editing">{{ maestro.nombre }}</span>
-            <input *ngIf="maestro.editing" [(ngModel)]="maestro.nombre" class="form-control" />
-          </td>
-          <td>
-            <span *ngIf="!maestro.editing">{{ maestro.NombreMaestro }}</span>
-            <input *ngIf="maestro.editing" [(ngModel)]="maestro.NombreMaestro" class="form-control" />
-          </td>
-          <td>
-            <span *ngIf="!maestro.editing">{{ maestro.region }}</span>
-            <input *ngIf="maestro.editing" [(ngModel)]="maestro.region" class="form-control" />
-          </td>
-          <td class="descripcion-col">
-            <span *ngIf="!maestro.editing">{{ maestro.descripcionEntrega }}</span>
-            <input *ngIf="maestro.editing" [(ngModel)]="maestro.descripcionEntrega" class="form-control" />
-          </td>
-          <td>
-            <span *ngIf="!maestro.editing">{{ maestro.marca }}</span>
-            <input *ngIf="maestro.editing" [(ngModel)]="maestro.marca" class="form-control" />
-          </td>
-          <td>
-            <span *ngIf="!maestro.editing">{{ maestro.modelo }}</span>
-            <input *ngIf="maestro.editing" [(ngModel)]="maestro.modelo" class="form-control" />
-          </td>
-          <td>
-            <span *ngIf="!maestro.editing">{{ maestro.imei }}</span>
-            <input *ngIf="maestro.editing" [(ngModel)]="maestro.imei" class="form-control" />
-          </td>
-          <td><img [src]="maestro.firmaEntrega" alt="Firma" width="100"></td>
-          
-          <td>
-       
-            <button class="btn btn-danger action-button btn-eliminar" (click)="deleteMaestro(maestro.Mid)">
-              <i class="fa-solid fa-right-to-bracket"></i>Recibir 
-            </button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+  <div class="table-card">
+    <div class="table-wrapper">
+      <table class="data-table">
+        <thead class="table-head">
+          <tr>
+            <th class="th-cell">Fecha entrega</th>
+            <th class="th-cell">Monitor</th>
+            <th class="th-cell">Nombre Maestro</th>
+            <th class="th-cell">Región</th>
+            <th class="th-cell">Descripción</th>
+            <th class="th-cell">Marca Celular</th>
+            <th class="th-cell">Modelo</th>
+            <th class="th-cell">IMEI</th>
+            <th class="th-cell">Firma</th>
+            <th class="th-cell th-actions">Acciones</th>
+          </tr>
+        </thead>
+        <tbody class="table-body">
+          <tr class="table-row" *ngFor="let maestro of paginatedMaestros">
+            <td class="td-cell">
+              <span class="cell-text" *ngIf="!maestro.editing">{{
+                maestro.fechaRecibe
+              }}</span>
+              <input
+                *ngIf="maestro.editing"
+                [(ngModel)]="maestro.fechaRecibe"
+                class="cell-input"
+              />
+            </td>
+            <td class="td-cell">
+              <span class="cell-text" *ngIf="!maestro.editing">{{
+                maestro.nombre
+              }}</span>
+              <input
+                *ngIf="maestro.editing"
+                [(ngModel)]="maestro.nombre"
+                class="cell-input"
+              />
+            </td>
+            <td class="td-cell">
+              <span class="cell-text" *ngIf="!maestro.editing">{{
+                maestro.NombreMaestro
+              }}</span>
+              <input
+                *ngIf="maestro.editing"
+                [(ngModel)]="maestro.NombreMaestro"
+                class="cell-input"
+              />
+            </td>
+            <td class="td-cell">
+              <span class="cell-text" *ngIf="!maestro.editing">{{
+                maestro.region
+              }}</span>
+              <input
+                *ngIf="maestro.editing"
+                [(ngModel)]="maestro.region"
+                class="cell-input"
+              />
+            </td>
+            <td class="td-cell td-descripcion">
+              <span class="cell-text" *ngIf="!maestro.editing">{{
+                maestro.descripcionEntrega
+              }}</span>
+              <input
+                *ngIf="maestro.editing"
+                [(ngModel)]="maestro.descripcionEntrega"
+                class="cell-input"
+              />
+            </td>
+            <td class="td-cell">
+              <span class="cell-text" *ngIf="!maestro.editing">{{
+                maestro.marca
+              }}</span>
+              <input
+                *ngIf="maestro.editing"
+                [(ngModel)]="maestro.marca"
+                class="cell-input"
+              />
+            </td>
+            <td class="td-cell">
+              <span class="cell-text" *ngIf="!maestro.editing">{{
+                maestro.modelo
+              }}</span>
+              <input
+                *ngIf="maestro.editing"
+                [(ngModel)]="maestro.modelo"
+                class="cell-input"
+              />
+            </td>
+            <td class="td-cell">
+              <span class="cell-text" *ngIf="!maestro.editing">{{
+                maestro.imei
+              }}</span>
+              <input
+                *ngIf="maestro.editing"
+                [(ngModel)]="maestro.imei"
+                class="cell-input"
+              />
+            </td>
+            <td class="td-cell td-firma">
+              <img class="firma-img" [src]="maestro.firmaEntrega" alt="Firma" />
+            </td>
+            <td class="td-cell td-actions">
+              <button class="btn-recibir" (click)="deleteMaestro(maestro.Mid)">
+                <i class="fa-solid fa-right-to-bracket"></i>
+                <span>Recibir</span>
+              </button>
+            </td>
+          </tr>
+          <!-- Fila vacía si no hay datos -->
+          <tr
+            class="table-row empty-row"
+            *ngIf="paginatedMaestros.length === 0"
+          >
+            <td class="td-cell" colspan="10">
+              <span class="empty-text">No hay celulares registrados</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
+
   <app-spinner *ngIf="loading"></app-spinner>
-  <div class="pagination-container">
-    <button class="btn btn-pagination" (click)="previousPage()" [disabled]="currentPage === 1"><i class="fa-solid fa-arrow-left"></i></button>
-    <span>Página {{ currentPage }}</span>
-    <button class="btn btn-pagination" (click)="nextPage()" [disabled]="currentPage * itemsPerPage >= maestros.length"><i class="fa-solid fa-arrow-right"></i></button>
+
+  <div class="pagination-card">
+    <button
+      class="btn-page"
+      (click)="previousPage()"
+      [disabled]="currentPage === 1"
+    >
+      <i class="fa-solid fa-arrow-left"></i>
+    </button>
+    <span class="page-info">Página {{ currentPage }}</span>
+    <button
+      class="btn-page"
+      (click)="nextPage()"
+      [disabled]="currentPage * itemsPerPage >= maestros.length"
+    >
+      <i class="fa-solid fa-arrow-right"></i>
+    </button>
   </div>
-  <div class="button-container">
-    <button class="btn btn-success btn-agregar" (click)="navigateToAddMaestro()">
-      <i class="fa-solid fa-user-plus"style="margin-right: 10px;"></i> Hacer entrega de celular
+
+  <div class="action-container">
+    <button class="btn-agregar" (click)="navigateToAddMaestro()">
+      <i class="fa-solid fa-user-plus"></i>
+      <span>Hacer entrega de celular</span>
     </button>
   </div>
 </div>

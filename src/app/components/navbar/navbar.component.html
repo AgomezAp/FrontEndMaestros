@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
   <div class="container-fluid">
     <img src="/LogoBlanco.png" alt="Logo de Andrés Publicidad" width="75px">
-    <a class="navbar-brand" >Plataforma Maestros</a>
+    <a class="navbar-brand" (click)="irInventario()" style="cursor: pointer;">Sistema de Inventario</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -13,16 +13,34 @@
       <div class="offcanvas-body">
         <ul class="navbar-nav ms-auto justify-content-end flex-grow-1 pe-3">
           <li class="nav-item">
-            <button class="btn btn-outline-light me-2 custom-btn" type="button" (click)="verMaestros()">Ver celulares a mi nombre<i class="fa-solid fa-users"style="margin-left: 10px;"></i></button>
+            <button class="btn btn-outline-light me-2 custom-btn" type="button" (click)="irInventario()">
+              <i class="fa-solid fa-boxes-stacked me-2"></i>Inventario
+            </button>
           </li>
           <li class="nav-item">
-            <button class="btn btn-outline-light me-2 custom-btn" type="button" (click)="verMaestrosActivos()">Ver Celulares Activos <i class="fa-solid fa-user-check"></i></button>
+            <button class="btn btn-success me-2 custom-btn" type="button" (click)="agregarDispositivo()">
+              <i class="fa-solid fa-plus me-2"></i>Agregar Dispositivo
+            </button>
           </li>
           <li class="nav-item">
-            <button class="btn btn-outline-light me-2 custom-btn" type="button" (click)="verHistoricoMaestros()">Ver Histórico de Celulares <i class="fa-solid fa-users-gear"></i></button>
+            <button class="btn btn-primary me-2 custom-btn" type="button" (click)="crearActa()">
+              <i class="fa-solid fa-file-signature me-2"></i>Nueva Acta
+            </button>
           </li>
           <li class="nav-item">
-            <button class="btn btn-outline-danger custom-btn" type="button" (click)="logOut()">Cerrar sesión<i class="fa-solid fa-arrow-right-from-bracket"style="margin-left: 10px;"></i></button>
+            <button class="btn btn-info me-2 custom-btn" type="button" (click)="verActas()">
+              <i class="fa-solid fa-folder-open me-2"></i>Ver Actas
+            </button>
+          </li>
+          <li class="nav-item">
+            <button class="btn btn-warning me-2 custom-btn" type="button" (click)="registrarDevolucion()">
+              <i class="fa-solid fa-undo-alt me-2"></i>Devolución
+            </button>
+          </li>
+          <li class="nav-item">
+            <button class="btn btn-outline-danger custom-btn" type="button" (click)="logOut()">
+              <i class="fa-solid fa-arrow-right-from-bracket me-2"></i>Cerrar sesión
+            </button>
           </li>
         </ul>
       </div>

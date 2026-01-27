@@ -53,7 +53,7 @@ export class LoginComponent {
         localStorage.setItem('userId', Uid); 
         localStorage.setItem('nombreCompleto', nombreCompleto);
         console.log(response.nombre);
-        this.router.navigate(['/dashBoard']);
+        this.router.navigate(['/inventario']);
       },
       error: (e: HttpErrorResponse) => {
         this.loading = false;

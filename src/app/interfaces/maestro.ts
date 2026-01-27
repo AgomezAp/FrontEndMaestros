@@ -3,8 +3,10 @@ import { User } from './user';
 export interface Maestro {
   Mid: number;
   nombre: string;
-  NombreMaestro: string;
-  maestroRecibido:string;
+  tipo: string;
+  analistaAsignado: string;
+  Aid: number;
+  maestroRecibido: string;
   firmaEntrega: string;
   firmaRecibe: string;
   descripcionEntrega: string;
@@ -12,20 +14,24 @@ export interface Maestro {
   Uid: number;
   nombreCompletoRecibe: string;
   estado: string;
-  region: string;
+  almacen: string;
   marca: string;
   modelo: string;
   imei: string;
-  fechaRecibe: Date;
-  fechaEntrega: Date;
+  stockMinimo: number;
+  fotosEntrega: string[];
+  fotosRecibe: string[];
+  fechaIngreso: Date;
+  fechaSalida: Date;
   usuarios: User;
-
 }
 export interface MaestroEdicion {
   Mid: number;
   nombre: string;
-  NombreMaestro: string;
-  maestroRecibido:string;
+  tipo: string;
+  analistaAsignado: string;
+  Aid: number;
+  maestroRecibido: string;
   firmaEntrega: string;
   firmaRecibe: string;
   descripcionEntrega: string;
@@ -33,11 +39,14 @@ export interface MaestroEdicion {
   Uid: number;
   nombreCompletoRecibe: string;
   estado: string;
-  region: string;
+  almacen: string;
   marca: string;
   modelo: string;
   imei: string;
-  fechaRecibido: Date;
-  fechaEntregado: Date;
+  stockMinimo: number;
+  fotosEntrega: string[];
+  fotosRecibe: string[];
+  fechaIngreso: Date;
+  fechaSalida: Date;
   editing?: boolean;
 }
