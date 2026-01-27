@@ -8,10 +8,7 @@ import {
   provideAnimations,
 } from '@angular/platform-browser/animations';
 
-import {
-  provideCharts,
-  withDefaultRegisterables,
-} from 'ng2-charts';
+
 import { provideToastr } from 'ngx-toastr';
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -28,7 +25,6 @@ bootstrapApplication(AppComponent, {
     BrowserAnimationsModule,
     FontAwesomeModule,
     provideHttpClient(),  
-    provideCharts(withDefaultRegisterables()),  // Agrega el proveedor de gráficos
     provideHttpClient(withInterceptors([tokenInterceptor])),   // Agrega el proveedor de animaciones
     provideToastr({
       timeOut: 1200,
