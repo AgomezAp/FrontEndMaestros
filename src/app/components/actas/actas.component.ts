@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { InventarioService } from '../../services/inventario.service';
 import { FirmaService } from '../../services/firma.service';
+import { WebsocketService } from '../../services/websocket.service';
 import { ActaEntrega, DetalleActa } from '../../interfaces/inventario';
 import { NavbarComponent } from '../navbar/navbar.component';
 
@@ -14,7 +16,7 @@ import { NavbarComponent } from '../navbar/navbar.component';
   templateUrl: './actas.component.html',
   styleUrl: './actas.component.css'
 })
-export class ActasComponent implements OnInit {
+export class ActasComponent implements OnInit, OnDestroy {
   actas: ActaEntrega[] = [];
   actasFiltradas: ActaEntrega[] = [];
   actaSeleccionada: ActaEntrega | null = null;
@@ -45,14 +47,58 @@ export class ActasComponent implements OnInit {
 
   estados = ['pendiente_firma', 'activa', 'devuelta_parcial', 'devuelta_completa', 'vencida', 'rechazada'];
 
+  // Suscripciones WebSocket
+  private subscriptions: Subscription[] = [];
+
   constructor(
     private inventarioService: InventarioService,
     private firmaService: FirmaService,
+    private websocketService: WebsocketService,
     private router: Router
   ) {}
 
   ngOnInit(): void {
     this.cargarActas();
+    this.conectarWebSocket();
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.forEach(sub => sub.unsubscribe());
+  }
+
+  private conectarWebSocket(): void {
+    // Unirse a la sala de actas
+    this.websocketService.joinRoom('actas');
+
+    // Suscribirse a eventos de actas
+    this.subscriptions.push(
+      this.websocketService.onActaCreated().subscribe(acta => {
+        console.log('📋 Nueva acta creada:', acta);
+        this.cargarActas();
+      })
+    );
+
+    this.subscriptions.push(
+      this.websocketService.onActaSigned().subscribe(data => {
+        console.log('📋 Acta firmada:', data);
+        this.cargarActas();
+        // Si el acta seleccionada es la que se firmó, recargar detalle
+        if (this.actaSeleccionada && this.actaSeleccionada.id === data.actaId) {
+          this.verDetalle(this.actaSeleccionada);
+        }
+      })
+    );
+
+    this.subscriptions.push(
+      this.websocketService.onActaRejected().subscribe(data => {
+        console.log('📋 Acta rechazada:', data);
+        this.cargarActas();
+        // Si el acta seleccionada es la que se rechazó, recargar detalle
+        if (this.actaSeleccionada && this.actaSeleccionada.id === data.actaId) {
+          this.verDetalle(this.actaSeleccionada);
+        }
+      })
+    );
   }
 
   cargarActas(): void {

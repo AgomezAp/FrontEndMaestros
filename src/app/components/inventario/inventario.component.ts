@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { InventarioService } from '../../services/inventario.service';
+import { WebsocketService } from '../../services/websocket.service';
 import { Dispositivo, EstadisticasInventario } from '../../interfaces/inventario';
 import { NavbarComponent } from '../navbar/navbar.component';
 
@@ -13,7 +15,7 @@ import { NavbarComponent } from '../navbar/navbar.component';
   templateUrl: './inventario.component.html',
   styleUrl: './inventario.component.css'
 })
-export class InventarioComponent implements OnInit {
+export class InventarioComponent implements OnInit, OnDestroy {
   dispositivos: Dispositivo[] = [];
   dispositivosFiltrados: Dispositivo[] = [];
   estadisticas: EstadisticasInventario | null = null;
@@ -33,14 +35,53 @@ export class InventarioComponent implements OnInit {
   categorias = ['celular', 'tablet', 'computador', 'cargador', 'accesorio', 'otro'];
   estados = ['disponible', 'entregado', 'dañado', 'perdido', 'obsoleto'];
 
+  // Suscripciones WebSocket
+  private subscriptions: Subscription[] = [];
+
   constructor(
     private inventarioService: InventarioService,
+    private websocketService: WebsocketService,
     private router: Router
   ) {}
 
   ngOnInit(): void {
     this.cargarDispositivos();
     this.cargarEstadisticas();
+    this.conectarWebSocket();
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.forEach(sub => sub.unsubscribe());
+  }
+
+  private conectarWebSocket(): void {
+    // Unirse a la sala de inventario
+    this.websocketService.joinRoom('inventario');
+
+    // Suscribirse a eventos de dispositivos
+    this.subscriptions.push(
+      this.websocketService.onDispositivoCreated().subscribe(dispositivo => {
+        console.log('📦 Nuevo dispositivo creado:', dispositivo);
+        this.cargarDispositivos();
+        this.cargarEstadisticas();
+      })
+    );
+
+    this.subscriptions.push(
+      this.websocketService.onDispositivoUpdated().subscribe(data => {
+        console.log('📦 Dispositivo actualizado:', data);
+        this.cargarDispositivos();
+        this.cargarEstadisticas();
+      })
+    );
+
+    this.subscriptions.push(
+      this.websocketService.onDispositivoDeleted().subscribe(data => {
+        console.log('📦 Dispositivo eliminado:', data);
+        this.cargarDispositivos();
+        this.cargarEstadisticas();
+      })
+    );
   }
 
   cargarDispositivos(): void {

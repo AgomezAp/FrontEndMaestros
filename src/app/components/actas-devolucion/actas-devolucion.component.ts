@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Subscription } from 'rxjs';
 import { DevolucionService } from '../../services/devolucion.service';
+import { WebsocketService } from '../../services/websocket.service';
 import { SpinnerComponent } from '../../shared/spinner/spinner/spinner.component';
 import { NavbarComponent } from '../navbar/navbar.component';
 
@@ -12,7 +14,7 @@ import { NavbarComponent } from '../navbar/navbar.component';
   templateUrl: './actas-devolucion.component.html',
   styleUrls: ['./actas-devolucion.component.css']
 })
-export class ActasDevolucionComponent implements OnInit {
+export class ActasDevolucionComponent implements OnInit, OnDestroy {
   actas: any[] = [];
   actasFiltradas: any[] = [];
   loading = false;
@@ -35,10 +37,56 @@ export class ActasDevolucionComponent implements OnInit {
   actaSeleccionada: any = null;
   mostrarModal = false;
   
-  constructor(private devolucionService: DevolucionService) {}
+  // Suscripciones WebSocket
+  private subscriptions: Subscription[] = [];
+  
+  constructor(
+    private devolucionService: DevolucionService,
+    private websocketService: WebsocketService
+  ) {}
   
   ngOnInit(): void {
     this.cargarActas();
+    this.conectarWebSocket();
+  }
+  
+  ngOnDestroy(): void {
+    this.subscriptions.forEach(sub => sub.unsubscribe());
+  }
+  
+  private conectarWebSocket(): void {
+    // Unirse a la sala de devoluciones
+    this.websocketService.joinRoom('devoluciones');
+
+    // Suscribirse a eventos de devoluciones
+    this.subscriptions.push(
+      this.websocketService.onDevolucionCreated().subscribe(acta => {
+        console.log('🔄 Nueva acta de devolución creada:', acta);
+        this.cargarActas();
+      })
+    );
+
+    this.subscriptions.push(
+      this.websocketService.onDevolucionSigned().subscribe(data => {
+        console.log('🔄 Acta de devolución firmada:', data);
+        this.cargarActas();
+        // Si el acta seleccionada es la que se firmó, recargar detalle
+        if (this.actaSeleccionada?.id === data.actaId) {
+          this.verDetalle(this.actaSeleccionada);
+        }
+      })
+    );
+
+    this.subscriptions.push(
+      this.websocketService.onDevolucionRejected().subscribe(data => {
+        console.log('🔄 Acta de devolución rechazada:', data);
+        this.cargarActas();
+        // Si el acta seleccionada es la que se rechazó, recargar detalle
+        if (this.actaSeleccionada?.id === data.actaId) {
+          this.verDetalle(this.actaSeleccionada);
+        }
+      })
+    );
   }
   
   cargarActas(): void {
