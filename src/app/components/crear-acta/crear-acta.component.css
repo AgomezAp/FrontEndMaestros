@@ -502,6 +502,75 @@
   cursor: not-allowed;
 }
 
+/* Texto de ayuda */
+.help-text {
+  font-size: 0.85rem;
+  color: #666;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 5px;
+}
+
+.help-text i {
+  color: #1976D2;
+}
+
+/* Sección info firma */
+.info-firma {
+  background: #e3f2fd;
+  border-radius: 12px;
+  margin: 0 -30px;
+  padding: 30px;
+  border-bottom: none;
+}
+
+.info-box {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+.info-box .icon-grande {
+  font-size: 3rem;
+  color: #1976D2;
+  flex-shrink: 0;
+}
+
+.info-contenido {
+  flex: 1;
+}
+
+.info-contenido p {
+  margin: 0 0 10px;
+}
+
+.info-contenido ol {
+  margin: 0 0 15px;
+  padding-left: 20px;
+}
+
+.info-contenido li {
+  margin-bottom: 8px;
+  line-height: 1.5;
+}
+
+.info-contenido .nota {
+  background: white;
+  padding: 12px 15px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-top: 15px;
+}
+
+.info-contenido .nota i {
+  color: #ff9800;
+  margin-top: 2px;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   .form-row.two-cols {
@@ -520,5 +589,10 @@
   .btn-crear {
     width: 100%;
     justify-content: center;
+  }
+  
+  .info-box {
+    flex-direction: column;
+    text-align: center;
   }
 }

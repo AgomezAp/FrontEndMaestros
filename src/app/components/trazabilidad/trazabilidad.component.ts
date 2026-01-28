@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { InventarioService } from '../../services/inventario.service';
 import { Dispositivo, MovimientoDispositivo } from '../../interfaces/inventario';
+import { NavbarComponent } from '../navbar/navbar.component';
 
 @Component({
   selector: 'app-trazabilidad',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule,NavbarComponent],
   templateUrl: './trazabilidad.component.html',
   styleUrl: './trazabilidad.component.css'
 })

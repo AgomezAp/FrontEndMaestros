@@ -8,7 +8,7 @@ export interface Dispositivo {
   imei?: string;
   color?: string;
   descripcion?: string;
-  estado: 'disponible' | 'entregado' | 'dañado' | 'perdido' | 'obsoleto';
+  estado: 'disponible' | 'reservado' | 'entregado' | 'dañado' | 'perdido' | 'obsoleto';
   condicion: 'nuevo' | 'bueno' | 'regular' | 'malo';
   ubicacion?: string;
   fotos?: string; // JSON array de URLs
@@ -27,11 +27,12 @@ export interface ActaEntrega {
   cargoReceptor: string;
   telefonoReceptor?: string;
   correoReceptor?: string;
-  firmaReceptor: string; // Base64
+  firmaReceptor?: string; // Base64, opcional hasta que se firme
   fechaEntrega: Date | string;
+  fechaFirma?: Date | string;
   fechaDevolucionEsperada?: Date | string;
   fechaDevolucionReal?: Date | string;
-  estado: 'activa' | 'devuelta_parcial' | 'devuelta_completa' | 'vencida';
+  estado: 'pendiente_firma' | 'activa' | 'devuelta_parcial' | 'devuelta_completa' | 'vencida' | 'rechazada';
   observacionesEntrega?: string;
   observacionesDevolucion?: string;
   Uid?: number;

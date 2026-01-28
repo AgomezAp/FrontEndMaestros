@@ -46,14 +46,19 @@
         </div>
         
         <div class="form-group">
-          <label for="correo">Correo electrónico</label>
+          <label for="correo">Correo electrónico *</label>
           <input 
             type="email" 
             id="correo" 
             [(ngModel)]="receptor.correo" 
             name="correo"
             placeholder="correo@ejemplo.com"
+            required
           />
+          <small class="help-text">
+            <i class="fa-solid fa-info-circle"></i> 
+            Se enviará un enlace a este correo para que el receptor firme digitalmente.
+          </small>
         </div>
       </div>
 
@@ -179,26 +184,23 @@
         </div>
       </div>
 
-      <!-- Firma digital -->
-      <div class="form-section">
-        <h3><i class="fa-solid fa-signature"></i> Firma del receptor *</h3>
-        
-        <div class="firma-container">
-          <canvas 
-            #signaturePadCanvas 
-            class="signature-pad"
-            (mouseup)="onFirmaEnd()"
-            (touchend)="onFirmaEnd()"
-          ></canvas>
-          
-          <div class="firma-actions">
-            <button type="button" class="btn-limpiar" (click)="limpiarFirma()">
-              <i class="fa-solid fa-eraser"></i> Limpiar firma
-            </button>
-            <span class="firma-status" [class.firmado]="firmado">
-              <i class="fa-solid" [ngClass]="firmado ? 'fa-check-circle' : 'fa-circle'"></i>
-              {{ firmado ? 'Firmado' : 'Pendiente de firma' }}
-            </span>
+      <!-- Información sobre firma digital por correo -->
+      <div class="form-section info-firma">
+        <h3><i class="fa-solid fa-envelope"></i> Firma Digital por Correo</h3>
+        <div class="info-box">
+          <i class="fa-solid fa-signature icon-grande"></i>
+          <div class="info-contenido">
+            <p><strong>¿Cómo funciona?</strong></p>
+            <ol>
+              <li>Se creará el acta de entrega con los dispositivos seleccionados</li>
+              <li>El receptor recibirá un correo con un enlace único</li>
+              <li>Al abrir el enlace, podrá revisar los dispositivos y firmar digitalmente</li>
+              <li>Una vez firmada, el acta quedará completada y ambas partes recibirán una copia</li>
+            </ol>
+            <p class="nota">
+              <i class="fa-solid fa-info-circle"></i> 
+              Si el receptor rechaza el acta, podrá indicar el motivo y se le notificará para hacer correcciones.
+            </p>
           </div>
         </div>
       </div>
@@ -215,9 +217,9 @@
         <button type="button" class="btn-cancelar" (click)="cancelar()">
           <i class="fa-solid fa-times"></i> Cancelar
         </button>
-        <button type="submit" class="btn-crear" [disabled]="loading">
-          <i class="fa-solid" [ngClass]="loading ? 'fa-spinner fa-spin' : 'fa-file-signature'"></i>
-          {{ loading ? 'Creando acta...' : 'Crear Acta de Entrega' }}
+        <button type="submit" class="btn-crear" [disabled]="loading || enviandoCorreo">
+          <i class="fa-solid" [ngClass]="loading || enviandoCorreo ? 'fa-spinner fa-spin' : 'fa-paper-plane'"></i>
+          {{ loading ? 'Creando acta...' : enviandoCorreo ? 'Enviando correo...' : 'Crear y Enviar para Firma' }}
         </button>
       </div>
     </form>

@@ -6,6 +6,7 @@ import SignaturePad from 'signature_pad';
 import { InventarioService } from '../../services/inventario.service';
 import { ActaEntrega, Dispositivo, DetalleActa } from '../../interfaces/inventario';
 import { environment } from '../../../environments/environment';
+import { NavbarComponent } from '../navbar/navbar.component';
 
 interface DevolucionItem {
   detalleId: number;
@@ -21,7 +22,7 @@ interface DevolucionItem {
 @Component({
   selector: 'app-acta-devolucion',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule],
+  imports: [CommonModule, FormsModule, RouterModule, NavbarComponent],
   templateUrl: './acta-devolucion.component.html',
   styleUrls: ['./acta-devolucion.component.css']
 })

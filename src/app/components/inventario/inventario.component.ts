@@ -4,11 +4,12 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { InventarioService } from '../../services/inventario.service';
 import { Dispositivo, EstadisticasInventario } from '../../interfaces/inventario';
+import { NavbarComponent } from '../navbar/navbar.component';
 
 @Component({
   selector: 'app-inventario',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule,NavbarComponent],
   templateUrl: './inventario.component.html',
   styleUrl: './inventario.component.css'
 })

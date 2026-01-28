@@ -22,20 +22,33 @@
               <i class="fa-solid fa-plus me-2"></i>Agregar Dispositivo
             </button>
           </li>
-          <li class="nav-item">
-            <button class="btn btn-primary me-2 custom-btn" type="button" (click)="crearActa()">
-              <i class="fa-solid fa-file-signature me-2"></i>Nueva Acta
+          <!-- Dropdown Entregas -->
+          <li class="nav-item dropdown">
+            <button class="btn btn-primary me-2 custom-btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="fa-solid fa-file-signature me-2"></i>Entregas
             </button>
+            <ul class="dropdown-menu dropdown-menu-dark">
+              <li><a class="dropdown-item" (click)="crearActa()" style="cursor: pointer;">
+                <i class="fa-solid fa-plus me-2"></i>Nueva Acta de Entrega
+              </a></li>
+              <li><a class="dropdown-item" (click)="verActas()" style="cursor: pointer;">
+                <i class="fa-solid fa-folder-open me-2"></i>Ver Actas de Entrega
+              </a></li>
+            </ul>
           </li>
-          <li class="nav-item">
-            <button class="btn btn-info me-2 custom-btn" type="button" (click)="verActas()">
-              <i class="fa-solid fa-folder-open me-2"></i>Ver Actas
+          <!-- Dropdown Devoluciones -->
+          <li class="nav-item dropdown">
+            <button class="btn btn-warning me-2 custom-btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="fa-solid fa-undo-alt me-2"></i>Devoluciones
             </button>
-          </li>
-          <li class="nav-item">
-            <button class="btn btn-warning me-2 custom-btn" type="button" (click)="registrarDevolucion()">
-              <i class="fa-solid fa-undo-alt me-2"></i>Devolución
-            </button>
+            <ul class="dropdown-menu dropdown-menu-dark">
+              <li><a class="dropdown-item" (click)="crearDevolucion()" style="cursor: pointer;">
+                <i class="fa-solid fa-plus me-2"></i>Nueva Acta de Devolución
+              </a></li>
+              <li><a class="dropdown-item" (click)="verActasDevolucion()" style="cursor: pointer;">
+                <i class="fa-solid fa-folder-open me-2"></i>Ver Actas de Devolución
+              </a></li>
+            </ul>
           </li>
           <li class="nav-item">
             <button class="btn btn-outline-danger custom-btn" type="button" (click)="logOut()">

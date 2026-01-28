@@ -10,6 +10,11 @@ import { ActasComponent } from './components/actas/actas.component';
 import { TrazabilidadComponent } from './components/trazabilidad/trazabilidad.component';
 import { DetalleDispositivoComponent } from './components/detalle-dispositivo/detalle-dispositivo.component';
 import { ActaDevolucionComponent } from './components/acta-devolucion/acta-devolucion.component';
+import { FirmaExternaComponent } from './components/firma-externa/firma-externa.component';
+// Componentes de Devolución (proceso separado)
+import { CrearDevolucionComponent } from './components/crear-devolucion/crear-devolucion.component';
+import { ActasDevolucionComponent } from './components/actas-devolucion/actas-devolucion.component';
+import { FirmaDevolucionComponent } from './components/firma-devolucion/firma-devolucion.component';
 
 export const routes: Routes = [
   {
@@ -55,6 +60,23 @@ export const routes: Routes = [
   {
     path: 'acta-devolucion',
     component: ActaDevolucionComponent,
+  },
+  {
+    path: 'firmar/:token',
+    component: FirmaExternaComponent,
+  },
+  // Rutas de Devolución (proceso separado)
+  {
+    path: 'crear-devolucion',
+    component: CrearDevolucionComponent,
+  },
+  {
+    path: 'actas-devolucion',
+    component: ActasDevolucionComponent,
+  },
+  {
+    path: 'firmar-devolucion/:token',
+    component: FirmaDevolucionComponent,
   },
   {
     path: '**',

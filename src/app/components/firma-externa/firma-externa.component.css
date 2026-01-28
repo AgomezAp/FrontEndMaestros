@@ -1,0 +1,485 @@
+/* Estilos generales */
+.firma-externa-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f5f7fa 0%, #e4e8ec 100%);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+}
+
+/* Encabezado */
+.header {
+  background: linear-gradient(135deg, #1e88e5 0%, #1565c0 100%);
+  color: white;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+}
+
+.logo .icon {
+  font-size: 40px;
+}
+
+.logo h1 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+/* Estados de carga/error/éxito */
+.estado-container {
+  max-width: 500px;
+  margin: 80px auto;
+  padding: 40px;
+  text-align: center;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+}
+
+.estado-container.cargando .spinner {
+  width: 50px;
+  height: 50px;
+  border: 4px solid #e0e0e0;
+  border-top-color: #1e88e5;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 20px;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.icono-estado {
+  font-size: 60px;
+  margin-bottom: 20px;
+}
+
+.estado-container h2 {
+  margin: 0 0 15px;
+  color: #333;
+  font-size: 22px;
+}
+
+.estado-container p {
+  color: #666;
+  margin: 10px 0;
+}
+
+.estado-container.exito {
+  border-top: 4px solid #4caf50;
+}
+
+.estado-container.error {
+  border-top: 4px solid #f44336;
+}
+
+.estado-container.advertencia {
+  border-top: 4px solid #ff9800;
+}
+
+.info-adicional {
+  background: #f5f5f5;
+  padding: 15px;
+  border-radius: 8px;
+  margin: 20px 0;
+}
+
+.fecha-destacada {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1e88e5;
+}
+
+.motivo {
+  font-style: italic;
+  color: #666;
+}
+
+.texto-ayuda {
+  font-size: 14px;
+  color: #999;
+  margin-top: 20px;
+}
+
+/* Contenido principal */
+.contenido-principal {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 30px 20px;
+}
+
+/* Secciones */
+.seccion {
+  background: white;
+  border-radius: 12px;
+  padding: 25px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.seccion h2 {
+  margin: 0 0 20px;
+  font-size: 18px;
+  color: #333;
+  border-bottom: 2px solid #1e88e5;
+  padding-bottom: 10px;
+}
+
+/* Grid de datos */
+.grid-datos {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.dato {
+  display: flex;
+  flex-direction: column;
+}
+
+.dato label {
+  font-size: 12px;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 5px;
+}
+
+.dato .valor {
+  font-size: 16px;
+  color: #333;
+  font-weight: 500;
+}
+
+.dato .valor.destacado {
+  color: #1e88e5;
+  font-weight: 600;
+  font-size: 18px;
+}
+
+.observaciones {
+  margin-top: 20px;
+  padding: 15px;
+  background: #fff3e0;
+  border-radius: 8px;
+  border-left: 4px solid #ff9800;
+}
+
+.observaciones label {
+  font-weight: 600;
+  color: #e65100;
+}
+
+.observaciones p {
+  margin: 10px 0 0;
+  color: #333;
+}
+
+/* Lista de dispositivos */
+.dispositivos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 15px;
+}
+
+.dispositivo-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+  padding: 15px;
+  background: #f8f9fa;
+  border-radius: 10px;
+  border: 1px solid #e0e0e0;
+  transition: all 0.2s ease;
+}
+
+.dispositivo-card:hover {
+  border-color: #1e88e5;
+  box-shadow: 0 4px 12px rgba(30, 136, 229, 0.15);
+}
+
+.dispositivo-icono {
+  font-size: 32px;
+  flex-shrink: 0;
+}
+
+.dispositivo-info h3 {
+  margin: 0 0 5px;
+  font-size: 16px;
+  color: #333;
+}
+
+.dispositivo-info .marca-modelo {
+  margin: 0;
+  color: #666;
+  font-size: 14px;
+}
+
+.dispositivo-info .serial {
+  margin: 5px 0 0;
+  font-family: monospace;
+  font-size: 13px;
+  color: #888;
+}
+
+.dispositivo-info .condicion {
+  margin: 5px 0 0;
+  font-size: 13px;
+  color: #4caf50;
+}
+
+.dispositivo-info .descripcion {
+  margin: 8px 0 0;
+  font-size: 13px;
+  color: #666;
+  font-style: italic;
+}
+
+/* Advertencia legal */
+.alerta {
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+  padding: 15px;
+  background: #fff3e0;
+  border-radius: 8px;
+  border-left: 4px solid #ff9800;
+}
+
+.alerta-icono {
+  font-size: 24px;
+  flex-shrink: 0;
+}
+
+.alerta-contenido strong {
+  color: #e65100;
+}
+
+.alerta-contenido p {
+  margin: 8px 0 0;
+  color: #333;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+/* Acciones */
+.acciones {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  align-items: center;
+  padding: 30px;
+}
+
+/* Botones */
+.btn {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #1e88e5 0%, #1565c0 100%);
+  color: white;
+}
+
+.btn-primary:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(30, 136, 229, 0.4);
+}
+
+.btn-secondary {
+  background: #f5f5f5;
+  color: #333;
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background: #e0e0e0;
+}
+
+.btn-outline {
+  background: transparent;
+  border: 2px solid #e0e0e0;
+  color: #666;
+}
+
+.btn-outline:hover:not(:disabled) {
+  border-color: #1e88e5;
+  color: #1e88e5;
+}
+
+.btn-warning {
+  background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%);
+  color: white;
+}
+
+.btn-warning:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 152, 0, 0.4);
+}
+
+.btn-grande {
+  padding: 16px 40px;
+  font-size: 18px;
+}
+
+/* Panel de firma */
+.panel-firma h2 {
+  text-align: center;
+}
+
+.instruccion {
+  text-align: center;
+  color: #666;
+  margin-bottom: 20px;
+}
+
+.firma-container {
+  background: white;
+  border: 2px dashed #ccc;
+  border-radius: 12px;
+  padding: 15px;
+  margin-bottom: 20px;
+}
+
+.signature-canvas {
+  width: 100%;
+  max-width: 500px;
+  height: 200px;
+  display: block;
+  margin: 0 auto;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+  touch-action: none;
+  cursor: crosshair;
+}
+
+.firma-linea {
+  text-align: center;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid #999;
+  max-width: 300px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.firma-linea span {
+  font-size: 12px;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.firma-acciones {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+/* Panel de rechazo */
+.panel-rechazo h2 {
+  text-align: center;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: #333;
+}
+
+.form-control {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 16px;
+  font-family: inherit;
+  resize: vertical;
+  transition: border-color 0.2s ease;
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: #1e88e5;
+}
+
+.rechazo-acciones {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+/* Footer */
+.footer {
+  text-align: center;
+  padding: 30px 20px;
+  color: #666;
+}
+
+.footer p {
+  margin: 5px 0;
+}
+
+.texto-pequeno {
+  font-size: 12px;
+  color: #999;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .logo h1 {
+    font-size: 18px;
+  }
+  
+  .seccion {
+    padding: 15px;
+  }
+  
+  .grid-datos {
+    grid-template-columns: 1fr;
+  }
+  
+  .dispositivos-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .firma-acciones,
+  .rechazo-acciones {
+    flex-direction: column;
+  }
+  
+  .btn {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .signature-canvas {
+    height: 150px;
+  }
+}

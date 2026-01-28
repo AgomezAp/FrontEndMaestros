@@ -3,12 +3,14 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { InventarioService } from '../../services/inventario.service';
+import { FirmaService } from '../../services/firma.service';
 import { ActaEntrega, DetalleActa } from '../../interfaces/inventario';
+import { NavbarComponent } from '../navbar/navbar.component';
 
 @Component({
   selector: 'app-actas',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, NavbarComponent],
   templateUrl: './actas.component.html',
   styleUrl: './actas.component.css'
 })
@@ -37,11 +39,15 @@ export class ActasComponent implements OnInit {
   }[] = [];
   observacionesDevolucion = '';
   loadingDevolucion = false;
+  
+  // Reenvío de correo
+  reenviandoCorreo: { [id: number]: boolean } = {};
 
-  estados = ['activa', 'devuelta_parcial', 'devuelta_completa', 'vencida'];
+  estados = ['pendiente_firma', 'activa', 'devuelta_parcial', 'devuelta_completa', 'vencida', 'rechazada'];
 
   constructor(
     private inventarioService: InventarioService,
+    private firmaService: FirmaService,
     private router: Router
   ) {}
 
@@ -96,30 +102,36 @@ export class ActasComponent implements OnInit {
 
   getEstadoClass(estado: string): string {
     const clases: { [key: string]: string } = {
+      'pendiente_firma': 'estado-pendiente',
       'activa': 'estado-activa',
       'devuelta_parcial': 'estado-parcial',
       'devuelta_completa': 'estado-completa',
-      'vencida': 'estado-vencida'
+      'vencida': 'estado-vencida',
+      'rechazada': 'estado-rechazada'
     };
     return clases[estado] || '';
   }
 
   getEstadoIcon(estado: string): string {
     const iconos: { [key: string]: string } = {
+      'pendiente_firma': 'fa-envelope',
       'activa': 'fa-clock',
       'devuelta_parcial': 'fa-exclamation-circle',
       'devuelta_completa': 'fa-check-circle',
-      'vencida': 'fa-calendar-times'
+      'vencida': 'fa-calendar-times',
+      'rechazada': 'fa-times-circle'
     };
     return iconos[estado] || 'fa-circle';
   }
 
   getEstadoLabel(estado: string): string {
     const labels: { [key: string]: string } = {
+      'pendiente_firma': 'Pendiente de Firma',
       'activa': 'Activa',
       'devuelta_parcial': 'Devolución Parcial',
       'devuelta_completa': 'Devuelta',
-      'vencida': 'Vencida'
+      'vencida': 'Vencida',
+      'rechazada': 'Rechazada'
     };
     return labels[estado] || estado;
   }
@@ -219,5 +231,50 @@ export class ActasComponent implements OnInit {
 
   contarCompletas(): number {
     return this.actas.filter(a => a.estado === 'devuelta_completa').length;
+  }
+  
+  contarPendientesFirma(): number {
+    return this.actas.filter(a => a.estado === 'pendiente_firma').length;
+  }
+  
+  contarRechazadas(): number {
+    return this.actas.filter(a => a.estado === 'rechazada').length;
+  }
+  
+  // Reenviar correo de firma
+  reenviarCorreo(acta: ActaEntrega): void {
+    if (!acta.id) return;
+    
+    this.reenviandoCorreo[acta.id] = true;
+    
+    this.firmaService.reenviarCorreoFirma(acta.id).subscribe({
+      next: (response) => {
+        this.reenviandoCorreo[acta.id!] = false;
+        alert(`Correo reenviado a ${acta.correoReceptor}`);
+      },
+      error: (err) => {
+        this.reenviandoCorreo[acta.id!] = false;
+        alert(err.error?.msg || 'Error al reenviar el correo');
+      }
+    });
+  }
+  
+  // Enviar nuevo correo (para actas rechazadas que se corrigieron)
+  enviarNuevoCorreo(acta: ActaEntrega): void {
+    if (!acta.id) return;
+    
+    this.reenviandoCorreo[acta.id] = true;
+    
+    this.firmaService.enviarSolicitudFirma(acta.id).subscribe({
+      next: (response) => {
+        this.reenviandoCorreo[acta.id!] = false;
+        alert(`Nuevo correo enviado a ${acta.correoReceptor}`);
+        this.cargarActas(); // Recargar para ver el nuevo estado
+      },
+      error: (err) => {
+        this.reenviandoCorreo[acta.id!] = false;
+        alert(err.error?.msg || 'Error al enviar el correo');
+      }
+    });
   }
 }

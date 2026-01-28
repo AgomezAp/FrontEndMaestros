@@ -1,0 +1,196 @@
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { DevolucionService } from '../../services/devolucion.service';
+import { SpinnerComponent } from '../../shared/spinner/spinner/spinner.component';
+import { NavbarComponent } from '../navbar/navbar.component';
+
+@Component({
+  selector: 'app-actas-devolucion',
+  standalone: true,
+  imports: [CommonModule, FormsModule, SpinnerComponent, NavbarComponent],
+  templateUrl: './actas-devolucion.component.html',
+  styleUrls: ['./actas-devolucion.component.css']
+})
+export class ActasDevolucionComponent implements OnInit {
+  actas: any[] = [];
+  actasFiltradas: any[] = [];
+  loading = false;
+  error = '';
+  success = '';
+  
+  // Filtros
+  filtroNumeroActa = '';
+  filtroNombreEntrega = '';
+  filtroEstado = '';
+  filtroFechaInicio = '';
+  filtroFechaFin = '';
+  
+  // Paginación
+  paginaActual = 1;
+  actasPorPagina = 10;
+  totalPaginas = 1;
+  
+  // Modal detalle
+  actaSeleccionada: any = null;
+  mostrarModal = false;
+  
+  constructor(private devolucionService: DevolucionService) {}
+  
+  ngOnInit(): void {
+    this.cargarActas();
+  }
+  
+  cargarActas(): void {
+    this.loading = true;
+    this.error = '';
+    
+    this.devolucionService.obtenerActasDevolucion().subscribe({
+      next: (response: any) => {
+        this.actas = response.actas || [];
+        this.aplicarFiltros();
+        this.loading = false;
+      },
+      error: (err) => {
+        console.error('Error cargando actas:', err);
+        this.error = 'Error al cargar las actas de devolución';
+        this.loading = false;
+      }
+    });
+  }
+  
+  aplicarFiltros(): void {
+    this.actasFiltradas = this.actas.filter(acta => {
+      // Filtro por número de acta
+      if (this.filtroNumeroActa && !acta.numeroActa.toLowerCase().includes(this.filtroNumeroActa.toLowerCase())) {
+        return false;
+      }
+      
+      // Filtro por nombre de quien devuelve
+      if (this.filtroNombreEntrega && !acta.nombreEntrega.toLowerCase().includes(this.filtroNombreEntrega.toLowerCase())) {
+        return false;
+      }
+      
+      // Filtro por estado
+      if (this.filtroEstado && acta.estado !== this.filtroEstado) {
+        return false;
+      }
+      
+      // Filtro por fecha inicio
+      if (this.filtroFechaInicio) {
+        const fechaActa = new Date(acta.createdAt);
+        const fechaInicio = new Date(this.filtroFechaInicio);
+        if (fechaActa < fechaInicio) {
+          return false;
+        }
+      }
+      
+      // Filtro por fecha fin
+      if (this.filtroFechaFin) {
+        const fechaActa = new Date(acta.createdAt);
+        const fechaFin = new Date(this.filtroFechaFin);
+        fechaFin.setHours(23, 59, 59);
+        if (fechaActa > fechaFin) {
+          return false;
+        }
+      }
+      
+      return true;
+    });
+    
+    this.totalPaginas = Math.ceil(this.actasFiltradas.length / this.actasPorPagina);
+    this.paginaActual = 1;
+  }
+  
+  limpiarFiltros(): void {
+    this.filtroNumeroActa = '';
+    this.filtroNombreEntrega = '';
+    this.filtroEstado = '';
+    this.filtroFechaInicio = '';
+    this.filtroFechaFin = '';
+    this.aplicarFiltros();
+  }
+  
+  get actasPaginadas(): any[] {
+    const inicio = (this.paginaActual - 1) * this.actasPorPagina;
+    const fin = inicio + this.actasPorPagina;
+    return this.actasFiltradas.slice(inicio, fin);
+  }
+  
+  cambiarPagina(pagina: number): void {
+    if (pagina >= 1 && pagina <= this.totalPaginas) {
+      this.paginaActual = pagina;
+    }
+  }
+  
+  verDetalle(acta: any): void {
+    this.actaSeleccionada = acta;
+    this.mostrarModal = true;
+  }
+  
+  cerrarModal(): void {
+    this.mostrarModal = false;
+    this.actaSeleccionada = null;
+  }
+  
+  reenviarCorreo(acta: any): void {
+    if (acta.estado !== 'pendiente_firma') {
+      this.error = 'Solo se puede reenviar el correo para actas pendientes de firma';
+      return;
+    }
+    
+    this.loading = true;
+    this.error = '';
+    this.success = '';
+    
+    this.devolucionService.reenviarCorreoDevolucion(acta.id).subscribe({
+      next: (response: any) => {
+        this.success = `Correo reenviado exitosamente a ${acta.correoEntrega}`;
+        this.loading = false;
+        setTimeout(() => this.success = '', 5000);
+      },
+      error: (err) => {
+        console.error('Error reenviando correo:', err);
+        this.error = err.error?.msg || 'Error al reenviar el correo';
+        this.loading = false;
+      }
+    });
+  }
+  
+  getEstadoClass(estado: string): string {
+    switch (estado) {
+      case 'pendiente_firma':
+        return 'estado-pendiente';
+      case 'completada':
+        return 'estado-completada';
+      case 'rechazada':
+        return 'estado-rechazada';
+      default:
+        return '';
+    }
+  }
+  
+  getEstadoTexto(estado: string): string {
+    switch (estado) {
+      case 'pendiente_firma':
+        return 'Pendiente de Firma';
+      case 'completada':
+        return 'Completada';
+      case 'rechazada':
+        return 'Rechazada';
+      default:
+        return estado;
+    }
+  }
+  
+  formatFecha(fecha: string): string {
+    if (!fecha) return '-';
+    return new Date(fecha).toLocaleDateString('es-CO', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+  }
+}

@@ -33,6 +33,16 @@ export class NavbarComponent {
     this.router.navigate(['/actas']);
   }
 
+  // Funciones para Devolución (proceso separado)
+  crearDevolucion() {
+    this.router.navigate(['/crear-devolucion']);
+  }
+
+  verActasDevolucion() {
+    this.router.navigate(['/actas-devolucion']);
+  }
+
+  // Método antiguo para compatibilidad
   registrarDevolucion() {
     this.router.navigate(['/acta-devolucion']);
   }

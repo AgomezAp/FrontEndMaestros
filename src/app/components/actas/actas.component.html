@@ -1,3 +1,5 @@
+<app-navbar></app-navbar>
+
 <div class="actas-container">
   <!-- Header -->
   <div class="header-section">
@@ -18,6 +20,11 @@
 
   <!-- Estadísticas rápidas -->
   <div class="stats-row">
+    <div class="stat-item stat-pendientes">
+      <i class="fa-solid fa-envelope"></i>
+      <span class="stat-num">{{ contarPendientesFirma() }}</span>
+      <span class="stat-label">Pend. Firma</span>
+    </div>
     <div class="stat-item stat-activas">
       <i class="fa-solid fa-clock"></i>
       <span class="stat-num">{{ contarActivas() }}</span>
@@ -32,6 +39,11 @@
       <i class="fa-solid fa-check-circle"></i>
       <span class="stat-num">{{ contarCompletas() }}</span>
       <span class="stat-label">Completas</span>
+    </div>
+    <div class="stat-item stat-rechazadas" *ngIf="contarRechazadas() > 0">
+      <i class="fa-solid fa-times-circle"></i>
+      <span class="stat-num">{{ contarRechazadas() }}</span>
+      <span class="stat-label">Rechazadas</span>
     </div>
   </div>
 
@@ -101,13 +113,40 @@
         </div>
       </div>
       
-      <div class="acta-actions" *ngIf="acta.estado === 'activa' || acta.estado === 'devuelta_parcial'">
-        <button 
-          class="btn-devolucion" 
-          (click)="abrirModalDevolucion(acta); $event.stopPropagation()"
-        >
-          <i class="fa-solid fa-undo"></i> Registrar Devolución
-        </button>
+      <div class="acta-actions">
+        <!-- Actas pendientes de firma -->
+        <ng-container *ngIf="acta.estado === 'pendiente_firma'">
+          <button 
+            class="btn-reenviar" 
+            (click)="reenviarCorreo(acta); $event.stopPropagation()"
+            [disabled]="reenviandoCorreo[acta.id!]"
+          >
+            <i class="fa-solid" [ngClass]="reenviandoCorreo[acta.id!] ? 'fa-spinner fa-spin' : 'fa-paper-plane'"></i>
+            {{ reenviandoCorreo[acta.id!] ? 'Enviando...' : 'Reenviar Correo' }}
+          </button>
+        </ng-container>
+        
+        <!-- Actas rechazadas -->
+        <ng-container *ngIf="acta.estado === 'rechazada'">
+          <button 
+            class="btn-reenviar" 
+            (click)="enviarNuevoCorreo(acta); $event.stopPropagation()"
+            [disabled]="reenviandoCorreo[acta.id!]"
+          >
+            <i class="fa-solid" [ngClass]="reenviandoCorreo[acta.id!] ? 'fa-spinner fa-spin' : 'fa-envelope'"></i>
+            {{ reenviandoCorreo[acta.id!] ? 'Enviando...' : 'Enviar Nueva Solicitud' }}
+          </button>
+        </ng-container>
+        
+        <!-- Actas activas o parciales -->
+        <ng-container *ngIf="acta.estado === 'activa' || acta.estado === 'devuelta_parcial'">
+          <button 
+            class="btn-devolucion" 
+            (click)="abrirModalDevolucion(acta); $event.stopPropagation()"
+          >
+            <i class="fa-solid fa-undo"></i> Registrar Devolución
+          </button>
+        </ng-container>
       </div>
     </div>
     

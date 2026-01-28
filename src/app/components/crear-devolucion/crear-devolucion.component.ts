@@ -1,33 +1,42 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { InventarioService } from '../../services/inventario.service';
-import { FirmaService } from '../../services/firma.service';
-import { Dispositivo, CrearActaRequest } from '../../interfaces/inventario';
+import { DevolucionService, DispositivoEntregado } from '../../services/devolucion.service';
+import SignaturePad from 'signature_pad';
 
 @Component({
-  selector: 'app-crear-acta',
+  selector: 'app-crear-devolucion',
   standalone: true,
   imports: [CommonModule, FormsModule],
-  templateUrl: './crear-acta.component.html',
-  styleUrls: ['./crear-acta.component.css']
+  templateUrl: './crear-devolucion.component.html',
+  styleUrls: ['./crear-devolucion.component.css']
 })
-export class CrearActaComponent implements OnInit, OnDestroy {
+export class CrearDevolucionComponent implements OnInit, AfterViewInit {
+  @ViewChild('signatureCanvasReceptor') signatureCanvasReceptor!: ElementRef<HTMLCanvasElement>;
+  private signaturePadReceptor!: SignaturePad;
 
-  // Datos del receptor
-  receptor = {
+  // Datos de quien devuelve (el empleado)
+  entrega = {
     nombre: '',
     cargo: '',
-    correo: ''
+    correo: ''  // Correo del empleado para enviar solicitud de firma
   };
 
-  observacionesEntrega = '';
+  // Datos de quien recibe (sistemas)
+  receptor = {
+    nombre: '',
+    cargo: 'Área de Sistemas',
+    correo: ''  // Correo opcional para copia
+  };
+
+  observaciones = '';
 
   // Dispositivos
-  dispositivosDisponibles: Dispositivo[] = [];
+  dispositivosEntregados: DispositivoEntregado[] = [];
   dispositivosSeleccionados: {
-    dispositivo: Dispositivo;
+    dispositivo: DispositivoEntregado;
+    estadoDevolucion: string;
     condicion: string;
     observaciones: string;
     fotos: File[];
@@ -50,55 +59,81 @@ export class CrearActaComponent implements OnInit, OnDestroy {
     { value: 'malo', label: 'Malo' }
   ];
 
+  estadosDevolucion = [
+    { value: 'disponible', label: 'Disponible (funcional)' },
+    { value: 'dañado', label: 'Dañado' },
+    { value: 'perdido', label: 'Perdido' }
+  ];
+
   constructor(
-    private inventarioService: InventarioService,
-    private firmaService: FirmaService,
+    private devolucionService: DevolucionService,
     private router: Router
   ) {}
 
   ngOnInit(): void {
-    this.cargarDispositivosDisponibles();
+    this.cargarDispositivosEntregados();
   }
 
-  ngOnDestroy(): void {
-    // Limpieza si es necesario
+  ngAfterViewInit(): void {
+    setTimeout(() => this.inicializarSignaturePad(), 500);
   }
 
-  cargarDispositivosDisponibles(): void {
+  inicializarSignaturePad(): void {
+    if (this.signatureCanvasReceptor && this.signatureCanvasReceptor.nativeElement) {
+      const canvas = this.signatureCanvasReceptor.nativeElement;
+      const container = canvas.parentElement;
+      if (container) {
+        canvas.width = container.offsetWidth - 20;
+        canvas.height = 150;
+      }
+      this.signaturePadReceptor = new SignaturePad(canvas, {
+        backgroundColor: 'rgb(255, 255, 255)',
+        penColor: 'rgb(0, 0, 0)'
+      });
+    }
+  }
+
+  limpiarFirmaReceptor(): void {
+    if (this.signaturePadReceptor) {
+      this.signaturePadReceptor.clear();
+    }
+  }
+
+  cargarDispositivosEntregados(): void {
     this.loadingDispositivos = true;
-    this.inventarioService.obtenerDisponibles().subscribe({
+    this.devolucionService.obtenerDispositivosEntregados().subscribe({
       next: (data) => {
-        this.dispositivosDisponibles = data;
+        this.dispositivosEntregados = data;
         this.loadingDispositivos = false;
       },
       error: (err) => {
         console.error('Error al cargar dispositivos:', err);
+        this.errorMessage = 'Error al cargar los dispositivos entregados';
         this.loadingDispositivos = false;
       }
     });
   }
 
-  agregarDispositivo(dispositivo: Dispositivo): void {
-    // Verificar que no esté ya seleccionado
+  agregarDispositivo(dispositivo: DispositivoEntregado): void {
     if (this.dispositivosSeleccionados.find(d => d.dispositivo.id === dispositivo.id)) {
       return;
     }
 
     this.dispositivosSeleccionados.push({
       dispositivo,
+      estadoDevolucion: 'disponible',
       condicion: dispositivo.condicion || 'bueno',
       observaciones: '',
       fotos: [],
       fotosPreview: []
     });
 
-    // Remover de disponibles
-    this.dispositivosDisponibles = this.dispositivosDisponibles.filter(d => d.id !== dispositivo.id);
+    this.dispositivosEntregados = this.dispositivosEntregados.filter(d => d.id !== dispositivo.id);
   }
 
   quitarDispositivo(index: number): void {
     const item = this.dispositivosSeleccionados[index];
-    this.dispositivosDisponibles.push(item.dispositivo);
+    this.dispositivosEntregados.push(item.dispositivo);
     this.dispositivosSeleccionados.splice(index, 1);
   }
 
@@ -143,32 +178,42 @@ export class CrearActaComponent implements OnInit, OnDestroy {
   }
 
   validarFormulario(): boolean {
-    if (!this.receptor.nombre.trim()) {
-      this.errorMessage = 'El nombre del receptor es requerido';
+    this.errorMessage = '';
+    
+    if (!this.entrega.nombre.trim()) {
+      this.errorMessage = 'El nombre de quien devuelve es requerido';
       return false;
     }
-    if (!this.receptor.cargo.trim()) {
-      this.errorMessage = 'El cargo del receptor es requerido';
+    if (!this.entrega.cargo.trim()) {
+      this.errorMessage = 'El cargo de quien devuelve es requerido';
       return false;
     }
-    if (!this.receptor.correo.trim()) {
-      this.errorMessage = 'El correo del receptor es requerido para enviar la solicitud de firma';
+    if (!this.entrega.correo.trim()) {
+      this.errorMessage = 'El correo de quien devuelve es requerido para enviar la solicitud de firma';
       return false;
     }
-    // Validar formato de correo
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(this.receptor.correo)) {
-      this.errorMessage = 'El correo electrónico no es válido';
+    if (!emailRegex.test(this.entrega.correo)) {
+      this.errorMessage = 'El correo electrónico de quien devuelve no es válido';
+      return false;
+    }
+    if (!this.receptor.nombre.trim()) {
+      this.errorMessage = 'El nombre de quien recibe es requerido';
       return false;
     }
     if (this.dispositivosSeleccionados.length === 0) {
-      this.errorMessage = 'Debe seleccionar al menos un dispositivo';
+      this.errorMessage = 'Debe seleccionar al menos un dispositivo para devolver';
+      return false;
+    }
+    // Validar firma del receptor (sistemas)
+    if (!this.signaturePadReceptor || this.signaturePadReceptor.isEmpty()) {
+      this.errorMessage = 'Debe firmar como receptor de los equipos (Sistemas)';
       return false;
     }
     return true;
   }
 
-  crearActa(): void {
+  crearActaDevolucion(): void {
     if (!this.validarFormulario()) {
       return;
     }
@@ -179,22 +224,33 @@ export class CrearActaComponent implements OnInit, OnDestroy {
 
     const formData = new FormData();
 
-    // Datos del receptor (sin firma, se firmará por correo)
+    // Datos de quien devuelve (empleado - recibirá el correo para firmar)
+    formData.append('nombreEntrega', this.entrega.nombre);
+    formData.append('cargoEntrega', this.entrega.cargo);
+    formData.append('correoEntrega', this.entrega.correo);
+
+    // Datos de quien recibe (sistemas - firma al crear)
     formData.append('nombreReceptor', this.receptor.nombre);
     formData.append('cargoReceptor', this.receptor.cargo);
-    formData.append('correoReceptor', this.receptor.correo);
+    if (this.receptor.correo) {
+      formData.append('correoReceptor', this.receptor.correo);
+    }
     
-    if (this.observacionesEntrega) {
-      formData.append('observacionesEntrega', this.observacionesEntrega);
+    // Firma del receptor (sistemas)
+    const firmaReceptor = this.signaturePadReceptor.toDataURL('image/png');
+    formData.append('firmaReceptor', firmaReceptor);
+    
+    if (this.observaciones) {
+      formData.append('observaciones', this.observaciones);
     }
     
     formData.append('Uid', localStorage.getItem('userId') || '');
-    formData.append('tipoUpload', 'entregas');
 
     // Dispositivos
     const dispositivos = this.dispositivosSeleccionados.map(item => ({
       dispositivoId: item.dispositivo.id,
-      condicionEntrega: item.condicion,
+      estadoDevolucion: item.estadoDevolucion,
+      condicionDevolucion: item.condicion,
       observaciones: item.observaciones
     }));
     formData.append('dispositivos', JSON.stringify(dispositivos));
@@ -206,7 +262,7 @@ export class CrearActaComponent implements OnInit, OnDestroy {
       });
     });
 
-    this.inventarioService.crearActaEntrega(formData).subscribe({
+    this.devolucionService.crearActaDevolucion(formData).subscribe({
       next: (response) => {
         this.actaCreada = response.acta;
         this.loading = false;
@@ -217,7 +273,7 @@ export class CrearActaComponent implements OnInit, OnDestroy {
         }
       },
       error: (err) => {
-        this.errorMessage = err.error?.msg || 'Error al crear el acta de entrega';
+        this.errorMessage = err.error?.msg || 'Error al crear el acta de devolución';
         this.loading = false;
       }
     });
@@ -226,29 +282,28 @@ export class CrearActaComponent implements OnInit, OnDestroy {
   enviarCorreoFirma(actaId: number): void {
     this.enviandoCorreo = true;
     
-    this.firmaService.enviarSolicitudFirma(actaId).subscribe({
+    this.devolucionService.enviarSolicitudFirma(actaId).subscribe({
       next: (response) => {
         this.enviandoCorreo = false;
-        this.successMessage = `Acta ${this.actaCreada.numeroActa} creada. Se ha enviado un correo a ${this.receptor.correo} para que firme digitalmente.`;
+        this.successMessage = `Acta ${this.actaCreada.numeroActa} creada. Se ha enviado un correo a ${this.entrega.correo} para que ${this.entrega.nombre} firme digitalmente.`;
         
         setTimeout(() => {
-          this.router.navigate(['/inventario']);
+          this.router.navigate(['/actas-devolucion']);
         }, 3000);
       },
       error: (err) => {
         this.enviandoCorreo = false;
-        // El acta se creó pero falló el envío del correo
         this.successMessage = `Acta ${this.actaCreada.numeroActa} creada, pero hubo un error enviando el correo.`;
         this.errorMessage = 'Puede reenviar el correo desde la lista de actas.';
         
         setTimeout(() => {
-          this.router.navigate(['/inventario']);
+          this.router.navigate(['/actas-devolucion']);
         }, 3000);
       }
     });
   }
 
   cancelar(): void {
-    this.router.navigate(['/inventario']);
+    this.router.navigate(['/actas-devolucion']);
   }
 }
