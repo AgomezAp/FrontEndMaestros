@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://api.numerologiamexico.com/',
+  apiUrl: 'https://api2.inventarioap.com/',
 };
 
 
