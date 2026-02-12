@@ -180,6 +180,13 @@
             >
               <i class="fa-solid fa-exchange-alt"></i>
             </button>
+            <button 
+              class="btn-accion btn-eliminar" 
+              (click)="abrirModalEliminar(dispositivo)" 
+              title="Eliminar dispositivo"
+            >
+              <i class="fa-solid fa-trash"></i>
+            </button>
           </td>
         </tr>
         
@@ -214,9 +221,50 @@
     >
       <i class="fa-solid fa-chevron-right"></i>
     </button>
-    
-    <span class="total-info">
-      ({{ dispositivosFiltrados.length }} dispositivos)
-    </span>
+  </div>
+</div>
+
+<!-- Información total -->
+<div class="paginacion-info" style="text-align: center; padding: 15px; font-size: 0.875rem;">
+  <span class="total-info">
+    ({{ dispositivosFiltrados.length }} dispositivos)
+  </span>
+</div>
+
+<!-- Modal Eliminar Dispositivo -->
+<div class="modal-overlay" *ngIf="mostrarModalEliminar">
+  <div class="modal-content modal-eliminar">
+    <div class="modal-header">
+      <h2>
+        <i class="fa-solid fa-exclamation-circle"></i> Eliminar Dispositivo
+      </h2>
+    </div>
+
+    <div class="modal-body">
+      <p class="warning-text">
+        ¿Estás seguro de que deseas eliminar este dispositivo?
+      </p>
+      <p class="warning-subtext" *ngIf="dispositivoAEliminar">
+        Esta acción no se puede deshacer. Se eliminará el dispositivo
+        <strong>{{ dispositivoAEliminar.nombre }}</strong> de forma permanente.
+      </p>
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn-cancelar" (click)="cerrarModalEliminar()">
+        Cancelar
+      </button>
+      <button
+        class="btn-eliminar-confirm"
+        (click)="confirmarEliminar()"
+        [disabled]="eliminando"
+      >
+        <i
+          class="fa-solid"
+          [ngClass]="eliminando ? 'fa-spinner fa-spin' : 'fa-trash'"
+        ></i>
+        {{ eliminando ? "Eliminando..." : "Sí, Eliminar Dispositivo" }}
+      </button>
+    </div>
   </div>
 </div>

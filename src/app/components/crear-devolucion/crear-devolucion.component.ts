@@ -34,6 +34,9 @@ export class CrearDevolucionComponent implements OnInit, AfterViewInit {
 
   // Dispositivos
   dispositivosEntregados: DispositivoEntregado[] = [];
+  // Lista filtrada para mostrar en UI y búsqueda
+  dispositivosEntregadosFiltrados: DispositivoEntregado[] = [];
+  filtroBusquedaDispositivos: string = '';
   dispositivosSeleccionados: {
     dispositivo: DispositivoEntregado;
     estadoDevolucion: string;
@@ -104,6 +107,8 @@ export class CrearDevolucionComponent implements OnInit, AfterViewInit {
     this.devolucionService.obtenerDispositivosEntregados().subscribe({
       next: (data) => {
         this.dispositivosEntregados = data;
+        // Inicializar lista filtrada
+        this.dispositivosEntregadosFiltrados = [...this.dispositivosEntregados];
         this.loadingDispositivos = false;
       },
       error: (err) => {
@@ -111,6 +116,19 @@ export class CrearDevolucionComponent implements OnInit, AfterViewInit {
         this.errorMessage = 'Error al cargar los dispositivos entregados';
         this.loadingDispositivos = false;
       }
+    });
+  }
+
+  aplicarFiltroDispositivos(): void {
+    const q = (this.filtroBusquedaDispositivos || '').toLowerCase().trim();
+    if (!q) {
+      this.dispositivosEntregadosFiltrados = [...this.dispositivosEntregados];
+      return;
+    }
+
+    this.dispositivosEntregadosFiltrados = this.dispositivosEntregados.filter(d => {
+      const fields = [d.nombre, d.marca, d.modelo, d.serial, d.imei].filter(Boolean).join(' ').toLowerCase();
+      return fields.includes(q);
     });
   }
 
@@ -129,12 +147,14 @@ export class CrearDevolucionComponent implements OnInit, AfterViewInit {
     });
 
     this.dispositivosEntregados = this.dispositivosEntregados.filter(d => d.id !== dispositivo.id);
+    this.aplicarFiltroDispositivos();
   }
 
   quitarDispositivo(index: number): void {
     const item = this.dispositivosSeleccionados[index];
     this.dispositivosEntregados.push(item.dispositivo);
     this.dispositivosSeleccionados.splice(index, 1);
+    this.aplicarFiltroDispositivos();
   }
 
   onFotosSelected(event: Event, index: number): void {

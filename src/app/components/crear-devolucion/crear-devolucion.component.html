@@ -84,7 +84,10 @@
             No hay dispositivos entregados disponibles para devolver
           </div>
           <div class="dispositivos-list">
-            <div *ngFor="let disp of dispositivosEntregados" 
+            <div class="filter-row">
+              <input type="text" class="search-input" placeholder="Buscar por nombre, marca, modelo, S/N, IMEI..." [(ngModel)]="filtroBusquedaDispositivos" (input)="aplicarFiltroDispositivos()">
+            </div>
+            <div *ngFor="let disp of dispositivosEntregadosFiltrados" 
                  class="dispositivo-item disponible"
                  (click)="agregarDispositivo(disp)">
               <i class="fas" [ngClass]="getCategoriaIcon(disp.categoria)"></i>

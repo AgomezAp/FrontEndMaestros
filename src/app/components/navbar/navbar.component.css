@@ -1,99 +1,398 @@
+/* ========================================
+   NAVBAR - IDENTIDAD DE MARCA
+   ======================================== */
+
+/* ===== NAVBAR BASE ===== */
 .navbar {
-  background-color: #1F2933; /* Color oscuro */
-  padding: 1rem 2rem; /* Más ancho */
+  background-color: var(--color-primary) !important;
+  padding: var(--spacing-sm) var(--spacing-lg);
+  box-shadow: var(--shadow-lg);
+  border-bottom: 2px solid var(--color-secondary);
+  font-family: var(--font-family);
+  min-height: 70px;
+  z-index: 1050;
 }
 
-.navbar-brand, .offcanvas-title {
-  color: #F8F9FA; /* Color claro para el texto */
+.navbar .container-fluid {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
 }
 
-.navbar-toggler {
-  border-color: #F8F9FA; /* Color claro para el borde del toggler */
+/* ===== LOGO ===== */
+.navbar img[alt="Logo de Andrés Publicidad"] {
+  height: 42px;
+  width: auto !important;
+  object-fit: contain;
+  transition: transform var(--transition-fast);
+  flex-shrink: 0;
 }
 
-.navbar-toggler-icon {
-  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='%23F8F9FA' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+.navbar img[alt="Logo de Andrés Publicidad"]:hover {
+  transform: scale(1.05);
 }
 
-.offcanvas {
-  background-color: #1F2933; /* Color oscuro */
+/* ===== BRAND ===== */
+.navbar .navbar-brand {
+  color: #ffffff !important;
+  font-family: var(--font-family);
+  font-size: 1.125rem;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+  padding: 0;
+  margin: 0;
+  transition: opacity var(--transition-fast);
+  position: relative;
 }
 
-.custom-btn {
-  border-radius: 20px; /* Bordes redondeados */
-  transition: all 0.3s ease; /* Transición suave */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra */
+.navbar .navbar-brand::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: var(--color-secondary);
+  border-radius: var(--border-radius-full);
+  transition: width var(--transition-normal);
 }
 
-.custom-btn:hover {
-  transform: translateY(-2px); /* Efecto de elevación al pasar el mouse */
-  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15); /* Sombra más intensa */
+.navbar .navbar-brand:hover {
+  color: #ffffff !important;
+  opacity: 0.95;
 }
 
-.btn-outline-light {
-  color: #F8F9FA; /* Color claro para el texto */
-  border-color: #F8F9FA; /* Color claro para el borde */
+.navbar .navbar-brand:hover::after {
+  width: 100%;
 }
 
-.btn-outline-light:hover {
-  background-color: #F8F9FA; /* Color claro para el fondo al pasar el mouse */
-  color: #1F2933; /* Color oscuro para el texto al pasar el mouse */
+/* ===== TOGGLER (MOBILE) ===== */
+.navbar .navbar-toggler {
+  border: 1px solid rgba(255, 214, 0, 0.35) !important;
+  border-radius: var(--border-radius-md);
+  padding: 6px 10px;
+  transition: all var(--transition-fast);
+  outline: none !important;
+  box-shadow: none !important;
 }
 
-.btn-outline-danger {
-  color: #f44336; /* Color rojo suave para el texto */
-  border-color: #f44336; /* Color rojo suave para el borde */
+.navbar .navbar-toggler:hover,
+.navbar .navbar-toggler:focus {
+  border-color: var(--color-secondary) !important;
+  background-color: rgba(255, 214, 0, 0.08);
 }
 
-.btn-outline-danger:hover {
-  background-color: #f44336; /* Color rojo suave para el fondo al pasar el mouse */
-  color: #F8F9FA; /* Color claro para el texto al pasar el mouse */
+.navbar .navbar-toggler-icon {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3E%3Cpath stroke='%23FFD600' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E") !important;
+  width: 22px;
+  height: 22px;
 }
 
-.btn-close {
-  color: #F8F9FA; /* Color claro para el botón de cerrar */
+/* ===== OFFCANVAS ===== */
+.offcanvas.text-bg-dark {
+  background-color: var(--color-primary) !important;
+  border-left: 2px solid var(--color-secondary) !important;
+  font-family: var(--font-family);
 }
-@media (max-width: 768px) {
-  .table th, .table td {
-    padding: 8px 10px;
-    font-size: 12px;
+
+.offcanvas .offcanvas-header {
+  padding: var(--spacing-lg) var(--spacing-xl);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.offcanvas .offcanvas-title {
+  color: #ffffff;
+  font-family: var(--font-family);
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+
+.offcanvas .btn-close-white {
+  opacity: 0.6;
+  transition: all var(--transition-fast);
+  border-radius: var(--border-radius-md);
+  padding: 8px;
+}
+
+.offcanvas .btn-close-white:hover {
+  opacity: 1;
+  background-color: rgba(255, 214, 0, 0.1);
+}
+
+.offcanvas .offcanvas-body {
+  padding: var(--spacing-lg);
+}
+
+/* ===== BOTONES NAV ===== */
+.navbar .custom-btn {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-family);
+  font-size: 0.875rem;
+  font-weight: 500;
+  border-radius: var(--border-radius-md);
+  padding: 8px 16px;
+  transition: all var(--transition-fast);
+  white-space: nowrap;
+}
+
+/* Inventario - Outline Light → Estilo marca */
+.navbar .btn-outline-light.custom-btn {
+  color: rgba(255, 255, 255, 0.85);
+  border-color: rgba(255, 255, 255, 0.2);
+  background-color: transparent;
+}
+
+.navbar .btn-outline-light.custom-btn:hover {
+  background-color: rgba(255, 214, 0, 0.1);
+  border-color: var(--color-secondary);
+  color: #ffffff;
+}
+
+.navbar .btn-outline-light.custom-btn:hover i {
+  color: var(--color-secondary);
+}
+
+/* Agregar Dispositivo - Success → Amarillo marca */
+.navbar .btn-success.custom-btn {
+  background-color: var(--color-secondary) !important;
+  border-color: var(--color-secondary) !important;
+  color: var(--color-primary) !important;
+  font-weight: 600;
+}
+
+.navbar .btn-success.custom-btn:hover {
+  background-color: var(--color-secondary-hover) !important;
+  border-color: var(--color-secondary-hover) !important;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(255, 214, 0, 0.35);
+}
+
+/* Entregas - Primary → Fondo oscuro sutil */
+.navbar .btn-primary.custom-btn {
+  background-color: rgba(255, 255, 255, 0.08) !important;
+  border-color: rgba(255, 255, 255, 0.15) !important;
+  color: #ffffff !important;
+}
+
+.navbar .btn-primary.custom-btn:hover {
+  background-color: rgba(255, 214, 0, 0.12) !important;
+  border-color: rgba(255, 214, 0, 0.3) !important;
+  color: #ffffff !important;
+}
+
+.navbar .btn-primary.custom-btn:hover i {
+  color: var(--color-secondary);
+}
+
+/* Devoluciones - Warning → Outline amarillo */
+.navbar .btn-warning.custom-btn {
+  background-color: transparent !important;
+  border: 1px solid var(--color-secondary) !important;
+  color: var(--color-secondary) !important;
+}
+
+.navbar .btn-warning.custom-btn:hover {
+  background-color: var(--color-secondary) !important;
+  color: var(--color-primary) !important;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(255, 214, 0, 0.3);
+}
+
+/* Cerrar Sesión - Outline Danger */
+.navbar .btn-outline-danger.custom-btn {
+  color: rgba(255, 255, 255, 0.6) !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+  background-color: transparent !important;
+}
+
+.navbar .btn-outline-danger.custom-btn i {
+  color: #ef5350;
+}
+
+.navbar .btn-outline-danger.custom-btn:hover {
+  background-color: rgba(244, 67, 54, 0.1) !important;
+  border-color: rgba(244, 67, 54, 0.3) !important;
+  color: #ef5350 !important;
+}
+
+/* ===== DROPDOWN MENUS ===== */
+.navbar .dropdown-menu-dark {
+  background-color: var(--bg-card) !important;
+  border: 1px solid var(--border-color) !important;
+  border-top: 2px solid var(--color-secondary) !important;
+  border-radius: var(--border-radius-lg) !important;
+  box-shadow: var(--shadow-xl) !important;
+  padding: var(--spacing-sm) 0 !important;
+  min-width: 240px;
+  animation: fadeIn 0.2s ease-out;
+  overflow: hidden;
+}
+
+.navbar .dropdown-menu-dark .dropdown-item {
+  display: flex;
+  align-items: center;
+  color: var(--text-primary) !important;
+  font-family: var(--font-family);
+  font-size: 0.875rem;
+  font-weight: 400;
+  padding: 10px var(--spacing-lg) !important;
+  transition: all var(--transition-fast);
+}
+
+.navbar .dropdown-menu-dark .dropdown-item i {
+  color: var(--text-secondary);
+  font-size: 0.8125rem;
+  width: 20px;
+  text-align: center;
+  transition: color var(--transition-fast);
+}
+
+.navbar .dropdown-menu-dark .dropdown-item:hover {
+  background-color: var(--color-secondary-light) !important;
+  color: var(--text-primary) !important;
+}
+
+.navbar .dropdown-menu-dark .dropdown-item:hover i {
+  color: var(--color-secondary);
+}
+
+.navbar .dropdown-menu-dark .dropdown-item:active,
+.navbar .dropdown-menu-dark .dropdown-item:focus {
+  background-color: var(--color-secondary) !important;
+  color: var(--color-primary) !important;
+}
+
+.navbar .dropdown-menu-dark .dropdown-item:active i,
+.navbar .dropdown-menu-dark .dropdown-item:focus i {
+  color: var(--color-primary);
+}
+
+/* Dropdown toggle arrow */
+.navbar .dropdown-toggle::after {
+  border-top-color: currentColor;
+  opacity: 0.6;
+  transition:
+    transform var(--transition-fast),
+    opacity var(--transition-fast);
+  vertical-align: middle;
+  margin-left: 8px;
+}
+
+.navbar .dropdown-toggle:hover::after {
+  opacity: 1;
+}
+
+.navbar .show > .dropdown-toggle::after {
+  transform: rotate(180deg);
+  opacity: 1;
+}
+
+/* ===== NAVBAR NAV EN OFFCANVAS (MOBILE) ===== */
+@media (max-width: 991px) {
+  .navbar {
+    min-height: 60px;
+    padding: var(--spacing-sm) var(--spacing-md);
   }
 
-  .table th {
-    display: none; /* Ocultar encabezados de columna en pantallas pequeñas */
+  .navbar img[alt="Logo de Andrés Publicidad"] {
+    height: 34px;
   }
 
-  .table td {
-    display: block;
+  .navbar .navbar-brand {
+    font-size: 1rem;
+  }
+
+  .offcanvas .navbar-nav {
+    flex-direction: column;
+    gap: var(--spacing-sm);
     width: 100%;
-    box-sizing: border-box;
   }
 
-  .table td::before {
-    content: attr(data-label); /* Mostrar el encabezado de la columna como contenido antes de cada celda */
-    font-weight: bold;
-    text-transform: uppercase;
-    display: block;
-    margin-bottom: 5px;
-    color: #333;
+  .offcanvas .navbar-nav .nav-item {
+    width: 100%;
   }
 
-  .table tbody tr {
-    margin-bottom: 10px;
-    display: block;
-    border-bottom: 2px solid #ddd;
+  .offcanvas .custom-btn {
+    width: 100%;
+    justify-content: flex-start;
+    margin-right: 0 !important;
   }
 
-  .table tbody tr:hover {
-    background-color: transparent; /* Desactivar el fondo al pasar el mouse en pantallas pequeñas */
+  .offcanvas .dropdown-menu-dark {
+    position: static !important;
+    border: none !important;
+    border-top: none !important;
+    box-shadow: none !important;
+    background-color: rgba(255, 255, 255, 0.03) !important;
+    border-left: 2px solid var(--color-secondary) !important;
+    border-radius: var(--border-radius-sm) !important;
+    margin-left: var(--spacing-md);
+    margin-top: var(--spacing-xs);
+    padding: var(--spacing-xs) 0 !important;
   }
 
-  .pagination-container {
-    text-align: center;
+  .offcanvas .dropdown-menu-dark .dropdown-item {
+    color: rgba(255, 255, 255, 0.8) !important;
+    font-size: 0.8125rem;
+    padding: 8px var(--spacing-md) !important;
   }
 
-  .button-container .btn {
-    font-size: 14px;
-    padding: 8px 16px;
+  .offcanvas .dropdown-menu-dark .dropdown-item i {
+    color: rgba(255, 255, 255, 0.4);
   }
+
+  .offcanvas .dropdown-menu-dark .dropdown-item:hover {
+    background-color: rgba(255, 214, 0, 0.08) !important;
+    color: #ffffff !important;
+  }
+
+  .offcanvas .dropdown-menu-dark .dropdown-item:hover i {
+    color: var(--color-secondary);
+  }
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    min-height: 56px;
+  }
+
+  .navbar img[alt="Logo de Andrés Publicidad"] {
+    height: 30px;
+  }
+
+  .navbar .navbar-brand {
+    font-size: 0.9375rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .navbar .navbar-brand {
+    font-size: 0.875rem;
+  }
+
+  .navbar img[alt="Logo de Andrés Publicidad"] {
+    height: 28px;
+  }
+
+  .offcanvas.text-bg-dark {
+    width: 280px !important;
+  }
+}
+
+/* ===== OVERRIDE BOOTSTRAP FOCUS STATES ===== */
+.navbar .btn:focus,
+.navbar .btn:focus-visible {
+  box-shadow: var(--shadow-accent) !important;
+  outline: none !important;
+}
+
+.navbar .btn:active {
+  transform: scale(0.98);
+}
+
+/* ===== BACKDROP DEL OFFCANVAS ===== */
+.offcanvas-backdrop {
+  background-color: rgba(10, 10, 10, 0.75) !important;
+  backdrop-filter: blur(4px);
 }

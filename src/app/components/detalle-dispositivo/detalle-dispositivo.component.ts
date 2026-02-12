@@ -24,11 +24,32 @@ export class DetalleDispositivoComponent implements OnInit {
   
   // Para el modal de fotos
   fotoSeleccionada: string | null = null;
+  images: string[] = [];
+
+  onImageSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (input.files) {
+      for (let i = 0; i < input.files.length; i++) {
+        const file = input.files[i];
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const target = e.target as FileReader;
+          if (target && target.result) {
+            this.images.push(target.result as string);
+          }
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+  }
   
   // Para cambio de estado
   mostrarModalEstado = false;
   nuevoEstado = '';
   motivoCambio = '';
+  
+  // Para eliminar dispositivo
+  mostrarModalEliminar = false;
   
   categorias = ['celular', 'tablet', 'computador', 'cargador', 'accesorio', 'otro'];
   condiciones = ['excelente', 'bueno', 'regular', 'malo'];
@@ -240,5 +261,32 @@ export class DetalleDispositivoComponent implements OnInit {
 
   volver(): void {
     this.router.navigate(['/inventario']);
+  }
+
+  // Modal eliminar dispositivo
+  abrirModalEliminar(): void {
+    this.mostrarModalEliminar = true;
+  }
+
+  cerrarModalEliminar(): void {
+    this.mostrarModalEliminar = false;
+  }
+
+  confirmarEliminar(): void {
+    if (!this.dispositivo) return;
+    
+    this.guardando = true;
+    
+    this.inventarioService.eliminarDispositivo(this.dispositivo.id!).subscribe({
+      next: (response) => {
+        this.guardando = false;
+        alert('Dispositivo eliminado exitosamente');
+        this.router.navigate(['/inventario']);
+      },
+      error: (err) => {
+        this.guardando = false;
+        alert(err.error?.msg || 'Error al eliminar el dispositivo');
+      }
+    });
   }
 }

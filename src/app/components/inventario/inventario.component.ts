@@ -11,7 +11,7 @@ import { NavbarComponent } from '../navbar/navbar.component';
 @Component({
   selector: 'app-inventario',
   standalone: true,
-  imports: [CommonModule, FormsModule,NavbarComponent],
+  imports: [CommonModule, FormsModule, NavbarComponent],
   templateUrl: './inventario.component.html',
   styleUrl: './inventario.component.css'
 })
@@ -21,6 +21,11 @@ export class InventarioComponent implements OnInit, OnDestroy {
   estadisticas: EstadisticasInventario | null = null;
   loading = false;
   error = '';
+
+  // Modal eliminar
+  mostrarModalEliminar = false;
+  dispositivoAEliminar: Dispositivo | null = null;
+  eliminando = false;
 
   // Filtros
   filtroEstado = 'todos';
@@ -216,5 +221,36 @@ export class InventarioComponent implements OnInit, OnDestroy {
         }
       });
     }
+  }
+
+  abrirModalEliminar(dispositivo: Dispositivo): void {
+    this.dispositivoAEliminar = dispositivo;
+    this.mostrarModalEliminar = true;
+  }
+
+  cerrarModalEliminar(): void {
+    this.mostrarModalEliminar = false;
+    this.dispositivoAEliminar = null;
+  }
+
+  confirmarEliminar(): void {
+    if (!this.dispositivoAEliminar) return;
+    
+    this.eliminando = true;
+    
+    this.inventarioService.eliminarDispositivo(this.dispositivoAEliminar.id!).subscribe({
+      next: () => {
+        this.eliminando = false;
+        this.cerrarModalEliminar();
+        alert('Dispositivo eliminado exitosamente');
+        this.cargarDispositivos();
+        this.cargarEstadisticas();
+      },
+      error: (err) => {
+        this.eliminando = false;
+        alert(err.error?.msg || 'Error al eliminar el dispositivo');
+        console.error(err);
+      }
+    });
   }
 }

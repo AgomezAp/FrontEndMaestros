@@ -97,6 +97,15 @@ export class InventarioService {
   }
 
   /**
+   * Eliminar un dispositivo
+   */
+  eliminarDispositivo(id: number): Observable<{ msg: string }> {
+    return this.http.delete<{ msg: string }>(
+      `${this.apiUrl}api/dispositivos/${id}`
+    );
+  }
+
+  /**
    * Obtener estadísticas del inventario
    */
   obtenerEstadisticas(): Observable<EstadisticasInventario> {
