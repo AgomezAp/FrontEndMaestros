@@ -23,7 +23,7 @@
     <div class="stat-card stat-total">
       <div class="stat-icon"><i class="fa-solid fa-boxes-stacked"></i></div>
       <div class="stat-info">
-        <span class="stat-number">{{ dispositivos.length }}</span>
+        <span class="stat-number">{{ getTotalFiltrado() }}</span>
         <span class="stat-label">Total Dispositivos</span>
       </div>
     </div>
@@ -31,7 +31,7 @@
     <div class="stat-card stat-disponible">
       <div class="stat-icon"><i class="fa-solid fa-check-circle"></i></div>
       <div class="stat-info">
-        <span class="stat-number">{{ contarPorEstado('disponible') }}</span>
+        <span class="stat-number">{{ getDisponiblesFiltrado() }}</span>
         <span class="stat-label">Disponibles</span>
       </div>
     </div>
@@ -39,7 +39,7 @@
     <div class="stat-card stat-prestado">
       <div class="stat-icon"><i class="fa-solid fa-hand-holding"></i></div>
       <div class="stat-info">
-        <span class="stat-number">{{ contarPorEstado('prestado') }}</span>
+        <span class="stat-number">{{ getPrestadosFiltrado() }}</span>
         <span class="stat-label">Prestados</span>
       </div>
     </div>
@@ -47,7 +47,7 @@
     <div class="stat-card stat-danado">
       <div class="stat-icon"><i class="fa-solid fa-exclamation-triangle"></i></div>
       <div class="stat-info">
-        <span class="stat-number">{{ contarPorEstado('dañado') }}</span>
+        <span class="stat-number">{{ getDaniadosFiltrado() }}</span>
         <span class="stat-label">Dañados</span>
       </div>
     </div>
@@ -55,7 +55,7 @@
     <div class="stat-card stat-perdido">
       <div class="stat-icon"><i class="fa-solid fa-question-circle"></i></div>
       <div class="stat-info">
-        <span class="stat-number">{{ contarPorEstado('perdido') }}</span>
+        <span class="stat-number">{{ getPerdidosFiltrado() }}</span>
         <span class="stat-label">Perdidos</span>
       </div>
     </div>
@@ -63,7 +63,7 @@
     <div class="stat-card stat-obsoleto">
       <div class="stat-icon"><i class="fa-solid fa-clock"></i></div>
       <div class="stat-info">
-        <span class="stat-number">{{ contarPorEstado('obsoleto') }}</span>
+        <span class="stat-number">{{ getObsoletosFiltrado() }}</span>
         <span class="stat-label">Obsoletos</span>
       </div>
     </div>
@@ -73,7 +73,7 @@
   <div class="filtros-section">
     <div class="filtro-grupo">
       <label>Estado:</label>
-      <select [(ngModel)]="filtroEstado" (change)="aplicarFiltros()">
+      <select [(ngModel)]="filtroEstado" (change)="onFiltroChange()">
         <option value="todos">Todos los estados</option>
         <option *ngFor="let estado of estados" [value]="estado">
           {{ estado | titlecase }}
@@ -83,10 +83,20 @@
     
     <div class="filtro-grupo">
       <label>Categoría:</label>
-      <select [(ngModel)]="filtroCategoria" (change)="aplicarFiltros()">
+      <select [(ngModel)]="filtroCategoria" (change)="onFiltroChange()">
         <option value="todas">Todas las categorías</option>
         <option *ngFor="let cat of categorias" [value]="cat">
           {{ cat | titlecase }}
+        </option>
+      </select>
+    </div>
+    
+    <div class="filtro-grupo">
+      <label>Condición:</label>
+      <select [(ngModel)]="filtroCondicion" (change)="onFiltroChange()">
+        <option value="todas">Todas las condiciones</option>
+        <option *ngFor="let cond of condiciones" [value]="cond">
+          {{ cond | titlecase }}
         </option>
       </select>
     </div>
@@ -96,7 +106,7 @@
       <input 
         type="text" 
         [(ngModel)]="filtroBusqueda" 
-        (input)="aplicarFiltros()"
+        (input)="onBusquedaChange()"
         placeholder="Nombre, marca, modelo, serial, IMEI..."
       />
       <i class="fa-solid fa-search"></i>

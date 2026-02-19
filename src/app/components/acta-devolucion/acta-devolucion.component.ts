@@ -33,6 +33,7 @@ export class ActaDevolucionComponent implements OnInit, AfterViewInit, OnDestroy
   
   // Items de devolución
   itemsDevolucion: DevolucionItem[] = [];
+  filtroDispositivos = ''; // Campo de búsqueda
   
   // Firma
   @ViewChild('firmaCanvas', { static: false }) firmaCanvas!: ElementRef<HTMLCanvasElement>;
@@ -179,6 +180,25 @@ export class ActaDevolucionComponent implements OnInit, AfterViewInit, OnDestroy
 
   getItemsSeleccionados(): DevolucionItem[] {
     return this.itemsDevolucion.filter(item => item.seleccionado);
+  }
+
+  // Filtrar dispositivos por IMEI, Serial, Nombre o Marca
+  getDispositivosFiltrados(): DevolucionItem[] {
+    if (!this.filtroDispositivos || this.filtroDispositivos.trim() === '') {
+      return this.itemsDevolucion;
+    }
+
+    const filtroLower = this.filtroDispositivos.toLowerCase().trim();
+    return this.itemsDevolucion.filter(item => {
+      const dispositivo = item.dispositivo;
+      return (
+        dispositivo.imei?.toLowerCase().includes(filtroLower) ||
+        dispositivo.serial?.toLowerCase().includes(filtroLower) ||
+        dispositivo.nombre?.toLowerCase().includes(filtroLower) ||
+        dispositivo.marca?.toLowerCase().includes(filtroLower) ||
+        dispositivo.modelo?.toLowerCase().includes(filtroLower)
+      );
+    });
   }
 
   // Manejo de fotos

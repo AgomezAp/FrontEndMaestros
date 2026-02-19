@@ -102,6 +102,23 @@
         </div>
       </div>
       
+      <!-- Campo de búsqueda -->
+      <div class="search-container">
+        <div class="search-box">
+          <i class="fas fa-search"></i>
+          <input type="text" 
+                 [(ngModel)]="filtroDispositivos" 
+                 placeholder="Buscar por IMEI, Serial, Nombre, Marca o Modelo..."
+                 class="search-input">
+          <button *ngIf="filtroDispositivos" class="btn-clear-search" (click)="filtroDispositivos = ''">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div class="search-results-info" *ngIf="filtroDispositivos">
+          <span>{{ getDispositivosFiltrados().length }} de {{ itemsDevolucion.length }} dispositivos</span>
+        </div>
+      </div>
+      
       <!-- Info del acta -->
       <div class="acta-info-banner">
         <div class="info-item">
@@ -120,7 +137,14 @@
       
       <!-- Lista de dispositivos -->
       <div class="dispositivos-list">
-        <div *ngFor="let item of itemsDevolucion" 
+        <!-- Mensaje cuando no hay resultados de búsqueda -->
+        <div *ngIf="getDispositivosFiltrados().length === 0 && filtroDispositivos" class="empty-state">
+          <i class="fas fa-search"></i>
+          <p>No se encontraron dispositivos que coincidan con "{{ filtroDispositivos }}"</p>
+          <button class="btn-sm btn-outline" (click)="filtroDispositivos = ''">Limpiar búsqueda</button>
+        </div>
+        
+        <div *ngFor="let item of getDispositivosFiltrados()" 
              class="dispositivo-item"
              [class.selected]="item.seleccionado">
           <div class="item-checkbox" (click)="toggleSeleccion(item)">

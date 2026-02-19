@@ -77,6 +77,16 @@ export class InventarioService {
   }
 
   /**
+   * Agregar fotos a un dispositivo existente
+   */
+  agregarFotosDispositivo(id: number, formData: FormData): Observable<{ msg: string; dispositivo: Dispositivo; fotosAgregadas: number }> {
+    return this.http.post<{ msg: string; dispositivo: Dispositivo; fotosAgregadas: number }>(
+      `${this.apiUrl}api/dispositivos/${id}/fotos`,
+      formData
+    );
+  }
+
+  /**
    * Cambiar estado del dispositivo
    */
   cambiarEstado(id: number, nuevoEstado: string, motivo: string): Observable<{ msg: string; dispositivo: Dispositivo }> {

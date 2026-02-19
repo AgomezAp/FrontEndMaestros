@@ -25,12 +25,15 @@ export class DetalleDispositivoComponent implements OnInit {
   // Para el modal de fotos
   fotoSeleccionada: string | null = null;
   images: string[] = [];
+  imageFiles: File[] = []; // Archivos reales de las imágenes
 
   onImageSelected(event: Event) {
     const input = event.target as HTMLInputElement;
     if (input.files) {
       for (let i = 0; i < input.files.length; i++) {
         const file = input.files[i];
+        this.imageFiles.push(file); // Guardar el archivo real
+        
         const reader = new FileReader();
         reader.onload = (e) => {
           const target = e.target as FileReader;
@@ -100,6 +103,42 @@ export class DetalleDispositivoComponent implements OnInit {
     this.modoEdicion = false;
     // Restaurar valores originales
     this.dispositivo = { ...this.dispositivoOriginal! };
+    // Limpiar fotos nuevas
+    this.images = [];
+    this.imageFiles = [];
+  }
+
+  guardarFotos(): void {
+    if (!this.dispositivo || this.imageFiles.length === 0) {
+      alert('No hay fotos nuevas para guardar');
+      return;
+    }
+
+    this.guardando = true;
+
+    const formData = new FormData();
+    formData.append('Uid', localStorage.getItem('userId') || '');
+    
+    // Agregar todas las fotos al FormData
+    this.imageFiles.forEach((file, index) => {
+      formData.append('fotos', file);
+    });
+
+    this.inventarioService.agregarFotosDispositivo(this.dispositivo.id!, formData).subscribe({
+      next: (response) => {
+        this.guardando = false;
+        alert(`${response.fotosAgregadas} foto(s) agregada(s) exitosamente`);
+        // Limpiar las fotos temporales
+        this.images = [];
+        this.imageFiles = [];
+        // Recargar el dispositivo para ver las fotos actualizadas
+        this.cargarDispositivo(this.dispositivo!.id!);
+      },
+      error: (err) => {
+        this.guardando = false;
+        alert(err.error?.msg || 'Error al guardar las fotos');
+      }
+    });
   }
 
   guardarCambios(): void {

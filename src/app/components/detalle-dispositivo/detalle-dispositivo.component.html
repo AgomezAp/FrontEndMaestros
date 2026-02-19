@@ -304,20 +304,52 @@
         </div>
       </div>
     </div>
-    <div class="image-upload">
-      <label for="imageUpload">Agregar Imágenes Extras:</label>
-      <input
-        type="file"
-        id="imageUpload"
-        (change)="onImageSelected($event)"
-        multiple
-        accept="image/*"
-      />
+    
+    <!-- Sección para agregar fotos nuevas -->
+    <div class="fotos-section agregar-fotos">
+      <h3><i class="fa-solid fa-camera"></i> Agregar Fotografías</h3>
+      
+      <div class="image-upload">
+        <label for="imageUpload" class="upload-label">
+          <i class="fa-solid fa-cloud-upload-alt"></i>
+          Seleccionar imágenes
+        </label>
+        <input
+          type="file"
+          id="imageUpload"
+          (change)="onImageSelected($event)"
+          multiple
+          accept="image/*"
+          style="display: none;"
+        />
+      </div>
+      
+      <!-- Vista previa de imágenes nuevas -->
+      <div class="fotos-preview" *ngIf="images.length > 0">
+        <h4>Fotos nuevas ({{ images.length }})</h4>
+        <div class="fotos-grid">
+          <div *ngFor="let image of images; let i = index" class="foto-item preview">
+            <img [src]="image" alt="Vista previa" />
+            <div class="foto-overlay">
+              <span class="foto-badge">Nueva</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="fotos-actions">
+          <button class="btn-guardar-fotos" (click)="guardarFotos()" [disabled]="guardando">
+            <i class="fa-solid" [ngClass]="guardando ? 'fa-spinner fa-spin' : 'fa-save'"></i>
+            {{ guardando ? 'Guardando...' : 'Guardar ' + images.length + ' foto(s)' }}
+          </button>
+          <button class="btn-cancelar-fotos" (click)="images = []; imageFiles = []" [disabled]="guardando">
+            <i class="fa-solid fa-times"></i>
+            Cancelar
+          </button>
+        </div>
+      </div>
     </div>
-    <div *ngFor="let image of images">
-      <img [src]="image" alt="Imagen Extra" />
-    </div>
-    <!-- Galería de fotos -->
+    
+    <!-- Galería de fotos existentes -->
     <div class="fotos-section" *ngIf="getFotos().length > 0">
       <h3><i class="fa-solid fa-images"></i> Fotografías del Dispositivo</h3>
 

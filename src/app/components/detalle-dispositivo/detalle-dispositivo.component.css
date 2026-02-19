@@ -827,6 +827,124 @@ body.dark-mode .btn-historial:hover {
   margin: 0;
 }
 
+/* Sección para agregar fotos */
+.fotos-section.agregar-fotos {
+  background: linear-gradient(135deg, #f5f7fa 0%, #e8eef5 100%);
+  border: 2px dashed #cbd5e0;
+  padding: 25px;
+}
+
+.upload-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 24px;
+  background: linear-gradient(135deg, #4299e1 0%, #3182ce 100%);
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(66, 153, 225, 0.3);
+}
+
+.upload-label:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(66, 153, 225, 0.4);
+  background: linear-gradient(135deg, #3182ce 0%, #2c5aa0 100%);
+}
+
+.upload-label i {
+  font-size: 1.2rem;
+}
+
+.fotos-preview {
+  margin-top: 20px;
+}
+
+.fotos-preview h4 {
+  color: #2d3748;
+  margin-bottom: 15px;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.foto-item.preview {
+  position: relative;
+  border: 3px solid #4299e1;
+  box-shadow: 0 4px 12px rgba(66, 153, 225, 0.2);
+}
+
+.foto-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: #48bb78;
+  color: white;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  z-index: 1;
+}
+
+.fotos-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+  justify-content: center;
+}
+
+.btn-guardar-fotos {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(72, 187, 120, 0.3);
+}
+
+.btn-guardar-fotos:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(72, 187, 120, 0.4);
+  background: linear-gradient(135deg, #38a169 0%, #2f855a 100%);
+}
+
+.btn-guardar-fotos:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn-cancelar-fotos {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  background: #e2e8f0;
+  color: #2d3748;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-cancelar-fotos:hover:not(:disabled) {
+  background: #cbd5e0;
+  transform: translateY(-2px);
+}
+
+.btn-cancelar-fotos:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
 /* ===== MODAL OVERLAY ===== */
 .modal-overlay {
   position: fixed;
@@ -1317,5 +1435,167 @@ body.dark-mode .btn-historial:hover {
 
   .info-row {
     padding: var(--spacing-sm) var(--spacing-md);
+  }
+}
+
+/* ========================================
+   MODAL BODY - CONFIRMACIÓN DE ELIMINACIÓN
+   ======================================== */
+.modal-body {
+  padding: var(--spacing-xl);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-md);
+}
+
+.modal-body::before {
+  content: "\f071";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 900;
+  font-size: 2.5rem;
+  color: var(--color-danger);
+  width: 64px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(244, 67, 54, 0.08);
+  border: 2px solid rgba(244, 67, 54, 0.15);
+  border-radius: var(--border-radius-full);
+  margin-bottom: var(--spacing-xs);
+}
+
+.warning-text {
+  font-family: var(--font-family);
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0;
+  line-height: 1.4;
+}
+
+.warning-subtext {
+  font-family: var(--font-family);
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin: 0;
+  line-height: 1.5;
+  max-width: 380px;
+  background-color: rgba(244, 67, 54, 0.05);
+  border-left: 3px solid var(--color-danger);
+  padding: var(--spacing-md);
+  border-radius: var(--border-radius-sm);
+  text-align: left;
+}
+
+.warning-subtext strong {
+  color: var(--color-danger);
+  font-weight: 700;
+}
+
+/* ========================================
+   MODAL FOOTER - BOTONES DE ACCIÓN
+   ======================================== */
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--spacing-md);
+  padding: var(--spacing-lg) var(--spacing-xl);
+  border-top: 1px solid var(--border-color);
+  background-color: var(--bg-secondary);
+  border-radius: 0 0 var(--border-radius-lg) var(--border-radius-lg);
+}
+
+.modal-footer .btn-cancelar {
+  font-family: var(--font-family);
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 0.6rem 1.35rem;
+  border-radius: var(--border-radius-md);
+  border: 1px solid var(--border-color);
+  background-color: var(--bg-primary);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition:
+    background-color var(--transition-fast),
+    color var(--transition-fast),
+    border-color var(--transition-fast);
+}
+
+.modal-footer .btn-cancelar:hover {
+  background-color: var(--color-gray-200);
+  color: var(--text-primary);
+  border-color: var(--color-gray-400);
+}
+
+.modal-footer .btn-eliminar-confirm {
+  font-family: var(--font-family);
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 0.6rem 1.5rem;
+  border-radius: var(--border-radius-md);
+  border: none;
+  background-color: var(--color-danger);
+  color: #ffffff;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  transition:
+    background-color var(--transition-fast),
+    transform var(--transition-fast),
+    box-shadow var(--transition-fast);
+}
+
+.modal-footer .btn-eliminar-confirm:hover:not(:disabled) {
+  background-color: #d32f2f;
+  box-shadow: 0 4px 12px rgba(244, 67, 54, 0.35);
+  transform: translateY(-1px);
+}
+
+.modal-footer .btn-eliminar-confirm:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.modal-footer .btn-eliminar-confirm i {
+  font-size: 0.85rem;
+}
+
+/* ========================================
+   RESPONSIVE
+   ======================================== */
+@media (max-width: 480px) {
+  .modal-body {
+    padding: var(--spacing-lg);
+  }
+
+  .modal-body::before {
+    width: 52px;
+    height: 52px;
+    font-size: 2rem;
+  }
+
+  .warning-text {
+    font-size: 1.05rem;
+  }
+
+  .warning-subtext {
+    max-width: 100%;
+  }
+
+  .modal-footer {
+    flex-direction: column-reverse;
+    padding: var(--spacing-md) var(--spacing-lg);
+  }
+
+  .modal-footer .btn-cancelar,
+  .modal-footer .btn-eliminar-confirm {
+    width: 100%;
+    justify-content: center;
   }
 }

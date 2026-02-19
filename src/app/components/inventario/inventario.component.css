@@ -178,6 +178,30 @@
   font-weight: 700;
   color: var(--text-primary);
   line-height: 1;
+  transition: all 0.3s ease;
+}
+
+/* Animación cuando el número cambia */
+.stat-number:hover {
+  transform: scale(1.1);
+  color: var(--color-secondary);
+}
+
+/* Animación de pulse para números que cambian */
+@keyframes pulse-scale {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.15);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.stat-card.changing .stat-number {
+  animation: pulse-scale 0.4s ease;
 }
 
 .stat-label {
@@ -978,5 +1002,147 @@
 
   .header-actions {
     flex-direction: column;
+  }
+}
+/* ========================================
+   MODAL BODY - CONFIRMACIÓN DE ELIMINACIÓN
+   ======================================== */
+.modal-body {
+  padding: var(--spacing-xl);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-md);
+}
+
+.modal-body::before {
+  content: "\f071";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 900;
+  font-size: 2.5rem;
+  color: var(--color-danger);
+  width: 64px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(244, 67, 54, 0.08);
+  border: 2px solid rgba(244, 67, 54, 0.15);
+  border-radius: var(--border-radius-full);
+  margin-bottom: var(--spacing-xs);
+}
+
+.warning-text {
+  font-family: var(--font-family);
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0;
+  line-height: 1.4;
+}
+
+.warning-subtext {
+  font-family: var(--font-family);
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin: 0;
+  line-height: 1.5;
+  max-width: 380px;
+  background-color: rgba(244, 67, 54, 0.05);
+  border-left: 3px solid var(--color-danger);
+  padding: var(--spacing-md);
+  border-radius: var(--border-radius-sm);
+  text-align: left;
+}
+
+.warning-subtext strong {
+  color: var(--color-danger);
+  font-weight: 700;
+}
+/* ========================================
+   MODAL FOOTER - BOTONES DE ACCIÓN
+   ======================================== */
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--spacing-md);
+  padding: var(--spacing-lg) var(--spacing-xl);
+  border-top: 1px solid var(--border-color);
+  background-color: var(--bg-secondary);
+  border-radius: 0 0 var(--border-radius-lg) var(--border-radius-lg);
+}
+
+.modal-footer .btn-cancelar {
+  font-family: var(--font-family);
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 0.6rem 1.35rem;
+  border-radius: var(--border-radius-md);
+  border: 1px solid var(--border-color);
+  background-color: var(--bg-primary);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition:
+    background-color var(--transition-fast),
+    color var(--transition-fast),
+    border-color var(--transition-fast);
+}
+
+.modal-footer .btn-cancelar:hover {
+  background-color: var(--color-gray-200);
+  color: var(--text-primary);
+  border-color: var(--color-gray-400);
+}
+
+.modal-footer .btn-eliminar-confirm {
+  font-family: var(--font-family);
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 0.6rem 1.5rem;
+  border-radius: var(--border-radius-md);
+  border: none;
+  background-color: var(--color-danger);
+  color: #ffffff;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  transition:
+    background-color var(--transition-fast),
+    transform var(--transition-fast),
+    box-shadow var(--transition-fast);
+}
+
+.modal-footer .btn-eliminar-confirm:hover:not(:disabled) {
+  background-color: #d32f2f;
+  box-shadow: 0 4px 12px rgba(244, 67, 54, 0.35);
+  transform: translateY(-1px);
+}
+
+.modal-footer .btn-eliminar-confirm:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.modal-footer .btn-eliminar-confirm i {
+  font-size: 0.85rem;
+}
+
+/* ========================================
+   RESPONSIVE
+   ======================================== */
+@media (max-width: 480px) {
+  .modal-footer {
+    flex-direction: column-reverse;
+    padding: var(--spacing-md) var(--spacing-lg);
+  }
+
+  .modal-footer .btn-cancelar,
+  .modal-footer .btn-eliminar-confirm {
+    width: 100%;
+    justify-content: center;
   }
 }

@@ -5,11 +5,12 @@ import { Router } from '@angular/router';
 import { InventarioService } from '../../services/inventario.service';
 import { FirmaService } from '../../services/firma.service';
 import { Dispositivo, CrearActaRequest } from '../../interfaces/inventario';
+import { NavbarComponent } from '../navbar/navbar.component';
 
 @Component({
   selector: 'app-crear-acta',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule,NavbarComponent],
   templateUrl: './crear-acta.component.html',
   styleUrls: ['./crear-acta.component.css']
 })

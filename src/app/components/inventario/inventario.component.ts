@@ -30,6 +30,7 @@ export class InventarioComponent implements OnInit, OnDestroy {
   // Filtros
   filtroEstado = 'todos';
   filtroCategoria = 'todas';
+  filtroCondicion = 'todas';
   filtroBusqueda = '';
 
   // Paginación
@@ -38,10 +39,15 @@ export class InventarioComponent implements OnInit, OnDestroy {
 
   // Categorías disponibles
   categorias = ['celular', 'tablet', 'computador', 'cargador', 'accesorio', 'otro'];
-  estados = ['disponible', 'entregado', 'dañado', 'perdido', 'obsoleto'];
+  estados = ['disponible', 'prestado', 'dañado', 'perdido', 'obsoleto'];
+  condiciones = ['nuevo', 'bueno', 'regular', 'malo'];
 
   // Suscripciones WebSocket
   private subscriptions: Subscription[] = [];
+  
+  // Debounce para búsqueda
+  private debounceTimer: any;
+  private debounceDelay = 300; // ms
 
   constructor(
     private inventarioService: InventarioService,
@@ -57,6 +63,10 @@ export class InventarioComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subscriptions.forEach(sub => sub.unsubscribe());
+    // Limpiar el debounce timer
+    if (this.debounceTimer) {
+      clearTimeout(this.debounceTimer);
+    }
   }
 
   private conectarWebSocket(): void {
@@ -118,8 +128,11 @@ export class InventarioComponent implements OnInit, OnDestroy {
 
   aplicarFiltros(): void {
     this.dispositivosFiltrados = this.dispositivos.filter(d => {
-      const cumpleEstado = this.filtroEstado === 'todos' || d.estado === this.filtroEstado;
+      // Mapear 'prestado' a 'entregado' para comparación
+      const estadoFiltro = this.filtroEstado === 'prestado' ? 'entregado' : this.filtroEstado;
+      const cumpleEstado = this.filtroEstado === 'todos' || d.estado === estadoFiltro;
       const cumpleCategoria = this.filtroCategoria === 'todas' || d.categoria === this.filtroCategoria;
+      const cumpleCondicion = this.filtroCondicion === 'todas' || d.condicion === this.filtroCondicion;
       const cumpleBusqueda = !this.filtroBusqueda || 
         d.nombre.toLowerCase().includes(this.filtroBusqueda.toLowerCase()) ||
         d.marca?.toLowerCase().includes(this.filtroBusqueda.toLowerCase()) ||
@@ -127,9 +140,35 @@ export class InventarioComponent implements OnInit, OnDestroy {
         d.serial?.toLowerCase().includes(this.filtroBusqueda.toLowerCase()) ||
         d.imei?.toLowerCase().includes(this.filtroBusqueda.toLowerCase());
       
-      return cumpleEstado && cumpleCategoria && cumpleBusqueda;
+      return cumpleEstado && cumpleCategoria && cumpleCondicion && cumpleBusqueda;
     });
     this.paginaActual = 1;
+    // Actualizar estadísticas visuales después de filtrar
+    this.actualizarEstadisticasVisuales();
+  }
+
+  // Método para actualizar las estadísticas visuales
+  actualizarEstadisticasVisuales(): void {
+    // Este método simplemente notifica a Angular que hay cambios
+    // Las vistas se actualizarán automáticamente a través de los getters dinámicos
+  }
+
+  // Método para aplicar filtros con debounce en la búsqueda
+  onBusquedaChange(): void {
+    // Limpiar el timer anterior si existe
+    if (this.debounceTimer) {
+      clearTimeout(this.debounceTimer);
+    }
+    
+    // Establecer un nuevo timer para aplicar los filtros después del delay
+    this.debounceTimer = setTimeout(() => {
+      this.aplicarFiltros();
+    }, this.debounceDelay);
+  }
+
+  // Método para cambios de estado y categoría (sin debounce)
+  onFiltroChange(): void {
+    this.aplicarFiltros();
   }
 
   get dispositivosPaginados(): Dispositivo[] {
@@ -150,7 +189,7 @@ export class InventarioComponent implements OnInit, OnDestroy {
   getEstadoClass(estado: string): string {
     const clases: { [key: string]: string } = {
       'disponible': 'estado-disponible',
-      'entregado': 'estado-entregado',
+      'prestado': 'estado-prestado',
       'dañado': 'estado-danado',
       'perdido': 'estado-perdido',
       'obsoleto': 'estado-obsoleto'
@@ -161,7 +200,7 @@ export class InventarioComponent implements OnInit, OnDestroy {
   getEstadoIcon(estado: string): string {
     const iconos: { [key: string]: string } = {
       'disponible': 'fa-check-circle',
-      'entregado': 'fa-hand-holding',
+      'prestado': 'fa-hand-holding',
       'dañado': 'fa-exclamation-triangle',
       'perdido': 'fa-question-circle',
       'obsoleto': 'fa-clock'
@@ -182,7 +221,34 @@ export class InventarioComponent implements OnInit, OnDestroy {
   }
 
   contarPorEstado(estado: string): number {
-    return this.dispositivos.filter(d => d.estado === estado).length;
+    // Mapeo de 'prestado' a 'entregado' en la BD si es necesario
+    const estadoMapeado = estado === 'prestado' ? 'entregado' : estado;
+    return this.dispositivos.filter(d => d.estado === estadoMapeado).length;
+  }
+
+  // Métodos para obtener estadísticas dinámicas (basadas en filtros)
+  getTotalFiltrado(): number {
+    return this.dispositivosFiltrados.length;
+  }
+
+  getDisponiblesFiltrado(): number {
+    return this.dispositivosFiltrados.filter(d => d.estado === 'disponible').length;
+  }
+
+  getPrestadosFiltrado(): number {
+    return this.dispositivosFiltrados.filter(d => d.estado === 'entregado').length;
+  }
+
+  getDaniadosFiltrado(): number {
+    return this.dispositivosFiltrados.filter(d => d.estado === 'dañado').length;
+  }
+
+  getPerdidosFiltrado(): number {
+    return this.dispositivosFiltrados.filter(d => d.estado === 'perdido').length;
+  }
+
+  getObsoletosFiltrado(): number {
+    return this.dispositivosFiltrados.filter(d => d.estado === 'obsoleto').length;
   }
 
   irAAgregar(): void {
@@ -207,10 +273,12 @@ export class InventarioComponent implements OnInit, OnDestroy {
   }
 
   cambiarEstado(dispositivo: Dispositivo): void {
-    const nuevoEstado = prompt('Nuevo estado (disponible, dañado, perdido, obsoleto):');
+    const nuevoEstado = prompt('Nuevo estado (disponible, prestado, dañado, perdido, obsoleto):');
     if (nuevoEstado && this.estados.includes(nuevoEstado)) {
       const motivo = prompt('Motivo del cambio:') || 'Cambio de estado';
-      this.inventarioService.cambiarEstado(dispositivo.id!, nuevoEstado, motivo).subscribe({
+      // Mapear 'prestado' a 'entregado' para el backend
+      const estadoParaBackend = nuevoEstado === 'prestado' ? 'entregado' : nuevoEstado;
+      this.inventarioService.cambiarEstado(dispositivo.id!, estadoParaBackend, motivo).subscribe({
         next: () => {
           this.cargarDispositivos();
           this.cargarEstadisticas();
