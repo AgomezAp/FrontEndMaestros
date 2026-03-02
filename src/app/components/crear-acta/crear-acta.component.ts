@@ -26,6 +26,7 @@ export class CrearActaComponent implements OnInit, OnDestroy {
   observacionesEntrega = '';
 
   // Dispositivos
+  filtroSerial: string = '';
   dispositivosDisponibles: Dispositivo[] = [];
   dispositivosSeleccionados: {
     dispositivo: Dispositivo;
@@ -50,6 +51,20 @@ export class CrearActaComponent implements OnInit, OnDestroy {
     { value: 'regular', label: 'Regular' },
     { value: 'malo', label: 'Malo' }
   ];
+
+  get dispositivosFiltrados(): Dispositivo[] {
+    if (!this.filtroSerial.trim()) {
+      return this.dispositivosDisponibles;
+    }
+    const filtro = this.filtroSerial.toLowerCase().trim();
+    return this.dispositivosDisponibles.filter(d =>
+      (d.serial && d.serial.toLowerCase().includes(filtro)) ||
+      (d.imei && d.imei.toLowerCase().includes(filtro)) ||
+      (d.nombre && d.nombre.toLowerCase().includes(filtro)) ||
+      (d.marca && d.marca.toLowerCase().includes(filtro)) ||
+      (d.modelo && d.modelo.toLowerCase().includes(filtro))
+    );
+  }
 
   constructor(
     private inventarioService: InventarioService,

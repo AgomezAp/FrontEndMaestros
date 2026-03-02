@@ -70,15 +70,36 @@
         <!-- Dispositivos disponibles -->
         <div class="dispositivos-disponibles">
           <label>Seleccionar dispositivos disponibles:</label>
-          
+
+          <!-- Filtro de búsqueda por serial/IMEI -->
+          <div class="filtro-dispositivos">
+            <div class="search-input-wrapper">
+              <i class="fa-solid fa-magnifying-glass search-icon"></i>
+              <input
+                type="text"
+                [(ngModel)]="filtroSerial"
+                name="filtroSerial"
+                placeholder="Buscar por serial, IMEI, nombre, marca o modelo..."
+                class="search-input"
+              />
+              <button
+                type="button"
+                class="btn-clear-search"
+                *ngIf="filtroSerial"
+                (click)="filtroSerial = ''">
+                <i class="fa-solid fa-times"></i>
+              </button>
+            </div>
+          </div>
+
           <div class="loading-inline" *ngIf="loadingDispositivos">
             <i class="fa-solid fa-spinner fa-spin"></i> Cargando...
           </div>
-          
-          <div class="lista-disponibles" *ngIf="!loadingDispositivos && dispositivosDisponibles.length > 0">
-            <div 
-              class="dispositivo-disponible" 
-              *ngFor="let disp of dispositivosDisponibles"
+
+          <div class="lista-disponibles" *ngIf="!loadingDispositivos && dispositivosFiltrados.length > 0">
+            <div
+              class="dispositivo-disponible"
+              *ngFor="let disp of dispositivosFiltrados"
               (click)="agregarDispositivo(disp)"
             >
               <i class="fa-solid" [ngClass]="getCategoriaIcon(disp.categoria)"></i>
@@ -99,6 +120,11 @@
           <div class="sin-disponibles" *ngIf="!loadingDispositivos && dispositivosDisponibles.length === 0">
             <i class="fa-solid fa-inbox"></i>
             <p>No hay dispositivos disponibles</p>
+          </div>
+
+          <div class="sin-disponibles" *ngIf="!loadingDispositivos && dispositivosDisponibles.length > 0 && dispositivosFiltrados.length === 0">
+            <i class="fa-solid fa-search"></i>
+            <p>No se encontraron dispositivos con "{{ filtroSerial }}"</p>
           </div>
         </div>
 

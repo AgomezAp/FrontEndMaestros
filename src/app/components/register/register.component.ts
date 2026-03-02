@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 import { ToastrService } from 'ngx-toastr';
 
@@ -15,7 +15,7 @@ import {
 
 @Component({
   selector: 'app-register',
-  imports: [CommonModule, FormsModule, SpinnerComponent],
+  imports: [CommonModule, FormsModule, SpinnerComponent, RouterLink],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css'
 })

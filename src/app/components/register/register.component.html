@@ -1,91 +1,105 @@
-<!DOCTYPE html>
-<html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Registro</title>
-    <link rel="stylesheet" href="register.component.css" />
-    <!-- Enlace al archivo CSS -->
-  </head>
-
-  <body>
-    <div class="logo-container">
-      <img src="/LogoAP.png" alt="Logo de Andrés Publicidad" />
+<div class="register-page">
+  <div class="register-left">
+    <div class="brand-content">
+      <img src="/LogoBlanco.png" alt="Logo de Andres Publicidad" class="brand-logo" />
+      <h1 class="brand-title">Crear Cuenta</h1>
+      <p class="brand-subtitle">Unete al sistema de gestion de inventario y administra los recursos de forma eficiente.</p>
     </div>
-    <div class="register-container">
-      <h2>Crear una Cuenta</h2>
-      <form action="" method="">
-        <div class="row g-3">
-          <div class="col">
-            <label for="nombre">nombre:</label>
-            <label for="nombre"> </label>
+  </div>
+
+  <div class="register-right">
+    <div class="register-card">
+      <div class="register-header">
+        <img src="/LogoAP.png" alt="Logo" class="register-logo-mobile" />
+        <h2>Registro</h2>
+        <p>Completa tus datos para crear una cuenta</p>
+      </div>
+
+      <form (ngSubmit)="agregarUsuario()" class="register-form">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="nombre">
+              <i class="fa-solid fa-user"></i> Nombre
+            </label>
             <input
               type="text"
               id="nombre"
               name="nombre"
-              placeholder="Ingresa tu nombre"
+              placeholder="Tu nombre"
               [(ngModel)]="nombre"
               required
             />
           </div>
-          <div class="col">
-            <label for="apellido">apellido:</label>
+
+          <div class="form-group">
+            <label for="apellido">
+              <i class="fa-solid fa-user"></i> Apellido
+            </label>
             <input
               type="text"
               id="apellido"
               name="apellido"
-              placeholder="Ingresa tu apellido"
+              placeholder="Tu apellido"
               [(ngModel)]="apellido"
               required
             />
           </div>
         </div>
-       
-        
+
         <div class="form-group">
-          <label for="correo">Correo:</label>
+          <label for="correo">
+            <i class="fa-solid fa-envelope"></i> Correo electronico
+          </label>
           <input
-            type="correo"
+            type="email"
             id="correo"
             name="correo"
-            class="form-control"
-            placeholder="Ingresa tu correo"
+            placeholder="ejemplo@correo.com"
             [(ngModel)]="correo"
             required
           />
         </div>
-        
 
-        <div class="row g-3">
-          <div class="col md-">
-            <label for="contrasena"></label>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="contrasena">
+              <i class="fa-solid fa-lock"></i> Contrasena
+            </label>
             <input
               type="password"
-              id="contrasena" 
+              id="contrasena"
               name="contrasena"
-              placeholder="Crea una contraseña"
+              placeholder="Crea una contrasena"
               [(ngModel)]="contrasena"
               required
             />
           </div>
-          <div class="col">
-            <label for="confirm-password"></label>
+
+          <div class="form-group">
+            <label for="repetirContrasena">
+              <i class="fa-solid fa-lock"></i> Confirmar
+            </label>
             <input
               type="password"
               id="repetirContrasena"
               name="repetirContrasena"
-              placeholder="Confirma tu contraseña"
+              placeholder="Repite la contrasena"
               [(ngModel)]="repetirContrasena"
               required
             />
           </div>
         </div>
-        <input type="submit" (click)="agregarUsuario()" value="Registrarse" />
+
+        <button type="submit" class="btn-register" [disabled]="loading">
+          <i class="fa-solid" [ngClass]="loading ? 'fa-spinner fa-spin' : 'fa-user-plus'"></i>
+          {{ loading ? 'Creando cuenta...' : 'Registrarse' }}
+        </button>
       </form>
-      <div class="link">
-        <p>¿Ya tienes una cuenta? <a href="/logIn">Inicia sesión</a></p>
+
+      <div class="register-links">
+        <p>Ya tienes una cuenta? <a routerLink="/logIn">Inicia sesion</a></p>
       </div>
     </div>
-    <app-spinner *ngIf="loading"></app-spinner>
-  </body>
-</html>
+  </div>
+</div>
+<app-spinner *ngIf="loading"></app-spinner>

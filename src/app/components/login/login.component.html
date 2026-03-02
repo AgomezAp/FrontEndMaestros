@@ -1,32 +1,76 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"> <!-- Tipografía Roboto -->
-    <link rel="stylesheet" href="login.component.css"> <!-- Enlace al archivo CSS -->
-</head>
-<body>
-    <div class="logo-container">
-        <img src="/LogoAP.png" alt="Logo de Andrés Publicidad">
-    </div>
-    <div class="login-container">
-        <h2>Iniciar Sesión</h2>
-        <form (ngSubmit)="logIn()">
-            <label for="correo">Correo</label>
-            <input type="text" id="correo" name="correo" placeholder="Ingresa tu correo electrónico" [(ngModel)]="correo" required>
-            
-            <label for="contrasena">Contraseña</label>
-            <input type="password" id="contrasena" name="contrasena" placeholder="Ingresa tu contraseña" [(ngModel)]="contrasena" required>
-            
-            <input type="submit" value="Ingresar">
-        </form>
-        <div class="link">
-            <p>¿No tienes una cuenta? <a routerLink="/signup">Regístrate</a></p>
-            <p>¿Olvidaste tu contraseña? <a routerLink="/reestablecerContraseña">Restablecer contraseña</a></p>
+<div class="login-page">
+  <div class="login-left">
+    <div class="brand-content">
+      <img src="/LogoBlanco.png" alt="Logo de Andres Publicidad" class="brand-logo" />
+      <h1 class="brand-title">Sistema de Inventario</h1>
+      <p class="brand-subtitle">Gestiona dispositivos, actas de entrega y devoluciones de forma segura y eficiente.</p>
+      <div class="brand-features">
+        <div class="feature">
+          <i class="fa-solid fa-boxes-stacked"></i>
+          <span>Control de inventario</span>
         </div>
+        <div class="feature">
+          <i class="fa-solid fa-file-signature"></i>
+          <span>Firma digital</span>
+        </div>
+        <div class="feature">
+          <i class="fa-solid fa-chart-line"></i>
+          <span>Trazabilidad completa</span>
+        </div>
+      </div>
     </div>
-    <app-spinner *ngIf="loading"></app-spinner>
-</body>
-</html>
+  </div>
+
+  <div class="login-right">
+    <div class="login-card">
+      <div class="login-header">
+        <img src="/LogoAP.png" alt="Logo" class="login-logo-mobile" />
+        <h2>Iniciar Sesion</h2>
+        <p>Ingresa tus credenciales para acceder</p>
+      </div>
+
+      <form (ngSubmit)="logIn()" class="login-form">
+        <div class="form-group">
+          <label for="correo">
+            <i class="fa-solid fa-envelope"></i> Correo electronico
+          </label>
+          <input
+            type="text"
+            id="correo"
+            name="correo"
+            placeholder="ejemplo@correo.com"
+            [(ngModel)]="correo"
+            required
+            autocomplete="email"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="contrasena">
+            <i class="fa-solid fa-lock"></i> Contrasena
+          </label>
+          <input
+            type="password"
+            id="contrasena"
+            name="contrasena"
+            placeholder="Ingresa tu contrasena"
+            [(ngModel)]="contrasena"
+            required
+            autocomplete="current-password"
+          />
+        </div>
+
+        <button type="submit" class="btn-login" [disabled]="loading">
+          <i class="fa-solid" [ngClass]="loading ? 'fa-spinner fa-spin' : 'fa-arrow-right-to-bracket'"></i>
+          {{ loading ? 'Ingresando...' : 'Ingresar' }}
+        </button>
+      </form>
+
+      <div class="login-links">
+        <p><a routerLink="/signup">Crear una cuenta</a></p>
+        <p><a routerLink="/reestablecerContraseña" class="link-secondary">Olvidaste tu contrasena?</a></p>
+      </div>
+    </div>
+  </div>
+</div>
+<app-spinner *ngIf="loading"></app-spinner>

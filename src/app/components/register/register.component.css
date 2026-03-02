@@ -1,108 +1,316 @@
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f3f4f6;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center; 
-    height: 100vh;
-    font-family: 'Roboto', sans-serif;
-}
-.role{
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 20px;
-    border: 1px solid #dddddd;
-    border-radius: 5px;
-    box-sizing: border-box;
-}
-.register-container {
-    background-color: #ffffff;
-    padding: 20px 30px;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 500px;
-}
-.register-container h2 {
-    margin-bottom: 20px;
-    color: #333333;
-    text-align: center;
-}
-.register-container label {
-    display: block;
-    margin-bottom: 8px;
-    color: #555555;
-    font-weight: bold;
-}
-.register-container input[type="text"],
-.register-container input[type="email"],
-.register-container input[type="password"] {
-    width: 100%;
-    padding: 12px; /* Aumentar el padding para hacer los campos más altos */
-    margin-bottom: 20px;
-    border: 1px solid #dddddd;
-    border-radius: 5px;
-    box-sizing: border-box;
-}
-.register-container input[type="submit"] {
-    width: 100%;
-    padding: 10px;
-    background-color: #28a745;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
-    cursor: pointer;
-}
-.register-container input[type="submit"]:hover {
-    background-color: #218838;
-}
-.register-container .link {
-    text-align: center;
-    margin-top: 10px;
-}
-.register-container .link a {
-    color: #007BFF;
-    text-decoration: none;
-}
-.register-container .link a:hover {
-    text-decoration: underline;
-}
-.logo-container {
-    text-align: center;
-    margin-bottom: 20px;
-}
-.logo-container img {
-    max-width: 150px; /* Ajusta el tamaño máximo de la imagen */
-    height: auto; /* Mantiene la proporción */
-}
-/* Estilo para el campo de rol */
-.register-container select.form-control {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 20px;
-    border: 1px solid #dddddd;
-    border-radius: 5px;
-    box-sizing: border-box;
-    font-size: 16px; /* Ajusta el tamaño de la fuente para que coincida con los otros campos */
+/* ========================================
+   REGISTER PAGE - BRAND IDENTITY
+   ======================================== */
+
+.register-page {
+  display: flex;
+  min-height: 100vh;
+  font-family: var(--font-family);
 }
 
-/* Estilo para el placeholder en el select */
-.register-container select option {
-    color: #999; /* Color del texto del placeholder */
+/* ===== LEFT PANEL ===== */
+.register-left {
+  flex: 0 0 38%;
+  background-color: var(--color-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-2xl);
+  position: relative;
+  overflow: hidden;
 }
-.flex-container {
-    display: flex;
-    gap: 10px;
+
+.register-left::before {
+  content: "";
+  position: absolute;
+  top: -40%;
+  right: -25%;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(255, 214, 0, 0.06) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.brand-content {
+  position: relative;
+  z-index: 1;
+  max-width: 350px;
+  animation: fadeIn 0.6s ease-out;
+}
+
+.brand-logo {
+  height: 56px;
+  width: auto;
+  margin-bottom: var(--spacing-xl);
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.3));
+}
+
+.brand-title {
+  font-family: var(--font-family);
+  font-size: 2rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0 0 var(--spacing-md);
+  line-height: 1.15;
+}
+
+.brand-subtitle {
+  font-size: 0.95rem;
+  color: var(--color-gray-400);
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* ===== RIGHT PANEL ===== */
+.register-right {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-2xl);
+  background-color: var(--bg-secondary);
+}
+
+.register-card {
+  width: 100%;
+  max-width: 480px;
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-xl);
+  box-shadow: var(--shadow-lg);
+  padding: var(--spacing-2xl);
+  animation: fadeIn 0.5s ease-out 0.1s both;
+}
+
+/* --- Header --- */
+.register-header {
+  text-align: center;
+  margin-bottom: var(--spacing-xl);
+}
+
+.register-logo-mobile {
+  display: none;
+  height: 44px;
+  width: auto;
+  margin-bottom: var(--spacing-lg);
+}
+
+.register-header h2 {
+  font-family: var(--font-family);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0 0 var(--spacing-xs);
+}
+
+.register-header p {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+/* --- Form --- */
+.register-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+}
+
+.register-form .form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-md);
+}
+
+.register-form .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+  margin-bottom: 0;
+}
+
+.register-form .form-group label {
+  font-family: var(--font-family);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+.register-form .form-group label i {
+  color: var(--color-secondary);
+  font-size: 0.8rem;
+}
+
+.register-form .form-group input {
+  font-family: var(--font-family);
+  font-size: 0.95rem;
+  color: var(--text-primary);
+  background-color: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-md);
+  padding: 0.7rem 1rem;
+  transition:
+    border-color var(--transition-fast),
+    box-shadow var(--transition-fast);
+  outline: none;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.register-form .form-group input::placeholder {
+  color: var(--color-gray-400);
+}
+
+.register-form .form-group input:focus {
+  border-color: var(--color-secondary);
+  box-shadow: var(--shadow-accent);
+}
+
+/* --- Submit button --- */
+.btn-register {
+  font-family: var(--font-family);
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-primary);
+  background-color: var(--color-secondary);
+  border: none;
+  border-radius: var(--border-radius-md);
+  padding: 0.8rem 1.5rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-sm);
+  transition:
+    background-color var(--transition-fast),
+    transform var(--transition-fast),
+    box-shadow var(--transition-fast);
+  margin-top: var(--spacing-sm);
+}
+
+.btn-register:hover:not(:disabled) {
+  background-color: var(--color-secondary-hover);
+  box-shadow: 0 4px 16px rgba(255, 214, 0, 0.35);
+  transform: translateY(-1px);
+}
+
+.btn-register:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+.btn-register:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* --- Links --- */
+.register-links {
+  text-align: center;
+  margin-top: var(--spacing-xl);
+  padding-top: var(--spacing-lg);
+  border-top: 1px solid var(--border-color);
+}
+
+.register-links p {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+.register-links a {
+  color: var(--color-secondary);
+  font-weight: 600;
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+.register-links a:hover {
+  color: var(--color-secondary-hover);
+  text-decoration: underline;
+}
+
+/* ========================================
+   RESPONSIVE
+   ======================================== */
+@media (max-width: 968px) {
+  .register-page {
+    flex-direction: column;
   }
-  
-  .flex-item {
-    flex: 1;
+
+  .register-left {
+    flex: none;
+    padding: var(--spacing-xl) var(--spacing-lg);
   }
-  
-  .form-group {
-    margin-bottom: 0px;
+
+  .brand-content {
+    max-width: 100%;
+    text-align: center;
   }
+
+  .brand-title {
+    font-size: 1.5rem;
+  }
+
+  .register-right {
+    padding: var(--spacing-xl) var(--spacing-lg);
+  }
+}
+
+@media (max-width: 600px) {
+  .register-left {
+    padding: var(--spacing-lg);
+  }
+
+  .brand-logo {
+    height: 44px;
+  }
+
+  .brand-title {
+    font-size: 1.25rem;
+  }
+
+  .brand-subtitle {
+    display: none;
+  }
+
+  .register-logo-mobile {
+    display: inline-block;
+  }
+
+  .register-right {
+    padding: var(--spacing-lg);
+  }
+
+  .register-card {
+    padding: var(--spacing-xl);
+  }
+
+  .register-form .form-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 400px) {
+  .register-card {
+    padding: var(--spacing-lg);
+  }
+}
+
+/* ========================================
+   ANIMATION
+   ======================================== */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

@@ -54,6 +54,8 @@ export class FirmaExternaComponent implements OnInit, AfterViewInit {
   mostrarFirma: boolean = false;
   firmando: boolean = false;
   firmaVacia: boolean = true;
+  modoFirma: 'dibujar' | 'subir' = 'dibujar';
+  firmaImagenPreview: string = '';
   
   // Proceso de rechazo
   mostrarRechazo: boolean = false;
@@ -221,6 +223,110 @@ export class FirmaExternaComponent implements OnInit, AfterViewInit {
       day: 'numeric',
       hour: '2-digit',
       minute: '2-digit'
+    });
+  }
+
+  getDispositivoIcon(categoria: string): string {
+    const iconos: { [key: string]: string } = {
+      'laptop': 'fa-laptop',
+      'computadora': 'fa-desktop',
+      'desktop': 'fa-desktop',
+      'monitor': 'fa-display',
+      'teclado': 'fa-keyboard',
+      'mouse': 'fa-computer-mouse',
+      'impresora': 'fa-print',
+      'telefono': 'fa-phone',
+      'celular': 'fa-mobile-screen',
+      'tablet': 'fa-tablet-screen-button',
+      'router': 'fa-wifi',
+      'servidor': 'fa-server',
+      'cable': 'fa-ethernet',
+      'audifonos': 'fa-headphones',
+      'camara': 'fa-camera',
+      'proyector': 'fa-video',
+      'ups': 'fa-car-battery',
+      'disco duro': 'fa-hard-drive',
+      'usb': 'fa-usb'
+    };
+    const cat = (categoria || '').toLowerCase();
+    return iconos[cat] || 'fa-box';
+  }
+
+  cambiarModoFirma(modo: 'dibujar' | 'subir'): void {
+    this.modoFirma = modo;
+    if (modo === 'dibujar') {
+      setTimeout(() => this.initSignaturePad(), 100);
+    }
+  }
+
+  onDragOver(event: DragEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
+  }
+
+  onDragLeave(event: DragEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
+  }
+
+  onDrop(event: DragEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
+    const files = event.dataTransfer?.files;
+    if (files && files.length > 0) {
+      this.procesarArchivoFirma(files[0]);
+    }
+  }
+
+  onFirmaImagenSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      this.procesarArchivoFirma(input.files[0]);
+    }
+  }
+
+  private procesarArchivoFirma(file: File): void {
+    const tiposPermitidos = ['image/png', 'image/jpeg', 'image/jpg'];
+    if (!tiposPermitidos.includes(file.type)) {
+      alert('Formato no permitido. Use PNG, JPG o JPEG.');
+      return;
+    }
+    if (file.size > 5 * 1024 * 1024) {
+      alert('El archivo es demasiado grande. Máximo 5MB.');
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = () => {
+      this.firmaImagenPreview = reader.result as string;
+    };
+    reader.readAsDataURL(file);
+  }
+
+  limpiarFirmaImagen(): void {
+    this.firmaImagenPreview = '';
+  }
+
+  confirmarFirmaImagen(): void {
+    if (!this.firmaImagenPreview) {
+      alert('Debe subir una imagen de su firma antes de confirmar');
+      return;
+    }
+
+    this.firmando = true;
+
+    this.http.post(`${this.apiUrl}api/firma/publica/${this.token}/firmar`, {
+      firma: this.firmaImagenPreview
+    }).subscribe({
+      next: () => {
+        this.firmando = false;
+        this.firmaExitosa = true;
+        this.mostrarFirma = false;
+        this.fechaActual = this.formatearFecha(new Date());
+      },
+      error: (err) => {
+        this.firmando = false;
+        alert(err.error?.msg || 'Error al procesar la firma. Intente nuevamente.');
+      }
     });
   }
 }
