@@ -252,9 +252,7 @@ export class CrearDevolucionComponent implements OnInit, AfterViewInit {
     // Datos de quien recibe (sistemas - firma al crear)
     formData.append('nombreReceptor', this.receptor.nombre);
     formData.append('cargoReceptor', this.receptor.cargo);
-    if (this.receptor.correo) {
-      formData.append('correoReceptor', this.receptor.correo);
-    }
+    formData.append('correoReceptor', (this.receptor.correo || this.entrega.correo).trim());
     
     // Firma del receptor (sistemas)
     const firmaReceptor = this.signaturePadReceptor.toDataURL('image/png');
