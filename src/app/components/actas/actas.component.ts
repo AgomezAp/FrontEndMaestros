@@ -120,10 +120,16 @@ export class ActasComponent implements OnInit, OnDestroy {
   aplicarFiltros(): void {
     this.actasFiltradas = this.actas.filter(acta => {
       const cumpleEstado = this.filtroEstado === 'todas' || acta.estado === this.filtroEstado;
-      const cumpleBusqueda = !this.filtroBusqueda ||
-        acta.numeroActa.toLowerCase().includes(this.filtroBusqueda.toLowerCase()) ||
-        acta.nombreReceptor.toLowerCase().includes(this.filtroBusqueda.toLowerCase());
-      
+      const termino = this.filtroBusqueda.toLowerCase();
+      const cumpleBusqueda = !termino ||
+        acta.numeroActa.toLowerCase().includes(termino) ||
+        acta.nombreReceptor.toLowerCase().includes(termino) ||
+        // Buscar por IMEI o serial en los dispositivos del acta
+        (acta.detalles || []).some(d =>
+          (d.dispositivo?.imei && d.dispositivo.imei.toLowerCase().includes(termino)) ||
+          (d.dispositivo?.serial && d.dispositivo.serial.toLowerCase().includes(termino))
+        );
+
       return cumpleEstado && cumpleBusqueda;
     });
   }
@@ -260,6 +266,10 @@ export class ActasComponent implements OnInit, OnDestroy {
 
   irACrearActa(): void {
     this.router.navigate(['/crear-acta']);
+  }
+
+  editarActa(acta: ActaEntrega): void {
+    this.router.navigate(['/crear-acta'], { queryParams: { actaId: acta.id } });
   }
 
   irAInventario(): void {

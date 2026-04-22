@@ -192,4 +192,14 @@ export class InventarioService {
   obtenerHistorialDispositivo(dispositivoId: number): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}api/actas/historial/${dispositivoId}`);
   }
+
+  /**
+   * Actualizar acta rechazada (corregir y reenviar para firma)
+   */
+  actualizarActaRechazada(actaId: number, formData: FormData): Observable<{ msg: string; acta: ActaEntrega }> {
+    return this.http.post<{ msg: string; acta: ActaEntrega }>(
+      `${this.apiUrl}api/actas/${actaId}/corregir`,
+      formData
+    );
+  }
 }

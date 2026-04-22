@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { InventarioService } from '../../services/inventario.service';
 import { FirmaService } from '../../services/firma.service';
 import { Dispositivo, CrearActaRequest } from '../../interfaces/inventario';
@@ -40,10 +40,16 @@ export class CrearActaComponent implements OnInit, OnDestroy {
   loadingDispositivos = false;
   errorMessage = '';
   successMessage = '';
-  
+
   // Estado del proceso
   actaCreada: any = null;
   enviandoCorreo = false;
+
+  // Modo edición
+  modoEdicion = false;
+  actaId: number | null = null;
+  actaNumero = '';
+  motivoRechazo = '';
 
   condiciones = [
     { value: 'nuevo', label: 'Nuevo' },
@@ -69,23 +75,34 @@ export class CrearActaComponent implements OnInit, OnDestroy {
   constructor(
     private inventarioService: InventarioService,
     private firmaService: FirmaService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
-    this.cargarDispositivosDisponibles();
+    this.route.queryParams.subscribe(params => {
+      const actaIdParam = params['actaId'];
+      if (actaIdParam) {
+        this.actaId = Number(actaIdParam);
+        this.modoEdicion = true;
+        this.cargarDispositivosDisponibles(true);
+      } else {
+        this.cargarDispositivosDisponibles(false);
+      }
+    });
   }
 
-  ngOnDestroy(): void {
-    // Limpieza si es necesario
-  }
+  ngOnDestroy(): void {}
 
-  cargarDispositivosDisponibles(): void {
+  cargarDispositivosDisponibles(precargarActa = false): void {
     this.loadingDispositivos = true;
     this.inventarioService.obtenerDisponibles().subscribe({
       next: (data) => {
         this.dispositivosDisponibles = data;
         this.loadingDispositivos = false;
+        if (precargarActa && this.actaId) {
+          this.cargarActaParaEdicion(this.actaId);
+        }
       },
       error: (err) => {
         console.error('Error al cargar dispositivos:', err);
@@ -94,8 +111,50 @@ export class CrearActaComponent implements OnInit, OnDestroy {
     });
   }
 
+  cargarActaParaEdicion(actaId: number): void {
+    this.inventarioService.obtenerActaPorId(actaId).subscribe({
+      next: (acta) => {
+        if (acta.estado !== 'rechazada') {
+          this.errorMessage = 'Solo se pueden editar actas en estado rechazada';
+          this.modoEdicion = false;
+          return;
+        }
+        this.actaNumero = acta.numeroActa;
+        this.motivoRechazo = acta.observacionesDevolucion || '';
+        this.receptor = {
+          nombre: acta.nombreReceptor,
+          cargo: acta.cargoReceptor,
+          correo: acta.correoReceptor || ''
+        };
+        this.observacionesEntrega = acta.observacionesEntrega || '';
+
+        // Pre-seleccionar TODOS los dispositivos del acta usando los datos del detalle
+        // (no depende de que estén en dispositivosDisponibles)
+        (acta.detalles || []).forEach(detalle => {
+          if (!detalle.dispositivo) return;
+
+          this.dispositivosSeleccionados.push({
+            dispositivo: detalle.dispositivo,
+            condicion: detalle.condicionEntrega || detalle.dispositivo.condicion || 'bueno',
+            observaciones: detalle.observacionesEntrega || '',
+            fotos: [],
+            fotosPreview: []
+          });
+
+          // Si el dispositivo está en la lista de disponibles, quitarlo para evitar duplicados
+          this.dispositivosDisponibles = this.dispositivosDisponibles.filter(
+            d => d.id !== detalle.dispositivoId
+          );
+        });
+      },
+      error: (err) => {
+        console.error('Error al cargar acta para edición:', err);
+        this.errorMessage = 'No se pudo cargar el acta para editar';
+      }
+    });
+  }
+
   agregarDispositivo(dispositivo: Dispositivo): void {
-    // Verificar que no esté ya seleccionado
     if (this.dispositivosSeleccionados.find(d => d.dispositivo.id === dispositivo.id)) {
       return;
     }
@@ -108,7 +167,6 @@ export class CrearActaComponent implements OnInit, OnDestroy {
       fotosPreview: []
     });
 
-    // Remover de disponibles
     this.dispositivosDisponibles = this.dispositivosDisponibles.filter(d => d.id !== dispositivo.id);
   }
 
@@ -171,7 +229,6 @@ export class CrearActaComponent implements OnInit, OnDestroy {
       this.errorMessage = 'El correo del receptor es requerido para enviar la solicitud de firma';
       return false;
     }
-    // Validar formato de correo
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(this.receptor.correo)) {
       this.errorMessage = 'El correo electrónico no es válido';
@@ -195,19 +252,17 @@ export class CrearActaComponent implements OnInit, OnDestroy {
 
     const formData = new FormData();
 
-    // Datos del receptor (sin firma, se firmará por correo)
     formData.append('nombreReceptor', this.receptor.nombre);
     formData.append('cargoReceptor', this.receptor.cargo);
     formData.append('correoReceptor', this.receptor.correo);
-    
+
     if (this.observacionesEntrega) {
       formData.append('observacionesEntrega', this.observacionesEntrega);
     }
-    
+
     formData.append('Uid', localStorage.getItem('userId') || '');
     formData.append('tipoUpload', 'entregas');
 
-    // Dispositivos
     const dispositivos = this.dispositivosSeleccionados.map(item => ({
       dispositivoId: item.dispositivo.id,
       condicionEntrega: item.condicion,
@@ -215,56 +270,70 @@ export class CrearActaComponent implements OnInit, OnDestroy {
     }));
     formData.append('dispositivos', JSON.stringify(dispositivos));
 
-    // Fotos de cada dispositivo
     this.dispositivosSeleccionados.forEach((item) => {
       item.fotos.forEach((foto) => {
         formData.append(`fotos_${item.dispositivo.id}`, foto);
       });
     });
 
-    this.inventarioService.crearActaEntrega(formData).subscribe({
-      next: (response) => {
-        this.actaCreada = response.acta;
-        this.loading = false;
-        
-        // Enviar correo de firma automáticamente
-        if (response.acta.id) {
-          this.enviarCorreoFirma(response.acta.id);
+    if (this.modoEdicion && this.actaId) {
+      this.inventarioService.actualizarActaRechazada(this.actaId, formData).subscribe({
+        next: (response) => {
+          this.actaCreada = response.acta;
+          this.loading = false;
+          if (response.acta.id) {
+            this.enviarCorreoFirma(response.acta.id);
+          }
+        },
+        error: (err) => {
+          this.errorMessage = err.error?.msg || 'Error al actualizar el acta';
+          this.loading = false;
         }
-      },
-      error: (err) => {
-        this.errorMessage = err.error?.msg || 'Error al crear el acta de entrega';
-        this.loading = false;
-      }
-    });
+      });
+    } else {
+      this.inventarioService.crearActaEntrega(formData).subscribe({
+        next: (response) => {
+          this.actaCreada = response.acta;
+          this.loading = false;
+          if (response.acta.id) {
+            this.enviarCorreoFirma(response.acta.id);
+          }
+        },
+        error: (err) => {
+          this.errorMessage = err.error?.msg || 'Error al crear el acta de entrega';
+          this.loading = false;
+        }
+      });
+    }
   }
 
   enviarCorreoFirma(actaId: number): void {
     this.enviandoCorreo = true;
-    
+
     this.firmaService.enviarSolicitudFirma(actaId).subscribe({
       next: (response) => {
         this.enviandoCorreo = false;
-        this.successMessage = `Acta ${this.actaCreada.numeroActa} creada. Se ha enviado un correo a ${this.receptor.correo} para que firme digitalmente.`;
-        
+        const accion = this.modoEdicion ? 'corregida' : 'creada';
+        this.successMessage = `Acta ${this.actaCreada.numeroActa} ${accion}. Se ha enviado un correo a ${this.receptor.correo} para que firme digitalmente.`;
+
         setTimeout(() => {
-          this.router.navigate(['/inventario']);
+          this.router.navigate(['/actas']);
         }, 3000);
       },
       error: (err) => {
         this.enviandoCorreo = false;
-        // El acta se creó pero falló el envío del correo
-        this.successMessage = `Acta ${this.actaCreada.numeroActa} creada, pero hubo un error enviando el correo.`;
+        const accion = this.modoEdicion ? 'actualizada' : 'creada';
+        this.successMessage = `Acta ${this.actaCreada.numeroActa} ${accion}, pero hubo un error enviando el correo.`;
         this.errorMessage = 'Puede reenviar el correo desde la lista de actas.';
-        
+
         setTimeout(() => {
-          this.router.navigate(['/inventario']);
+          this.router.navigate(['/actas']);
         }, 3000);
       }
     });
   }
 
   cancelar(): void {
-    this.router.navigate(['/inventario']);
+    this.router.navigate([this.modoEdicion ? '/actas' : '/inventario']);
   }
 }

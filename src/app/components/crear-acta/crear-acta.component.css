@@ -50,6 +50,26 @@
   padding-left: 2rem;
 }
 
+.motivo-rechazo-aviso {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 8px;
+  padding: 10px 14px;
+  margin-top: 14px;
+  font-size: 0.88rem;
+  color: #fff;
+  word-break: break-word;
+}
+
+.motivo-rechazo-aviso i {
+  flex-shrink: 0;
+  margin-top: 2px;
+  opacity: 0.9;
+}
+
 /* ========================================
    MENSAJES DE ALERTA
    ======================================== */

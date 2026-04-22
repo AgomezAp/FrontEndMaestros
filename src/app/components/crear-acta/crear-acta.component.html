@@ -2,8 +2,17 @@
 <div class="crear-acta-container">
   <div class="form-card">
     <div class="form-header">
-      <h1><i class="fa-solid fa-file-signature"></i> Crear Acta de Entrega</h1>
-      <p>Registra la entrega de dispositivos con firma digital</p>
+      <h1>
+        <i class="fa-solid" [ngClass]="modoEdicion ? 'fa-pen-to-square' : 'fa-file-signature'"></i>
+        {{ modoEdicion ? 'Corregir Acta Rechazada' : 'Crear Acta de Entrega' }}
+      </h1>
+      <p>{{ modoEdicion ? 'Edita y corrige el acta ' + actaNumero + ' para reenviarla a firma' : 'Registra la entrega de dispositivos con firma digital' }}</p>
+
+      <!-- Motivo del rechazo en modo edición -->
+      <div class="motivo-rechazo-aviso" *ngIf="modoEdicion && motivoRechazo">
+        <i class="fa-solid fa-comment-slash"></i>
+        <strong>Motivo del rechazo:</strong> {{ motivoRechazo }}
+      </div>
     </div>
 
     <!-- Mensajes -->
@@ -245,8 +254,8 @@
           <i class="fa-solid fa-times"></i> Cancelar
         </button>
         <button type="submit" class="btn-crear" [disabled]="loading || enviandoCorreo">
-          <i class="fa-solid" [ngClass]="loading || enviandoCorreo ? 'fa-spinner fa-spin' : 'fa-paper-plane'"></i>
-          {{ loading ? 'Creando acta...' : enviandoCorreo ? 'Enviando correo...' : 'Crear y Enviar para Firma' }}
+          <i class="fa-solid" [ngClass]="loading || enviandoCorreo ? 'fa-spinner fa-spin' : (modoEdicion ? 'fa-paper-plane' : 'fa-paper-plane')"></i>
+          {{ loading ? (modoEdicion ? 'Actualizando acta...' : 'Creando acta...') : enviandoCorreo ? 'Enviando correo...' : (modoEdicion ? 'Guardar y Reenviar para Firma' : 'Crear y Enviar para Firma') }}
         </button>
       </div>
     </form>

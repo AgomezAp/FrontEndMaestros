@@ -64,7 +64,7 @@
         type="text" 
         [(ngModel)]="filtroBusqueda" 
         (input)="aplicarFiltros()"
-        placeholder="Buscar por número de acta o receptor..."
+      placeholder="Buscar por número, receptor, IMEI o serial..."
       />
     </div>
   </div>
@@ -128,8 +128,19 @@
         
         <!-- Actas rechazadas -->
         <ng-container *ngIf="acta.estado === 'rechazada'">
-          <button 
-            class="btn-reenviar" 
+          <div class="btn-motivo-rechazo" *ngIf="acta.observacionesDevolucion">
+            <i class="fa-solid fa-comment-slash"></i>
+            <span>{{ acta.observacionesDevolucion }}</span>
+          </div>
+          <button
+            class="btn-editar"
+            (click)="editarActa(acta); $event.stopPropagation()"
+          >
+            <i class="fa-solid fa-pen-to-square"></i> Editar y Corregir Acta
+          </button>
+          <button
+            class="btn-reenviar"
+            style="margin-top:8px"
             (click)="enviarNuevoCorreo(acta); $event.stopPropagation()"
             [disabled]="reenviandoCorreo[acta.id!]"
           >
@@ -198,6 +209,10 @@
               <div class="disp-info">
                 <strong>{{ detalle.dispositivo?.nombre }}</strong>
                 <span>{{ detalle.dispositivo?.marca }} {{ detalle.dispositivo?.modelo }}</span>
+                <div class="disp-identifiers">
+                  <span *ngIf="detalle.dispositivo?.imei" class="badge-imei">IMEI: {{ detalle.dispositivo?.imei }}</span>
+                  <span *ngIf="detalle.dispositivo?.serial" class="badge-serial">S/N: {{ detalle.dispositivo?.serial }}</span>
+                </div>
               </div>
               <span class="disp-estado" [class.si]="detalle.devuelto" [class.no]="!detalle.devuelto">
                 {{ detalle.devuelto ? 'Devuelto' : 'Pendiente' }}
@@ -212,6 +227,11 @@
         <div class="detalle-section" *ngIf="actaSeleccionada.firmaReceptor">
           <h4><i class="fa-solid fa-signature"></i> Firma del receptor</h4>
           <img [src]="actaSeleccionada.firmaReceptor" alt="Firma" class="firma-imagen" />
+        </div>
+
+        <div class="detalle-section motivo-rechazo-section" *ngIf="actaSeleccionada.estado === 'rechazada' && actaSeleccionada.observacionesDevolucion">
+          <h4><i class="fa-solid fa-comment-slash"></i> Motivo del rechazo</h4>
+          <p class="motivo-rechazo-texto">{{ actaSeleccionada.observacionesDevolucion }}</p>
         </div>
       </div>
     </div>
@@ -242,6 +262,10 @@
               <div class="dev-disp-info">
                 <strong>{{ item.detalle.dispositivo?.nombre }}</strong>
                 <span>{{ item.detalle.dispositivo?.marca }} {{ item.detalle.dispositivo?.modelo }}</span>
+                <div class="disp-identifiers">
+                  <span *ngIf="item.detalle.dispositivo?.imei" class="badge-imei">IMEI: {{ item.detalle.dispositivo?.imei }}</span>
+                  <span *ngIf="item.detalle.dispositivo?.serial" class="badge-serial">S/N: {{ item.detalle.dispositivo?.serial }}</span>
+                </div>
               </div>
             </div>
             
